@@ -1,5 +1,6 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BaseComponent} from "./layout/base/base.component";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,9 @@ import {BaseComponent} from "./layout/base/base.component";
   exports: [
     BaseComponent
   ],
-  imports: []
+  imports: [
+    RouterModule
+  ]
 })
-export class SharedModule { }
+export class SharedModule {
+}
