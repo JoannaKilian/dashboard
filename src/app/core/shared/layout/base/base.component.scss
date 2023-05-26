@@ -1,0 +1,26 @@
+@import "../../../../../styles/variables";
+
+.app{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  background-color: var(--color-background);
+
+  &__menu{
+    width: 240px;
+    height: 100vh;
+    background-color: var(--color-base);
+  }
+
+  &__content{
+    flex-grow: 1;
+    height: 100vh;
+    padding: 40px;
+  }
+
+}

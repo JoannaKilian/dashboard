@@ -1,7 +1,14 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {statisticRoutingModule} from './statistic-routing';
+import {StatisticRoutingModule} from './statistic-routing.module';
 import {StatisticsComponent} from "./statistics.component";
+import {MatIconModule} from "@angular/material/icon";
+import {MatTableModule} from "@angular/material/table";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -9,7 +16,14 @@ import {StatisticsComponent} from "./statistics.component";
   ],
   imports: [
     CommonModule,
-    statisticRoutingModule
+    StatisticRoutingModule,
+    MatIconModule,
+    MatTableModule,
+    MatExpansionModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatMenuModule,
+    MatButtonModule
   ],
   providers: []
 })
