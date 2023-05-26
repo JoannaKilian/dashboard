@@ -4,6 +4,7 @@ import {RouterModule} from "@angular/router";
 import { ComingSoonComponent } from './layout/coming-soon/coming-soon.component';
 import {MatIconModule} from "@angular/material/icon";
 import { MenuComponent } from './layout/menu/menu.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MenuComponent } from './layout/menu/menu.component';
   ],
   imports: [
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    CommonModule
   ]
 })
 export class SharedModule {

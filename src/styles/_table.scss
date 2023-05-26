@@ -1,7 +1,27 @@
-table {
+.table table {
   width: 100%;
   box-shadow: none !important;
-.mat-elevation-z8{
 
-}
+  tr.mat-mdc-row {
+    &:hover {
+      background-color: var(--color-base) !important;
+      cursor: pointer;
+    }
+  }
+
+  tr.mat-mdc-row.detail-row:hover {
+    background-color: var(--color-background-basic) !important;
+    cursor: auto;
+  }
+  .mat-mdc-cell {
+    display: table-cell;
+    font-size: var(--font-medium);
+    color: var(--color-text);
+  }
+
+  th.mat-mdc-header-cell {
+    font-size: var(--font-medium);
+    color: var(--color-text);
+    opacity: 80%;
+  }
 }

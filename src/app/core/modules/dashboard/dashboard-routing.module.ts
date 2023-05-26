@@ -8,8 +8,8 @@ const routes: Routes = [
     path: "", component: BaseComponent, children: [
       { path: "", pathMatch: "full", redirectTo: "main" },
       { path: "main", loadChildren: () => import("./main/main.module").then(x => x.MainModule) },
-      { path: "dashboard", loadChildren: () => import("./favourite/favourite.module").then(x => x.FavouriteModule) },
-      { path: "statistic", loadChildren: () => import("./statistics/statistic.module").then(x => x.StatisticModule) },
+      { path: "favourite", loadChildren: () => import("./favourite/favourite.module").then(x => x.FavouriteModule) },
+      { path: "statistics", loadChildren: () => import("./statistics/statistic.module").then(x => x.StatisticModule) },
     ]
   }
 ];

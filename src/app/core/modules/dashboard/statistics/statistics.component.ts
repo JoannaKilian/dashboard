@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-statistics',
@@ -14,12 +15,14 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ]),
   ],
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, AfterViewInit  {
 
   dataSource = new MatTableDataSource<ProjectData>(data);
   columnsToDisplay = ['name', 'followers', 'createDate', 'createdBy'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: ProjectData | null;
+
+  @ViewChild(MatSort) sort: MatSort;
   //
   // dataSource = new MatTableDataSource<any>([]);
   // visibleData: ProjectData[] = [];
@@ -39,7 +42,10 @@ export class StatisticsComponent implements OnInit {
     this.totalCount = data.length;
     // // this.loadDataForCurrentPage();
     // this.dataSource = new MatTableDataSource<any>(this.data);
+  }
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
   //
   // loadDataForCurrentPage() {
