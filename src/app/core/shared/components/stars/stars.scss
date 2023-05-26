@@ -1,0 +1,19 @@
+.favorite-wrap {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-background-basic);
+  margin: 16px 0;
+  padding: 8px;
+  border-radius: 8px;
+  width: 100%;
+  color: var(--color-base);
+  font-size: var(--font-subtitle);
+
+  mat-icon {
+    color: var(--color-base);
+  }
+
+}

@@ -1,5 +1,4 @@
 <div class="menu">
-  menu works!
 <ng-container *ngFor="let menuItem of menu; let i = index">
   <div (click)="changePage(i, menuItem.path)"
        [ngClass]="currentPage === i ? 'container container--active' : 'container' ">
@@ -8,4 +7,3 @@
   </div>
 </ng-container>
 </div>
-<!--[routerLink]="menuItem.path"-->

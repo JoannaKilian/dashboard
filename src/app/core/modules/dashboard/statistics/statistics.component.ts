@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatSort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-statistics',
@@ -17,44 +18,53 @@ import {MatSort} from "@angular/material/sort";
 })
 export class StatisticsComponent implements OnInit, AfterViewInit  {
 
-  dataSource = new MatTableDataSource<ProjectData>(data);
+  dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['name', 'followers', 'createDate', 'createdBy'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement: ProjectData | null;
 
   @ViewChild(MatSort) sort: MatSort;
-  //
-  // dataSource = new MatTableDataSource<any>([]);
-  // visibleData: ProjectData[] = [];
-  // columnsToDisplay = ['name', 'followers', 'createDate', 'createdBy'];
-  // columnsToDisplayWithExpand = ['expand', ...this.columnsToDisplay, 'options'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+
+  visibleData: ProjectData[] = [];
   // expandedElement: any;
   // nativeSortEvent: Sort;
   //
   totalCount: number;
-  // pagination = {
-  //   page: 0,
-  //   pageSize: 5,
-  // };
-  //
+  totalFollowers: number;
+  pagination = {
+    page: 0,
+    pageSize: 5,
+  };
+
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<ProjectData>(data);
     this.totalCount = data.length;
-    // // this.loadDataForCurrentPage();
-    // this.dataSource = new MatTableDataSource<any>(this.data);
+    this.totalFollowers = data.reduce((total, project) => total + project.followers, 0);
+
+    this.loadDataForCurrentPage();
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
-  //
-  // loadDataForCurrentPage() {
-  //   console.log('load, this.pagination', this.pagination)
-  //   const startIndex = (this.pagination.page - 1) * this.pagination.pageSize;
-  //   const endIndex = startIndex + this.pagination.pageSize;
-  //   this.visibleData = this.data.slice(startIndex, endIndex);
-  //   this.dataSource = new MatTableDataSource<any>(this.visibleData);
-  // }
+
+  loadDataForCurrentPage() {
+    console.log('load, this.pagination', this.pagination)
+    const startIndex = (this.pagination.page - 1) * this.pagination.pageSize;
+    const endIndex = startIndex + this.pagination.pageSize;
+    this.visibleData = data.slice(startIndex, endIndex);
+    this.dataSource = new MatTableDataSource<any>(this.visibleData);
+  }
+
+  onPaginationChange(e: any) {
+    const { page, pageSize } = this.pagination;
+    this.loadDataForCurrentPage();
+
+  }
 }
 
 

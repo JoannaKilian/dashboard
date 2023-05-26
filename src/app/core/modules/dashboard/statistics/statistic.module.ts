@@ -9,6 +9,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatButtonModule} from "@angular/material/button";
+import {SharedModule} from "../../../shared/shared.module";
+// import { PaginationControlsModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import {MatButtonModule} from "@angular/material/button";
     MatSortModule,
     MatPaginatorModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    SharedModule,
+    // PaginationControlsModule
   ],
   providers: []
 })

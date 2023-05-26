@@ -1,0 +1,7 @@
+<div *ngIf="range" class="favorite-wrap">
+    <ng-content></ng-content>
+  <div>
+    <mat-icon *ngFor="let number of numberRangeArray">favorite</mat-icon>
+    <mat-icon *ngFor="let number of numberEmptyArray">favorite_border</mat-icon>
+  </div>
+</div>
