@@ -1,0 +1,18 @@
+.wrap {
+  display: flex;
+  position: relative;
+  min-height: 100%;
+
+  .main {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    background-color: pink;
+
+    &_box {
+      width: 200px;
+      height: 150px;
+      box-shadow: var(--shadow);
+    }
+  }
+}

@@ -18,10 +18,11 @@
   &_container {
     flex-grow: 1;
     background-color: var(--color-background);
+    height: 100vh;
   }
 
   &_content {
-    padding: 20px;
+    height: 100%;
   }
 
 }
