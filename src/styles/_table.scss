@@ -1,6 +1,7 @@
 .table table {
   width: 100%;
   box-shadow: none !important;
+  border-radius: 20%;
 
   tr.mat-mdc-row {
     &:hover {
@@ -10,9 +11,10 @@
   }
 
   tr.mat-mdc-row.detail-row:hover {
-    background-color: var(--color-background-basic) !important;
+    background-color: var(--color-background) !important;
     cursor: auto;
   }
+
   .mat-mdc-cell {
     display: table-cell;
     font-size: var(--font-medium);
@@ -21,7 +23,7 @@
 
   th.mat-mdc-header-cell {
     font-size: var(--font-medium);
-    color: var(--color-text);
-    opacity: 80%;
+    color: var(--color-text-light);
+    background-color: var(--color-base-dark) !important;
   }
 }

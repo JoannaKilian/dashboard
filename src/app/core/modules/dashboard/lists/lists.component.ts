@@ -5,9 +5,9 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
-  selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.scss'],
+  selector: 'app-lists',
+  templateUrl: './lists.component.html',
+  styleUrls: ['./lists.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
@@ -16,7 +16,7 @@ import {MatPaginator} from "@angular/material/paginator";
     ]),
   ],
 })
-export class StatisticsComponent implements OnInit, AfterViewInit  {
+export class ListsComponent implements OnInit, AfterViewInit  {
 
   dataSource: MatTableDataSource<any>;
   columnsToDisplay = ['name', 'followers', 'createDate', 'createdBy'];
@@ -26,44 +26,18 @@ export class StatisticsComponent implements OnInit, AfterViewInit  {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-
-  visibleData: ProjectData[] = [];
-  // expandedElement: any;
-  // nativeSortEvent: Sort;
-  //
   totalCount: number;
   totalFollowers: number;
-  pagination = {
-    page: 0,
-    pageSize: 5,
-  };
 
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<ProjectData>(data);
     this.totalCount = data.length;
     this.totalFollowers = data.reduce((total, project) => total + project.followers, 0);
-
-    this.loadDataForCurrentPage();
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-
-  loadDataForCurrentPage() {
-    console.log('load, this.pagination', this.pagination)
-    const startIndex = (this.pagination.page - 1) * this.pagination.pageSize;
-    const endIndex = startIndex + this.pagination.pageSize;
-    this.visibleData = data.slice(startIndex, endIndex);
-    this.dataSource = new MatTableDataSource<any>(this.visibleData);
-  }
-
-  onPaginationChange(e: any) {
-    const { page, pageSize } = this.pagination;
-    this.loadDataForCurrentPage();
-
   }
 }
 

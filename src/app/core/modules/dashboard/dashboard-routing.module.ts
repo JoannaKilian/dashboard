@@ -6,10 +6,10 @@ import {BaseComponent} from "../../shared/layout/base/base.component";
 const routes: Routes = [
   {
     path: "", component: BaseComponent, children: [
-      { path: "", pathMatch: "full", redirectTo: "main" },
-      { path: "main", loadChildren: () => import("./main/main.module").then(x => x.MainModule) },
-      { path: "favourite", loadChildren: () => import("./favourite/favourite.module").then(x => x.FavouriteModule) },
-      { path: "statistics", loadChildren: () => import("./statistics/statistic.module").then(x => x.StatisticModule) },
+      {path: "", pathMatch: "full", redirectTo: "main"},
+      {path: "main", loadChildren: () => import("./main/main.module").then(x => x.MainModule)},
+      {path: "favourite", loadChildren: () => import("./favourite/favourite.module").then(x => x.FavouriteModule)},
+      {path: "lists", loadChildren: () => import("./lists/lists.module").then(x => x.ListsModule)},
     ]
   }
 ];

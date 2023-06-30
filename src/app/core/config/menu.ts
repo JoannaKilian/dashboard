@@ -12,9 +12,9 @@ export const MENU: Menu[] = [
     path: 'favourite',
   },
   {
-    name: 'Statistics',
+    name: 'Lists',
     icon: 'insert_chart',
-    path: 'statistics',
+    path: 'lists',
   }
 ];
 

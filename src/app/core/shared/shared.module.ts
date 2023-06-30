@@ -7,6 +7,7 @@ import { MenuComponent } from './layout/menu/menu.component';
 import {CommonModule} from "@angular/common";
 import {TitleComponent} from "./components/title/title.component";
 import {Stars} from "./components/stars/stars";
+import {HeaderComponent} from "./layout/header/header.component";
 
 @NgModule({
   declarations: [
@@ -14,13 +15,15 @@ import {Stars} from "./components/stars/stars";
     ComingSoonComponent,
     MenuComponent,
     TitleComponent,
-    Stars
+    Stars,
+    HeaderComponent
   ],
   exports: [
     BaseComponent,
     ComingSoonComponent,
     TitleComponent,
-    Stars
+    Stars,
+    HeaderComponent
   ],
   imports: [
     RouterModule,

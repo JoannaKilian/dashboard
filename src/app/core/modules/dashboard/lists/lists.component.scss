@@ -6,7 +6,6 @@
 .table {
   flex-grow: 1;
   margin-right: 16px;
-  background-color: var(--color-background-basic);
   padding: 8px;
   border-radius: 8px;
 
@@ -15,11 +14,11 @@
   }
 
   tr.element-row:not(.expanded-row):hover {
-    background: whitesmoke;
+    background: var(--color-background);
   }
 
   tr.element-row:not(.expanded-row):active {
-    background: #efefef;
+    background: var(--color-background);
   }
 
   .element-row td {
@@ -40,7 +39,7 @@
   height: 260px;
   border-radius: 8px;
   padding: 10px;
-  background-color: var(--color-background-basic);
+  background-color: var(--color-background);
   box-shadow: var(--shadow);
 
   &_container {
@@ -65,12 +64,12 @@
     margin: 16px;
     border-radius: 50%;
 
-    &--number {
-      background-color: var(--color-1);
+    &--col-1 {
+      background-color: var(--color-4);
     }
 
-    &--followers {
-      background-color: var(--color-2);
+    &--col-2 {
+      background-color: var(--color-3);
     }
   }
 

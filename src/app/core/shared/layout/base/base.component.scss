@@ -1,24 +1,27 @@
 @import "../../../../../styles/variables";
 
-*{
+* {
   margin: 0;
   padding: 0;
 }
 
-.app{
+.app {
   display: flex;
   justify-content: center;
 
-  &__menu{
+  &_menu {
     position: relative;
     width: 240px;
     height: 100vh;
   }
 
-  &__content{
+  &_container {
     flex-grow: 1;
-    padding: 40px;
     background-color: var(--color-background);
+  }
+
+  &_content {
+    padding: 20px;
   }
 
 }

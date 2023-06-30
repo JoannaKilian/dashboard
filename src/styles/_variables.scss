@@ -1,8 +1,11 @@
 :root {
-  --color-base: #3f9343;
-  --color-background: #F1F8E9;
-  --color-background-basic: #FFFFFF;
-  --color-text: #121212;
+  --color-base-dark: #164B60;
+  --color-base: #1B6B93;
+  --color-base-light: #4FC0D0;
+  --color-base-active: #A2FF86;
+  --color-background: #FFFFFF;
+  --color-background-main: #4FC0D0;
+  --color-text: #164B60;
   --color-text-light: #FFFFFF;
   --color-grey: #ccc;
 
@@ -10,9 +13,12 @@
   --font-subtitle: 18px;
   --font-medium: 12px;
 
-  --color-1: rgba(26, 75, 33, 0.66);
-  --color-2: rgba(13, 51, 13, 0.67);
+  --color-1: var(--color-base-dark);
+  --color-2: var(--color-base);
+  --color-3: var(--color-base-light);
+  --color-4: var(--color-base-active);
 
-  --shadow: inset 1px 0px 6px 0px rgba(0, 0, 0, 0.4);
+  --shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
+
 
 }

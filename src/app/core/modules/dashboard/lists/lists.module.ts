@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {StatisticRoutingModule} from './statistic-routing.module';
-import {StatisticsComponent} from "./statistics.component";
+import {ListsRoutingModule} from './lists-routing.module';
+import {ListsComponent} from "./lists.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatMenuModule} from "@angular/material/menu";
@@ -10,15 +10,14 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatButtonModule} from "@angular/material/button";
 import {SharedModule} from "../../../shared/shared.module";
-// import { PaginationControlsModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
-    StatisticsComponent
+    ListsComponent
   ],
   imports: [
     CommonModule,
-    StatisticRoutingModule,
+    ListsRoutingModule,
     MatIconModule,
     MatTableModule,
     MatExpansionModule,
@@ -27,9 +26,8 @@ import {SharedModule} from "../../../shared/shared.module";
     MatMenuModule,
     MatButtonModule,
     SharedModule,
-    // PaginationControlsModule
   ],
   providers: []
 })
-export class StatisticModule {
+export class ListsModule {
 }

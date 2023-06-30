@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class BaseComponent {
 
+  showMenu:boolean = true;
+
+  switchMenuHandler(){
+    this.showMenu = !this.showMenu
+  }
+
+
 }
