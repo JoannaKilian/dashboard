@@ -1,31 +1,25 @@
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {ListsRoutingModule} from './lists-routing.module';
-import {ListsComponent} from "./lists.component";
-import {MatIconModule} from "@angular/material/icon";
-import {MatTableModule} from "@angular/material/table";
-import {MatMenuModule} from "@angular/material/menu";
-import {MatExpansionModule} from "@angular/material/expansion";
-import {MatSortModule} from "@angular/material/sort";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatButtonModule} from "@angular/material/button";
-import {SharedModule} from "../../../shared/shared.module";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ListsRoutingModule } from './lists-routing.module';
+import { ListsComponent } from "./lists.component";
+import { SharedModule } from "../../../shared/shared.module";
+import { MatTabsModule } from '@angular/material/tabs';
+import { PersonsComponent } from './components/persons/persons.component';
+import { CarsComponent } from './components/cars/cars.component';
+import { PetsComponent } from './components/pets/pets.component';
 
 @NgModule({
   declarations: [
-    ListsComponent
+    ListsComponent,
+    PersonsComponent,
+    CarsComponent,
+    PetsComponent
   ],
   imports: [
     CommonModule,
     ListsRoutingModule,
-    MatIconModule,
-    MatTableModule,
-    MatExpansionModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatMenuModule,
-    MatButtonModule,
     SharedModule,
+    MatTabsModule
   ],
   providers: []
 })

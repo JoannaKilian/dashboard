@@ -8,6 +8,13 @@ import { CommonModule } from "@angular/common";
 import { TitleComponent } from "./components/title/title.component";
 import { Stars } from "./components/stars/stars";
 import { HeaderComponent } from "./layout/header/header.component";
+import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSortModule } from '@angular/material/sort';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { TableComponent } from './components/table/table.component';
+import { TableDetailsComponent } from './components/table-details/table-details.component';
 
 @NgModule({
   declarations: [
@@ -16,19 +23,28 @@ import { HeaderComponent } from "./layout/header/header.component";
     MenuComponent,
     TitleComponent,
     Stars,
-    HeaderComponent
+    HeaderComponent,
+    TableComponent,
+    TableDetailsComponent
   ],
   exports: [
     BaseComponent,
     ComingSoonComponent,
     TitleComponent,
     Stars,
-    HeaderComponent
+    HeaderComponent,
+    TableComponent,
+    TableDetailsComponent
   ],
   imports: [
     RouterModule,
     MatIconModule,
     CommonModule,
+    MatTableModule,
+    MatExpansionModule,
+    MatSortModule,
+    MatMenuModule,
+    MatButtonModule,
   ]
 })
 export class SharedModule {

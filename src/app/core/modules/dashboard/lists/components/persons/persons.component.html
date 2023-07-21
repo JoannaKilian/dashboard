@@ -1,0 +1,9 @@
+<app-table [dataTable]="data" [columnsToDisplay]="headers">
+  <ng-template #detailsTemplate let-element="element">
+      <app-table-details 
+      [dateOfBirth]="element.dateOfBirth"
+      [socialSecurityNumber]="element.socialSecurityNumber"
+      [IDcard]="element.IDcard"
+      ></app-table-details>
+  </ng-template>
+</app-table>
