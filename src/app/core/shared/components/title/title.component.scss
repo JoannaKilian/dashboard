@@ -1,7 +1,7 @@
 .title-wrap {
 
   background-color: var(--color-background-basic);
-  margin: 16px 0;
+  margin: 12px 0;
   padding: 8px;
   border-radius: 8px;
 
@@ -10,13 +10,13 @@
     align-items: center;
 
     mat-icon {
-      color: var(--color-base);
+      color: var(--color-base-light);
     }
 
     p {
       font-size: var(--font-title);
       margin: 12px;
-      color: var(--color-base);
+      color: var(--color-base-light);
     }
   }
 }

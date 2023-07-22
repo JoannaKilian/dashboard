@@ -20,6 +20,8 @@ export class TableComponent implements OnInit, AfterViewInit  {
 
   @Input() dataTable: any[];
   @Input() columnsToDisplay: string[];
+  @Input() title: string;
+  @Input() icon: string;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,6 +45,10 @@ export class TableComponent implements OnInit, AfterViewInit  {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+  onAddClick(){
+    console.log('add');
   }
 }
 

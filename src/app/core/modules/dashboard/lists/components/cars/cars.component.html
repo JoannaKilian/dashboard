@@ -1,1 +1,6 @@
-<!-- <app-table></app-table> -->
+<app-table title="Cars" icon="directions_car" [dataTable]="data" [columnsToDisplay]="headers">
+    <ng-template #detailsTemplate let-element="element">
+      <app-car-details [insuranceDate]="element.insuranceDate" [color]="element.color"
+        [engineCapacity]="element.engineCapacity" [enginePower]="element.enginePower"></app-car-details>
+    </ng-template>
+  </app-table>

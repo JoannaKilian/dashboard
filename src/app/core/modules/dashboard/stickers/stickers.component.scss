@@ -10,25 +10,6 @@
   min-height: 100%;
   background-color: var(--color-base);
 
-  &_add {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-
-    mat-icon {
-      color: var(--color-base-light);
-      font-size: 40px;
-      height: 40px;
-      width: 40px;
-      cursor: pointer;
-      transition: transform 0.3s;
-
-      &:hover {
-        transform: rotate(90deg);
-      }
-    }
-  }
-
   .box {
     width: 120px;
     height: 120px;

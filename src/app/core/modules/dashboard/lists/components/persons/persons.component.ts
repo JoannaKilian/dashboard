@@ -17,7 +17,4 @@ export class PersonsComponent {
   ];
 
   headers: string[] = ['name', 'surname', 'dateOfBirth'];
-
-  ngOnInit() {
-  }
 }

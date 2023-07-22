@@ -8,7 +8,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class HeaderComponent implements OnInit {
 
   @Output() openEvent = new EventEmitter<boolean>;
-  openMenu: boolean
+  openMenu: boolean;
 
   constructor() {
   }

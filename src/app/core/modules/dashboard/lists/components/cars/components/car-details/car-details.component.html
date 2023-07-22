@@ -1,0 +1,12 @@
+<div class="details">
+    <div class="car">
+        <mat-icon [ngStyle]="{'color': color}">directions_car</mat-icon>
+        <p *ngIf="color"><span>Color</span>: {{color}}</p>
+    </div>
+    <div>
+        <p *ngIf="engineCapacity"><span>Engine Capacity</span>: {{engineCapacity}}</p>
+        <p *ngIf="enginePower"><span>Engine Power</span>: {{enginePower}}</p>
+        <p *ngIf="insuranceDate"><span>Insurance Date</span>: {{insuranceDate}}</p>
+        <p *ngIf="expirationDate"><span>Expiration Date</span>: {{expirationDate}}</p>
+    </div>
+</div>

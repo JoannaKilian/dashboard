@@ -1,7 +1,5 @@
 <div class="wrap">
-  <div class="wrap_add" (click)="onAddNote()">
-    <mat-icon>add_circle</mat-icon>
-  </div>
+  <app-add-button (addEvent)="onAddNote()"></app-add-button>
   <ng-container *ngFor="let note of notes; let i = index">
     <div class="box" cdkDragBoundary=".wrap" cdkDrag>
       <div class="box_actions">

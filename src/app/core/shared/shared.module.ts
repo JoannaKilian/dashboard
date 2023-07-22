@@ -14,7 +14,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { TableComponent } from './components/table/table.component';
-import { TableDetailsComponent } from './components/table-details/table-details.component';
+import { AddButtonComponent } from './layout/add-button/add-button.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { TableDetailsComponent } from './components/table-details/table-details.
     Stars,
     HeaderComponent,
     TableComponent,
-    TableDetailsComponent
+    AddButtonComponent
   ],
   exports: [
     BaseComponent,
@@ -34,7 +34,7 @@ import { TableDetailsComponent } from './components/table-details/table-details.
     Stars,
     HeaderComponent,
     TableComponent,
-    TableDetailsComponent
+    AddButtonComponent
   ],
   imports: [
     RouterModule,

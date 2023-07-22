@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-table-details',
-  templateUrl: './table-details.component.html',
-  styleUrls: ['./table-details.component.scss']
+  selector: 'app-person-details',
+  templateUrl: './person-details.component.html',
+  styleUrls: ['./person-details.component.scss']
 })
-export class TableDetailsComponent implements OnInit {
+export class PersonDetailsComponent implements OnInit {
   @Input() dateOfBirth: Date;
   @Input() socialSecurityNumber: string;
   @Input() IDcard: string;

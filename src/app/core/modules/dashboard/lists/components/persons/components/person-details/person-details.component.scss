@@ -5,7 +5,6 @@
 
 .details {
     display: flex;
-    justify-content: space-between;
     color: var(--color-text);
     min-height: 100px;
 
@@ -17,7 +16,7 @@
 .person {
     display: flex;
     align-items: center;
-    width: 120px;
+    width: 100px;
     height: 110px;
 
     mat-icon {

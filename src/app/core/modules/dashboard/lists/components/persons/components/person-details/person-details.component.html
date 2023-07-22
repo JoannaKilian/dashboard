@@ -1,4 +1,7 @@
 <div class="details">
+    <div class="person">
+        <mat-icon>{{getIconAge()}}</mat-icon>
+    </div>
     <div>
         <p *ngIf="socialSecurityNumber"><span>Social Security Number</span>: {{socialSecurityNumber}}</p>
         <p *ngIf="IDcard"><span>ID card</span>: {{IDcard}}</p>
@@ -6,8 +9,5 @@
             <p><span>Age</span>: {{age}} years</p>
             <app-stars [range]="tensOfAge"></app-stars>
         </div>
-    </div>
-    <div class="person">
-        <mat-icon>{{getIconAge()}}</mat-icon>
     </div>
 </div>

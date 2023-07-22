@@ -6,7 +6,7 @@
 .table {
   flex-grow: 1;
   margin-right: 16px;
-  padding: 8px;
+  padding-top: 12px;
   border-radius: 8px;
 
   tr.detail-row {
@@ -35,52 +35,33 @@
 }
 
 .summary {
-  width: 280px;
-  height: 260px;
-  border-radius: 8px;
-  padding: 10px;
+  position: relative;
+  width: 200px;
+  height: 70px;
+  border-radius: 2px;
+  margin-top: 8px;
   background-color: var(--color-background);
   box-shadow: var(--shadow);
 
   &_container {
     display: flex;
-    align-items: center;
+    margin: 12px;
     padding: 10px 0;
-    margin: 20px 0;
-    border-bottom: 1px solid var(--color-grey);
   }
 
   &_description {
-  padding-top: 12px;
-  }
+    padding-top: 12px;
+    text-align: center;
+    width: 100%;
 
-  &_container:last-child {
-    border-bottom: none;
-  }
-
-  &_dot {
-    width: 32px;
-    height: 32px;
-    margin: 16px;
-    border-radius: 50%;
-
-    &--col-1 {
-      background-color: var(--color-4);
+    p {
+      color: var(--color-base-light);
+      font-size: var(--font-title);
     }
 
-    &--col-2 {
-      background-color: var(--color-3);
+    span {
+      font-weight: 700;
     }
   }
 
-  p {
-    font-weight: 700;
-    color: var(--color-text);
-    font-size: var(--font-medium);
-  }
-
-  p:first-child {
-    color: var(--color-text);
-    font-size: var(--font-subtitle);
-  }
 }

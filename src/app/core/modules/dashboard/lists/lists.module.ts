@@ -7,19 +7,29 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { PersonsComponent } from './components/persons/persons.component';
 import { CarsComponent } from './components/cars/cars.component';
 import { PetsComponent } from './components/pets/pets.component';
+import { PersonDetailsComponent } from './components/persons/components/person-details/person-details.component';
+import { MatIconModule } from '@angular/material/icon';
+import { CarDetailsComponent } from './components/cars/components/car-details/car-details.component';
 
 @NgModule({
   declarations: [
     ListsComponent,
     PersonsComponent,
     CarsComponent,
-    PetsComponent
+    PetsComponent,
+    PersonDetailsComponent,
+    CarDetailsComponent,
   ],
   imports: [
     CommonModule,
     ListsRoutingModule,
     SharedModule,
-    MatTabsModule
+    MatTabsModule,
+    MatIconModule,
+  ],
+  exports: [
+    PersonDetailsComponent,
+    CarDetailsComponent
   ],
   providers: []
 })
