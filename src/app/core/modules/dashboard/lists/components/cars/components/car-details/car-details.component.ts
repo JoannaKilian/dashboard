@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Car } from 'src/app/core/models/car.models';
+import { TimeAlertService } from 'src/app/core/services/time-alert.service.service';
 
 @Component({
   selector: 'app-car-details',
@@ -6,21 +8,23 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./car-details.component.scss']
 })
 export class CarDetailsComponent implements OnInit {
-  @Input() insuranceDate : string;
-  @Input() color: string;
-  @Input() engineCapacity : string;
-  @Input() enginePower : string;
 
+  @Input() carDetails: Car;
+  @Output() timeAlertEvent = new EventEmitter<boolean>;
+
+  timeAlert: boolean = false;
   expirationDate: number;
-  currentDate = new Date();
-  insuranceDateAsDate = new Date();
+
+  constructor(private timeAlertService: TimeAlertService) { }
 
   ngOnInit(): void {
-    this.insuranceDateAsDate = new Date(this.insuranceDate);
+    this.expirationDate = this.timeAlertService.getCountEndTime(this.carDetails.insuranceDate);
+    this.checkTimeAlert();
+  }
 
-    if (this.insuranceDateAsDate < this.currentDate) {
-      const dateDelta = this.currentDate.getTime() - this.insuranceDateAsDate.getTime();
-      this.expirationDate = Math.floor(dateDelta / (1000 * 60 * 60 * 24));
+  checkTimeAlert(): void {
+    if (this.expirationDate <= 30) {
+      this.timeAlertService.emitTimeAlert("Car", this.carDetails.brand, this.carDetails.model, this.expirationDate);
     }
   }
 }

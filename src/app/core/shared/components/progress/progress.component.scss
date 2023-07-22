@@ -1,0 +1,38 @@
+:host {
+    margin: 0 30px 20px 30px;
+}
+
+.container {
+    position: relative;
+
+    &_label {
+        position: absolute;
+        top: -44px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: var(--font-subtitle);
+        color: var(--color-base-light);
+        font-weight: bold;
+        text-align: center;
+
+        &--alert {
+            color: var(--color-alert);
+        }
+    }
+
+    &_title {
+        text-align: center;
+
+        p {
+            margin: 0;
+            color: var(--color-base-light);
+            font-weight: bold;
+        }
+    }
+}
+
+::ng-deep .mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,
+::ng-deep .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+    stroke: var(--color-base-light) !important;
+    /* Zmiana koloru obramowania na czerwony (#ff0000) */
+}

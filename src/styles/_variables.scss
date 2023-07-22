@@ -8,6 +8,7 @@
   --color-text: #164B60;
   --color-text-light: #FFFFFF;
   --color-grey: #ccc;
+  --color-alert: #f00;
 
   --font-title: 24px;
   --font-subtitle: 18px;
@@ -19,6 +20,6 @@
   --color-4: var(--color-base-active);
 
   --shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.25);
-
+  --shadow-alert: 0px 1px 10px 0px var(--color-alert);
 
 }

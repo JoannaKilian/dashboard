@@ -15,6 +15,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { TableComponent } from './components/table/table.component';
 import { AddButtonComponent } from './layout/add-button/add-button.component';
+import { ProgressComponent } from './components/progress/progress.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { AddButtonComponent } from './layout/add-button/add-button.component';
     Stars,
     HeaderComponent,
     TableComponent,
-    AddButtonComponent
+    AddButtonComponent,
+    ProgressComponent
   ],
   exports: [
     BaseComponent,
@@ -34,7 +37,8 @@ import { AddButtonComponent } from './layout/add-button/add-button.component';
     Stars,
     HeaderComponent,
     TableComponent,
-    AddButtonComponent
+    AddButtonComponent,
+    ProgressComponent
   ],
   imports: [
     RouterModule,
@@ -45,6 +49,7 @@ import { AddButtonComponent } from './layout/add-button/add-button.component';
     MatSortModule,
     MatMenuModule,
     MatButtonModule,
+    MatProgressSpinnerModule
   ]
 })
 export class SharedModule {

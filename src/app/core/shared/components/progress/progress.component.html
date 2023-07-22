@@ -1,0 +1,20 @@
+<mat-progress-spinner class="custom-spinner" strokeWidth="10" [mode]="mode" [value]="progressValue ">
+</mat-progress-spinner>
+<div class="container">
+    <ng-container *ngIf="!alert; else showAlert">
+        <div class="container_label">
+            <p>{{ days }} days</p>
+        </div>
+    </ng-container>
+
+    <ng-template #showAlert>
+        <div class="container_label container_label--alert">
+            <p>{{ days }} days</p>
+            <p>ALERT</p>
+        </div>
+    </ng-template>
+    <div *ngIf="title" class="container_title">
+        <p>{{title}}</p>
+        <p>Expiry Date</p>
+    </div>
+</div>
