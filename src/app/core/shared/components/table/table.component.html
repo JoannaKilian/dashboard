@@ -50,8 +50,8 @@
       <div class="summary_container">
         <div class="summary_description summary_description--alert">
           <p>Alert: <span>{{ alerts.length }}</span></p>
-          <ul *ngFor="let message of alerts; let i=index">
-            <li><span>{{i + 1}}. </span>{{message}}</li>
+          <ul *ngFor="let alert of alerts; let i=index">
+            <li><span>{{i + 1}}. </span>{{alert.message}}</li>
           </ul>
         </div>
       </div>

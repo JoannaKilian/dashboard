@@ -4,6 +4,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { TimeAlertService } from 'src/app/core/services/time-alert.service.service';
+import { Subscription, filter } from 'rxjs';
+import { Alert } from 'src/app/core/models/alert.models';
 
 @Component({
   selector: 'app-table',
@@ -34,8 +36,8 @@ export class TableComponent implements OnInit, AfterViewInit {
   expandedElement: any | null;
   columnsToDisplayWithExpand: string[];
   totalCount: number;
-  totalFollowers: number;
-  alerts: string[] = [];
+  alerts: Alert[] = [];
+  private subscription: Subscription;
 
   constructor(private timeAlertService: TimeAlertService) { }
 
@@ -43,10 +45,10 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     this.dataSource = new MatTableDataSource(this.dataTable);
     this.totalCount = this.dataTable.length;
-    this.totalFollowers = this.dataTable.reduce((total, project) => total + project.followers, 0);
-    this.timeAlertService.timeAlertEvent.subscribe((message: string) => {
-      this.alerts.push(message);
-    })
+    this.subscription = this.timeAlertService.timeAlert$
+    .subscribe((alerts: Alert[]) => {
+      this.alerts = alerts.filter(alert => alert.category === this.title);
+    });
   }
 
   ngAfterViewInit() {
@@ -55,6 +57,10 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   onAddClick() {
     console.log('add');
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
 

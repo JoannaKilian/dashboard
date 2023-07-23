@@ -24,8 +24,6 @@ export class MenuComponent implements OnInit {
   }
 
   changePage(page: number, path: string) {
-    console.log(this.route);
-    console.log(`/${path}`);
     this.currentPage = page;
     this.router.navigate([`../dashboard/${path}`], { relativeTo: this.route });
   }

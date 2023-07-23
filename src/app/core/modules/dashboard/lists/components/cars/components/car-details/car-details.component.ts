@@ -24,7 +24,7 @@ export class CarDetailsComponent implements OnInit {
 
   checkTimeAlert(): void {
     if (this.expirationDate <= 30) {
-      this.timeAlertService.emitTimeAlert("Car", this.carDetails.brand, this.carDetails.model, this.expirationDate);
+      this.timeAlertService.emitTimeAlert("Cars", this.carDetails.brand, this.carDetails.model, this.expirationDate);
     }
   }
 }

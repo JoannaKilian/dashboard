@@ -15,7 +15,6 @@ export class Stars implements OnInit {
   ngOnInit() {
     this.numberRangeArray = new Array(this.range)
     this.numberEmptyArray = new Array(this.numberAll - this.range);
-    console.log(this.range, this.numberRangeArray, this.numberEmptyArray)
   }
 
 }
