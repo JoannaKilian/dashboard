@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Menu} from "../../../models/menu.models";
 import {MENU} from "../../../config/menu";
 import {ActivatedRoute, Router} from "@angular/router";
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,20 +12,23 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class MenuComponent implements OnInit {
 
   menu: Menu[] = MENU;
-
-  currentPage: number = 1
+  currentPage: number;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private menuService: MenuService
   ) { }
 
 
   ngOnInit() {
+    this.menuService.getCurrentIndex().subscribe(index => {
+      this.currentPage = index;
+    });
   }
 
   changePage(page: number, path: string) {
-    this.currentPage = page;
+    this.menuService.setCurrentIndex(page);
     this.router.navigate([`../dashboard/${path}`], { relativeTo: this.route });
   }
 

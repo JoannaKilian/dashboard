@@ -3,27 +3,19 @@
   width: 100%;
 }
 
+.title-icon{
+  color: var(--color-base);
+  margin-top: 10px;
+  font-size: 80px;
+  width: 80px;
+  height: 80px;
+}
+
 .table {
   flex-grow: 1;
   margin-right: 16px;
   padding-top: 12px;
   border-radius: 8px;
-
-  tr.detail-row {
-    height: 0;
-  }
-
-  tr.element-row:not(.expanded-row):hover {
-    background: var(--color-background);
-  }
-
-  tr.element-row:not(.expanded-row):active {
-    background: var(--color-background);
-  }
-
-  .element-row td {
-    border-bottom-width: 0;
-  }
 
   .element-detail {
     overflow: hidden;

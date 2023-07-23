@@ -3,6 +3,30 @@
   box-shadow: none !important;
   border-radius: 20%;
 
+  tr.detail-row {
+    height: 0;
+  }
+
+  tr.element-row:not(.expanded-row):hover {
+    background: var(--color-background);
+  }
+
+  tr.element-row.expanded-row {
+    background: var(--color-base);
+
+    .mat-mdc-cell{
+      color: var(--color-text-light);
+    }
+  }
+
+  tr.element-row:not(.expanded-row):active {
+    background: var(--color-background);
+  }
+
+  .element-row td {
+    border-bottom-width: 0;
+  }
+
   tr.mat-mdc-row {
     &:hover {
       background-color: var(--color-base) !important;

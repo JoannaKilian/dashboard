@@ -22,7 +22,7 @@ export class CarsComponent {
       model: "Civic",
       productionYear: 2021,
       color: "blue",
-      insuranceDate: "2023-08-02",
+      insuranceDate: "2023-07-19",
       engineCapacity: 1.5,
       enginePower: 130
     },
@@ -47,5 +47,4 @@ export class CarsComponent {
   ];
 
   headers: string[] = ['brand', 'model', 'productionYear'];
-  expiryAlert: boolean = false;
 }

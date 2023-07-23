@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Person } from 'src/app/core/models/person.models';
+import { TimeAlertService } from 'src/app/core/services/time-alert.service.service';
 
 @Component({
   selector: 'app-person-details',
@@ -6,23 +8,23 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./person-details.component.scss']
 })
 export class PersonDetailsComponent implements OnInit {
-  @Input() dateOfBirth: Date;
-  @Input() socialSecurityNumber: string;
-  @Input() IDcard: string;
+
+  @Input() personDetails: Person;
 
   age: number;
-  currentDate = new Date();
-  dateOfBirthAsDate = new Date();
-  tensOfAge: number;
+  daysUntilBirthday: number;
+  toWeedingAnniversary: number;
+
+  constructor(private timeAlertService: TimeAlertService) { }
 
   ngOnInit(): void {
-    this.dateOfBirthAsDate = new Date(this.dateOfBirth);
-
-    if (this.dateOfBirthAsDate < this.currentDate) {
-      const ageDelta = this.currentDate.getTime() - this.dateOfBirthAsDate.getTime();
-      this.age = Math.floor(ageDelta / (1000 * 60 * 60 * 24 * 365));
-      this.tensOfAge = Math.floor(this.age / 10)
+    this.age = this.timeAlertService.getAge(this.personDetails.dateOfBirth);
+    this.daysUntilBirthday = this.timeAlertService.getDaysToAnniversary(this.personDetails.dateOfBirth);
+    if(this.personDetails.weedingAnniversary){
+      this.toWeedingAnniversary = this.timeAlertService.getDaysToAnniversary(this.personDetails.weedingAnniversary)
     }
+    this.checkTimeAlert(this.daysUntilBirthday);
+    this.checkTimeAlert(this.toWeedingAnniversary);
   }
 
   getIconAge(): string {
@@ -32,6 +34,12 @@ export class PersonDetailsComponent implements OnInit {
       return 'child_care'
     } else {
       return 'person'
+    }
+  }
+
+  checkTimeAlert(days: number): void {
+    if (days <= 30) {
+      this.timeAlertService.setTimeAlert("Persons", this.personDetails.name, this.personDetails.surname, days);
     }
   }
 }

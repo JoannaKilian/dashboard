@@ -3,11 +3,17 @@
         <mat-icon>{{getIconAge()}}</mat-icon>
     </div>
     <div>
-        <p *ngIf="socialSecurityNumber"><span>Social Security Number</span>: {{socialSecurityNumber}}</p>
-        <p *ngIf="IDcard"><span>ID card</span>: {{IDcard}}</p>
-        <div *ngIf="age >= 1">
-            <p><span>Age</span>: {{age}} years</p>
-            <app-stars [range]="tensOfAge"></app-stars>
-        </div>
+        <p *ngIf="personDetails.dateOfBirth"><span>Date Of Birth</span>:
+            {{personDetails.dateOfBirth}}</p>
+            <ng-container *ngIf="age >= 1">
+                <p><span>Age</span>: {{age}} years</p>
+            </ng-container>
+        <p *ngIf="personDetails.socialSecurityNumber"><span>Social Security Number</span>:
+            {{personDetails.socialSecurityNumber}}</p>
+        <p *ngIf="personDetails.IDcard"><span>ID card</span>: {{personDetails.IDcard}}</p>
+    </div>
+    <div class="progress-container">
+        <app-progress *ngIf="daysUntilBirthday" [days]="daysUntilBirthday" title="Birthday"></app-progress>
+        <app-progress *ngIf="toWeedingAnniversary" [days]="toWeedingAnniversary" title="Wedding"></app-progress>
     </div>
 </div>

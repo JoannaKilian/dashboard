@@ -1,1 +1,5 @@
-<!-- <app-table></app-table> -->
+<app-table title="Pets" icon="pets" [dataTable]="data" [columnsToDisplay]="headers">
+    <ng-template #detailsTemplate let-element="element">
+        <app-pet-details [petDetails]="element"></app-pet-details>
+    </ng-template>
+</app-table>

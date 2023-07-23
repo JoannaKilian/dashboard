@@ -1,0 +1,26 @@
+:host {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.details {
+    display: flex;
+    color: var(--color-text);
+    min-height: 100px;
+
+    span {
+        font-weight: 700
+    }
+
+    &_life-container {
+        margin-top: 30px;
+    }
+
+    &_life {
+        display: flex;
+        
+        p{
+            margin-right: 30px;
+        }
+    }
+}

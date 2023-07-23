@@ -1,7 +1,7 @@
 <div class="wrap">
   <div class="main">
     <ng-container *ngFor="let section of sections">
-      <div class="main_container" [ngStyle]="{'background-image': 'url(\'../../../../../assets/' + section.value + '.jpg\')'}">
+      <div (click)="goToPage(section.value)" class="main_container" [ngStyle]="{'background-image': 'url(\'../../../../../assets/' + section.value + '.jpg\')'}">
         <div class="main_title">
           <p>{{section.title}}</p>
         </div>

@@ -4,4 +4,5 @@ export interface Person {
     dateOfBirth: string,
     socialSecurityNumber: string,
     IDcard: string,
+    weedingAnniversary?: string
 }

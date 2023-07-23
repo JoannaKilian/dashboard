@@ -10,6 +10,7 @@ import { PetsComponent } from './components/pets/pets.component';
 import { PersonDetailsComponent } from './components/persons/components/person-details/person-details.component';
 import { MatIconModule } from '@angular/material/icon';
 import { CarDetailsComponent } from './components/cars/components/car-details/car-details.component';
+import { PetDetailsComponent } from './components/pets/components/person-details/pet-details.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CarDetailsComponent } from './components/cars/components/car-details/ca
     PetsComponent,
     PersonDetailsComponent,
     CarDetailsComponent,
+    PetDetailsComponent
   ],
   imports: [
     CommonModule,

@@ -1,6 +1,5 @@
 <app-table title="Persons" icon="person" [dataTable]="data" [columnsToDisplay]="headers">
   <ng-template #detailsTemplate let-element="element">
-    <app-person-details [dateOfBirth]="element.dateOfBirth" [socialSecurityNumber]="element.socialSecurityNumber"
-      [IDcard]="element.IDcard"></app-person-details>
+    <app-person-details [personDetails]="element"></app-person-details>
   </ng-template>
 </app-table>

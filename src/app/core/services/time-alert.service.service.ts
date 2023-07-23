@@ -13,13 +13,19 @@ export class TimeAlertService {
 
   constructor() { }
 
-  emitTimeAlert(category: "Persons" | "Cars" | "Pets", title: string, subtitle: string, days: number): void {
+  setTimeAlert(category: "Persons" | "Cars" | "Pets", title: string, subtitle: string, days: number): void {
     const message = {
       category,
       message: `${title} ${subtitle} - significant deadline ends in ${days} days`
     }
-    this.alerts.push(message);
-    this.alertSubject.next(this.alerts);
+    if (!this.isMessageDuplicate(message)) {
+      this.alerts.push(message);
+      this.alertSubject.next(this.alerts);
+    }
+  }
+
+  isMessageDuplicate(newMessage: Alert): boolean {
+    return this.alerts.some((message) => JSON.stringify(message) === JSON.stringify(newMessage));
   }
 
   getCountEndTime(date: string): number {
@@ -42,5 +48,14 @@ export class TimeAlertService {
     const timeDifference = anniversaryThisYear.getTime() - currentDate.getTime();
     const daysDifference = timeDifference / (1000 * 3600 * 24);
     return Math.ceil(daysDifference);
+  }
+
+  getAge(birthDate: string){
+    const currentDate = new Date();
+    const dateOfBirthAsDate = new Date(birthDate);
+    if (dateOfBirthAsDate < currentDate) {
+      const ageDelta = currentDate.getTime() - dateOfBirthAsDate.getTime();
+      return Math.floor(ageDelta / (1000 * 60 * 60 * 24 * 365));
+    } else return 0
   }
 }

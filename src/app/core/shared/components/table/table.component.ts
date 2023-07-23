@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from "@angular/material/sort";
@@ -36,23 +36,32 @@ export class TableComponent implements OnInit, AfterViewInit {
   expandedElement: any | null;
   columnsToDisplayWithExpand: string[];
   totalCount: number;
-  alerts: Alert[] = [];
+  alerts: Alert[];
   private subscription: Subscription;
 
-  constructor(private timeAlertService: TimeAlertService) { }
+  constructor(
+    private timeAlertService: TimeAlertService,
+    private changeDetectorRef: ChangeDetectorRef
+    ) { }
 
   ngOnInit(): void {
     this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
     this.dataSource = new MatTableDataSource(this.dataTable);
     this.totalCount = this.dataTable.length;
     this.subscription = this.timeAlertService.timeAlert$
-    .subscribe((alerts: Alert[]) => {
-      this.alerts = alerts.filter(alert => alert.category === this.title);
+    .subscribe((data: Alert[]) => {
+      this.alerts = data.filter(alert => alert.category === this.title);
     });
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.changeDetectorRef.detectChanges();
+    
+  }
+
+  getColumnName(name: string): string{
+    return name.charAt(0).toUpperCase() + name.slice(1)
   }
 
   onAddClick() {

@@ -10,7 +10,6 @@ import { TimeAlertService } from 'src/app/core/services/time-alert.service.servi
 export class CarDetailsComponent implements OnInit {
 
   @Input() carDetails: Car;
-  @Output() timeAlertEvent = new EventEmitter<boolean>;
 
   timeAlert: boolean = false;
   expirationDate: number;
@@ -24,7 +23,7 @@ export class CarDetailsComponent implements OnInit {
 
   checkTimeAlert(): void {
     if (this.expirationDate <= 30) {
-      this.timeAlertService.emitTimeAlert("Cars", this.carDetails.brand, this.carDetails.model, this.expirationDate);
+      this.timeAlertService.setTimeAlert("Cars", this.carDetails.brand, this.carDetails.model, this.expirationDate);
     }
   }
 }
