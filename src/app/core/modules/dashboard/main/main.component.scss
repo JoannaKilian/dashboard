@@ -19,13 +19,24 @@
       border-radius: 2px;
       background-position: center;
       background-size: cover;
-      filter: grayscale(80%);
+      filter: grayscale(85%);
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         .main_title p {
           font-size: calc(var(--font-title) + 6px);
         }
+      }
+
+      &::after {
+        position: absolute;
+        content: "";
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        bottom: 10px;
+        box-shadow: 2px 1px 20px 1px var(--color-base);
+        border-radius: 2px;
       }
     }
 

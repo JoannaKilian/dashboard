@@ -4,73 +4,46 @@
   left: 0;
   bottom: 0;
   width: 240px;
-  background-color: var(--color-base-dark);
-  padding-top: 20px;
+  background-color: var(--color-base);
+  padding-top: 60px;
 
   .container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 40px;
-    margin: 50px 0 50px 10px;
-    border-radius: 15px 0 0 15px;
+    margin: 20px;
+    margin-right: 0;
+    padding: 10px;
+    padding-right: 0;
+    border-radius: 4px;
+    border: 2px solid #fff;
 
-    &:hover, &--active {
+    &_box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 195px;
+      padding: 10px 20px;
+      border: 2px solid #fff;
+      border-right: none;
+      border-bottom: none;
+      border-radius: 2px;
+      box-shadow: var(--shadow);
+    }
 
+    &:hover,
+    &--active {
       background-color: var(--color-background);
 
-      &:after {
-        content: '';
-        position: absolute;
-        top: -20px;
-        left: 210px;
-        width: 20px;
-        height: 20px;
-        background-color: var(--color-background);
-      }
-
-      &:before {
-        content: "";
-        position: absolute;
-        top: -50px;
-        left: 180px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: var(--color-base-dark);
-        z-index: 1;
-      }
-
       .container_name {
-
-        color: var(--color-base-dark);
-
-        &:before {
-          content: '';
-          position: absolute;
-          top: 42px;
-          left: 158px;
-          width: 20px;
-          height: 20px;
-          background-color: var(--color-background);
-        }
-
-        &:after {
-          content: '';
-          position: absolute;
-          top: 42px;
-          left: 128px;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background-color: var(--color-base-dark);
-          z-index: 1;
-        }
+        color: var(--color-base);
       }
 
       .container_img {
         color: var(--color-base);
+      }
+
+      .container_box{
+        border: 2px solid var(--color-base);
+        border-right: none;
+        border-bottom: none;
       }
     }
 
@@ -87,5 +60,3 @@
     }
   }
 }
-
-

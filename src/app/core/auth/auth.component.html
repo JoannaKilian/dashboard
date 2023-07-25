@@ -1,0 +1,31 @@
+<div class="wrap">
+    <div class="auth">
+        <div class="auth_icons">
+            <div class="icon"><mat-icon>person</mat-icon></div>
+            <div class="icon"><mat-icon>directions_car</mat-icon></div>
+            <div class="icon"><mat-icon>pets</mat-icon></div>
+        </div>
+        <div class="auth_container">
+            <p>Login</p>
+            <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+              <div class="auth_control">
+                <label for="username">E-mail:</label>
+                <input type="text" id="username" formControlName="username">
+                <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.touched" class="error-message">
+                    Email is required.
+                </div>
+              </div>
+              <div class="auth_control">
+                <label for="password">Password:</label>
+                <input type="password" id="password" formControlName="password">
+                <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched" class="error-message">
+                    Password is required.
+                </div>
+              </div>
+              <ng-container></ng-container>
+              <button type="submit" [disabled]="authForm.invalid">Log in</button>
+              <div class="auth_switch"><p>Sing Up</p></div>
+            </form>
+          </div>
+    </div>
+</div>
