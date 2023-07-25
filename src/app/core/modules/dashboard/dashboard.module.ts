@@ -6,14 +6,17 @@ import { SharedModule } from '../../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UpcomingDatesComponent } from './upcoming-dates/upcoming-dates.component';
 
 
 @NgModule({
   declarations: [
     StickersComponent,
+    UpcomingDatesComponent,
   ],
   exports: [
-    StickersComponent
+    StickersComponent,
+    UpcomingDatesComponent
   ],
   imports: [
     CommonModule,
