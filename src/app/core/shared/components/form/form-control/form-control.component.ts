@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { FormConfig } from 'src/app/core/models/form-config.models';
 
 @Component({
   selector: 'app-form-control',
@@ -8,11 +9,7 @@ import { FormControl } from '@angular/forms';
 })
 export class FormControlComponent {
   
-  @Input() label: string;
-  @Input() formControl: string;
-  @Input() type: string;
-  @Input() options: { label: string; value: any }[] = [];
-
-  control: FormControl = new FormControl();
+  @Input() field: FormConfig;
+  @Input() form: FormGroup;
 
 }

@@ -1,0 +1,21 @@
+.control {
+    display: flex;
+    margin-bottom: 10px;
+
+    label {
+        width: 114px;
+        color: var(--color-text-light);
+        font-size: var(--font-medium);
+        font-weight: bold;
+    }
+
+    textarea,
+    select,
+    input {
+        flex-grow: 1;
+    }
+
+
+
+
+}

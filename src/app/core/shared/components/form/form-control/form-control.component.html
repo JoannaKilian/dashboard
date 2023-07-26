@@ -1,8 +1,13 @@
-<ng-container [ngSwitch]="type">
-    <label></label>
-    <textarea *ngSwitchCase="'textarea'" [formControl]="control"></textarea>
-    <select *ngSwitchCase="'select'" [formControl]="control">
-        <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
-    </select>
-    <input *ngSwitchDefault [type]="type" [formControl]="control" />
-</ng-container>
+<div [formGroup]="form" class="control">
+    <label>{{ field.label }}</label>
+    <ng-container [ngSwitch]="field.type">
+      <input *ngSwitchCase="'text'" [formControlName]="field.name" type="text" />
+      <input *ngSwitchCase="'email'" [formControlName]="field.name" type="email" />
+      <input *ngSwitchCase="'password'" [formControlName]="field.name" type="password" />
+      <textarea *ngSwitchCase="'textarea'" [formControlName]="field.name"></textarea>
+      <select *ngSwitchCase="'select'" [formControlName]="field.name">
+        <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
+      </select>
+      <input *ngSwitchCase="'number'" [formControlName]="field.name" type="number" />
+    </ng-container>
+  </div>

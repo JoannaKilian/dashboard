@@ -1,10 +1,16 @@
 @import "variables";
 @import "base";
 @import "table";
+@import "button";
 
 
 .progress-container{
     flex-grow: 1;
     display: flex;
     justify-content: flex-end;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface{
+    background-color: var(--color-base) !important;
+    border: 8px double #fff;
 }

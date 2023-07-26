@@ -1,17 +1,5 @@
-<p>car-form works!</p>
-<h1 mat-dialog-title>Hi {{car.brand}}</h1>
+<p class="title" mat-dialog-title>{{car ? 'Edit ' + car.brand + ' ' + car.model : 'Add new car'}}</p>
 <div mat-dialog-content>
-  <app-create-form (submitEvent)="submitHandler()">
-    <app-form-control label="Email" formControl="email" type="email"></app-form-control>
-    <app-form-control label="Password" formControl="password" type="password"></app-form-control>
-    <app-form-control label="Description" formControl="description" type="textarea"></app-form-control>
-    <app-form-control label="Gender" formControl="gender" type="select" [options]="genderOptions"></app-form-control>
-    <app-form-control label="Age" formControl="age" type="number"></app-form-control>
-    <button type="submit">Submit</button>
+  <app-create-form [fields]="formFields" (submitEvent)="submitHandler($event)" (closeEvent)="closeHandler()">
   </app-create-form>
-
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="car.brand" cdkFocusInitial>Ok</button>
 </div>

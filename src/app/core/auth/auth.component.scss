@@ -94,21 +94,6 @@
 
         button {
             position: relative;
-            width: 200px;
-            padding: 10px;
-            background-color: var(--color-base-dark);
-            color: var(--color-text-light);
-            font-size: var(--font-subtitle);
-            font-weight: bold;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 20px;
-            box-shadow: 0px 0px 12px 0px #ffffff66;
-
-            &:hover {
-                color: var(--color-text-light);
-            }
 
             mat-icon {
                 position: absolute;

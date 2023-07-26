@@ -1,4 +1,11 @@
-<form (ngSubmit)="onSubmit()">
-    <ng-content></ng-content>
-    <button type="submit">Submit</button>
-</form>
+<div class="wrap-form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <ng-container *ngFor="let field of fields">
+            <app-form-control [field]="field" [form]="form"></app-form-control>
+          </ng-container>
+        <div class="button-container">
+            <button class="button button--cancel" type="button" (click)="onCloseClick()">Back</button>
+            <button class="button" type="button" (click)="onSubmit()">Submit</button>
+          </div>
+    </form>
+</div>
