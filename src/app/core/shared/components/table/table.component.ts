@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from "@angular/material/sort";
@@ -26,6 +26,10 @@ export class TableComponent implements OnInit, AfterViewInit {
   @Input() title: "Persons" | "Cars" | "Pets";
   @Input() icon: string;
 
+  @Output() addEvent = new EventEmitter;
+  @Output() editEvent = new EventEmitter<any>;
+  @Output() deleteEvent = new EventEmitter<any>;
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -42,30 +46,38 @@ export class TableComponent implements OnInit, AfterViewInit {
   constructor(
     private timeAlertService: TimeAlertService,
     private changeDetectorRef: ChangeDetectorRef
-    ) { }
+  ) { }
 
   ngOnInit(): void {
-    this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+    this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'edit', 'delete'];
     this.dataSource = new MatTableDataSource(this.dataTable);
     this.totalCount = this.dataTable.length;
     this.subscription = this.timeAlertService.timeAlert$
-    .subscribe((data: Alert[]) => {
-      this.alerts = data.filter(alert => alert.category === this.title);
-    });
+      .subscribe((data: Alert[]) => {
+        this.alerts = data.filter(alert => alert.category === this.title);
+      });
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.changeDetectorRef.detectChanges();
-    
+
   }
 
-  getColumnName(name: string): string{
+  getColumnName(name: string): string {
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
 
   onAddClick() {
-    console.log('add');
+    this.addEvent.emit();
+  }
+
+  onEditClick(item: any) {
+    this.editEvent.emit(item)
+  }
+
+  onDeleteClick(item: any) {
+    this.deleteEvent.emit(item)
   }
 
   ngOnDestroy() {

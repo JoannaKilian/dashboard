@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Car } from 'src/app/core/models/car.models';
 
+import { AddCarDialogComponent } from './components/add-car-dialog/add-car-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UpdateCarDialogComponent } from './components/update-car-dialog/update-car-dialog.component';
+
 @Component({
   selector: 'app-cars',
   templateUrl: './cars.component.html',
@@ -47,4 +51,32 @@ export class CarsComponent {
   ];
 
   headers: string[] = ['brand', 'model', 'productionYear'];
+
+  constructor(public dialog: MatDialog) { }
+
+  addCarDialog() {
+    const dialogRef = this.dialog.open(AddCarDialogComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  editCarDialog(data: Car) {
+    const dialogRef = this.dialog.open(UpdateCarDialogComponent, {
+      width: '500px',
+      data
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  deleteCarDialog(data: Car) {
+    console.log('deleteCarDialog', data);
+  }
+
 }

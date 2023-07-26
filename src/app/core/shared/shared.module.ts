@@ -17,6 +17,9 @@ import { TableComponent } from './components/table/table.component';
 import { AddButtonComponent } from './layout/add-button/add-button.component';
 import { ProgressComponent } from './components/progress/progress.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CreateFormComponent } from './components/form/create-form/create-form.component';
+import { FormControlComponent } from './components/form/form-control/form-control.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     HeaderComponent,
     TableComponent,
     AddButtonComponent,
-    ProgressComponent
+    ProgressComponent,
+    CreateFormComponent,
+    FormControlComponent
   ],
   exports: [
     BaseComponent,
@@ -38,7 +43,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     HeaderComponent,
     TableComponent,
     AddButtonComponent,
-    ProgressComponent
+    ProgressComponent,
+    CreateFormComponent,
+    FormControlComponent
   ],
   imports: [
     RouterModule,
@@ -49,7 +56,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSortModule,
     MatMenuModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule {

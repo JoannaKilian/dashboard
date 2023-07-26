@@ -11,6 +11,12 @@ import { PersonDetailsComponent } from './components/persons/components/person-d
 import { MatIconModule } from '@angular/material/icon';
 import { CarDetailsComponent } from './components/cars/components/car-details/car-details.component';
 import { PetDetailsComponent } from './components/pets/components/person-details/pet-details.component';
+import { CarFormComponent } from './components/cars/components/car-form/car-form.component';
+import { UpdateCarDialogComponent } from './components/cars/components/update-car-dialog/update-car-dialog.component';
+import { AddCarDialogComponent } from './components/cars/components/add-car-dialog/add-car-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +26,10 @@ import { PetDetailsComponent } from './components/pets/components/person-details
     PetsComponent,
     PersonDetailsComponent,
     CarDetailsComponent,
-    PetDetailsComponent
+    PetDetailsComponent,
+    CarFormComponent,
+    UpdateCarDialogComponent,
+    AddCarDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -28,10 +37,12 @@ import { PetDetailsComponent } from './components/pets/components/person-details
     SharedModule,
     MatTabsModule,
     MatIconModule,
+    MatDialogModule
   ],
   exports: [
     PersonDetailsComponent,
-    CarDetailsComponent
+    CarDetailsComponent,
+    ReactiveFormsModule
   ],
   providers: []
 })

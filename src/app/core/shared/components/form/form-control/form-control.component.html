@@ -1,0 +1,8 @@
+<ng-container [ngSwitch]="type">
+    <label></label>
+    <textarea *ngSwitchCase="'textarea'" [formControl]="control"></textarea>
+    <select *ngSwitchCase="'select'" [formControl]="control">
+        <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+    </select>
+    <input *ngSwitchDefault [type]="type" [formControl]="control" />
+</ng-container>
