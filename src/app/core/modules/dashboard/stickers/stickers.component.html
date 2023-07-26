@@ -2,7 +2,7 @@
   <div class="wrap_container">
     <app-add-button (addEvent)="onAddNote()"></app-add-button>
     <ng-container *ngFor="let note of notes; let i = index">
-      <div class="box" cdkDragBoundary=".wrap" cdkDrag>
+      <div class="box" cdkDragBoundary=".wrap_container" cdkDrag>
         <div class="box_actions">
           <mat-icon *ngIf="!notes[i].edit" (click)="notes[i].edit = !notes[i].edit">edit</mat-icon>
           <ng-container *ngIf="notes[i].edit">

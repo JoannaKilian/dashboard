@@ -5,21 +5,22 @@
   height: 48px;
   padding-left: 14px;
   box-shadow: var(--shadow);
+  background-color: var(--color-base-light);
 
   p {
-    color: var(--color-base-dark);
+    color: var(--color-text-light);
     font-size: var(--font-title);
     font-weight: 700;
     margin-top: 12px;
   }
 
   mat-icon{
-    color: var(--color-base-dark);
+    color: var(--color-text-light);
     margin-left: 20px;
     cursor: pointer;
 
     &:hover{
-      color: var(--color-base-light);
+      color: var(--color-base-light-dark);
     }
   }
 }

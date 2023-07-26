@@ -1,31 +1,53 @@
 <div class="wrap">
-    <div class="auth">
-        <div class="auth_icons">
-            <div class="icon"><mat-icon>person</mat-icon></div>
-            <div class="icon"><mat-icon>directions_car</mat-icon></div>
-            <div class="icon"><mat-icon>pets</mat-icon></div>
-        </div>
-        <div class="auth_container">
-            <p>Login</p>
-            <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-              <div class="auth_control">
-                <label for="username">E-mail:</label>
-                <input type="text" id="username" formControlName="username">
-                <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.touched" class="error-message">
-                    Email is required.
-                </div>
-              </div>
-              <div class="auth_control">
-                <label for="password">Password:</label>
-                <input type="password" id="password" formControlName="password">
-                <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched" class="error-message">
-                    Password is required.
-                </div>
-              </div>
-              <ng-container></ng-container>
-              <button type="submit" [disabled]="authForm.invalid">Log in</button>
-              <div class="auth_switch"><p>Sing Up</p></div>
-            </form>
-          </div>
+  <div class="auth">
+    <div class="auth_icons">
+      <div class="icon"><mat-icon>person</mat-icon></div>
+      <div class="icon"><mat-icon>directions_car</mat-icon></div>
+      <div class="icon"><mat-icon>pets</mat-icon></div>
     </div>
+    <div class="auth_container">
+      <p>{{isLogin ? 'Login' : 'Sing Up'}}</p>
+      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        <div class="auth_control">
+          <label for="username">E-mail:</label>
+          <input type="text" id="username" formControlName="username">
+          <div *ngIf="authForm.get('username')?.hasError('required') && authForm.get('username')?.touched" class="error-message">
+            Email is required.
+          </div>
+          <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.hasError('minlength') && authForm.get('username')?.touched" class="error-message">
+            Email must be at least 4 characters long.
+          </div>
+        </div>
+        <div class="auth_control">
+          <label for="password">Password:</label>
+          <input type="password" id="password" formControlName="password">
+          <div *ngIf="authForm.get('password')?.hasError('required') && authForm.get('password')?.touched" class="error-message">
+            Password is required.
+          </div>
+          <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.hasError('minlength') && authForm.get('password')?.touched" class="error-message">
+            Password must be at least 4 characters long.
+          </div>
+        </div>
+        <ng-container *ngIf="!isLogin">
+          <div class="auth_control">
+            <label for="password">Repeat Password:</label>
+            <input type="password" id="password" formControlName="repeatPassword">
+            <div *ngIf="authForm.get('repeatPassword')?.hasError('required') && authForm.get('repeatPassword')?.touched" class="error-message">
+              Password is required.
+            </div>
+            <div
+              *ngIf="repeatPasswordError && authForm.get('repeatPassword')?.touched"
+              class="error-message">
+              Repeat Password is different.
+            </div>
+          </div>
+        </ng-container>
+        <ng-container></ng-container>
+        <button type="submit" [disabled]="authForm.invalid || repeatPasswordError">{{isLogin ? 'Log in' : 'Sing Up'}}<mat-icon>{{authForm.invalid || repeatPasswordError ? 'lock' : 'lock_open'}}</mat-icon></button>
+        <div (click)="onSwitchLogin()" class="auth_switch">
+          <p>{{!isLogin ? 'Log in' : 'Sing Up'}}</p>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
