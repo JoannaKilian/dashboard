@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from "@angular/material/sort";
@@ -19,7 +19,7 @@ import { Alert } from 'src/app/core/models/alert.models';
     ]),
   ],
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() dataTable: any[];
   @Input() columnsToDisplay: string[];
@@ -61,7 +61,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.changeDetectorRef.detectChanges();
+  }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['dataTable'] && !changes['dataTable'].firstChange) {
+      this.dataSource = new MatTableDataSource(this.dataTable);
+    }
   }
 
   getColumnName(name: string): string {

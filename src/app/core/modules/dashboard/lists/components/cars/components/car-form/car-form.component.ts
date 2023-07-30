@@ -1,62 +1,36 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Car } from 'src/app/core/models/car.models';
 import { UpdateCarDialogComponent } from '../update-car-dialog/update-car-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FieldType, FormConfig } from 'src/app/core/models/form-config.models';
-import { Validators } from '@angular/forms';
-import { CarService } from 'src/app/core/store/car/car.service';
+import { FormConfig } from 'src/app/core/models/form-config.models';
+import { CarService } from 'src/app/core/services/cars.service';
 
 @Component({
   selector: 'app-car-form',
   templateUrl: './car-form.component.html',
   styleUrls: ['./car-form.component.scss']
 })
-export class CarFormComponent {
+export class CarFormComponent implements OnInit {
+
   @Input() car: Car;
 
-  formFields: FormConfig[] = [
-    {
-      type: FieldType.Select, label: 'Brand', name: 'brand', options: [
-        'Toyota',
-        'Volkswagen',
-        'Ford',
-        'Honda',
-        'Chevrolet',
-        'Nissan',
-        'Hyundai',
-        'BMW'
-      ], validations: [Validators.required]
-    },
-    { type: FieldType.Text, label: 'Model', name: 'model' },
-    { type: FieldType.Number, label: 'Production Year', name: 'productionYear' },
-    {
-      type: FieldType.Select, label: 'Color', name: 'color', options: [
-        'Red',
-        'Blue',
-        'Green',
-        'Black',
-        'White',
-        'Yellow',
-        'Silver',
-        'Gray'
-      ]
-    },
-    { type: FieldType.Date, label: 'Insurance Date', name: 'insuranceDate', validations: [Validators.required] },
-    { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity' },
-    { type: FieldType.Number, label: 'Engine Power', name: 'enginePower' },
-  ];
+  formFields: FormConfig[];
 
   constructor(
     public dialogRef: MatDialogRef<UpdateCarDialogComponent>,
     private carService: CarService
   ) { }
 
+  ngOnInit(): void {
+    this.formFields = this.carService.getFormFields();
+  }
+
   closeHandler(): void {
     this.dialogRef.close();
   }
 
   submitHandler(formValue: Car) {
-    this.carService.addCar(formValue)
+    this.carService.addNewCar(formValue);
   }
 
   genderOptions = [
