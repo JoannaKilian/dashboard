@@ -34,10 +34,8 @@ export class CreateFormComponent implements OnInit {
 
 
   onSubmit() {
-    // if (this.form.invalid) {
-    //   return
-    // }
-    this.submitEvent.emit();
+    this.submitEvent.emit(this.form.value);
+    
     this.onCloseClick();
   }
 

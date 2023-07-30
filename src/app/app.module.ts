@@ -23,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MatIconModule,
     ReactiveFormsModule, 
-    HttpClientModule, StoreModule.forRoot({}, {})
+    HttpClientModule, 
+    StoreModule.forRoot({}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent]

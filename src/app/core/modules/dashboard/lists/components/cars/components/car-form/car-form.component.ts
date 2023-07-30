@@ -4,6 +4,7 @@ import { UpdateCarDialogComponent } from '../update-car-dialog/update-car-dialog
 import { MatDialogRef } from '@angular/material/dialog';
 import { FieldType, FormConfig } from 'src/app/core/models/form-config.models';
 import { Validators } from '@angular/forms';
+import { CarService } from 'src/app/core/store/car/car.service';
 
 @Component({
   selector: 'app-car-form',
@@ -14,23 +15,48 @@ export class CarFormComponent {
   @Input() car: Car;
 
   formFields: FormConfig[] = [
-    { type: FieldType.Email, label: 'Email', name: 'email', validations: [Validators.required, Validators.email] },
-    { type: FieldType.Password, label: 'Password', name: 'password', validations: [Validators.required] },
-    { type: FieldType.Textarea, label: 'Description', name: 'description' },
-    { type: FieldType.Select, label: 'Gender', name: 'gender', options: ['Male', 'Female', 'Other'], validations: [Validators.required] },
-    { type: FieldType.Number, label: 'Age', name: 'age', validations: [Validators.required] },
+    {
+      type: FieldType.Select, label: 'Brand', name: 'brand', options: [
+        'Toyota',
+        'Volkswagen',
+        'Ford',
+        'Honda',
+        'Chevrolet',
+        'Nissan',
+        'Hyundai',
+        'BMW'
+      ], validations: [Validators.required]
+    },
+    { type: FieldType.Text, label: 'Model', name: 'model' },
+    { type: FieldType.Number, label: 'Production Year', name: 'productionYear' },
+    {
+      type: FieldType.Select, label: 'Color', name: 'color', options: [
+        'Red',
+        'Blue',
+        'Green',
+        'Black',
+        'White',
+        'Yellow',
+        'Silver',
+        'Gray'
+      ]
+    },
+    { type: FieldType.Date, label: 'Insurance Date', name: 'insuranceDate', validations: [Validators.required] },
+    { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity' },
+    { type: FieldType.Number, label: 'Engine Power', name: 'enginePower' },
   ];
 
   constructor(
     public dialogRef: MatDialogRef<UpdateCarDialogComponent>,
-  ){}
+    private carService: CarService
+  ) { }
 
   closeHandler(): void {
     this.dialogRef.close();
   }
 
-  submitHandler(formValue: any){
-    console.log('submit 222')
+  submitHandler(formValue: Car) {
+    this.carService.addCar(formValue)
   }
 
   genderOptions = [

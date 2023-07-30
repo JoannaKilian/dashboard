@@ -5,6 +5,7 @@ export enum FieldType {
     Textarea = 'textarea',
     Select = 'select',
     Number = 'number',
+    Date = 'date'
   }
   
   export interface FormConfig {
