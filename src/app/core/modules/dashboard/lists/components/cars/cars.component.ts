@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./cars.component.scss']
 })
 export class CarsComponent implements OnInit, OnDestroy {
-  data: Car[];
+  data: Car[] = [];
 
   headers: string[] = ['brand', 'model', 'productionYear'];
   private subscription: Subscription;
@@ -21,16 +21,14 @@ export class CarsComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private carService: CarService,
-    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.data = this.carService.getCarsList();
-    this.subscription = this.carService.carsChanged.subscribe((cars: Car[])=>{
-      this.data = cars;
-      this.changeDetectorRef.detectChanges();
-    })
-
+    this.carService.getCarsList();
+    this.carService.cars$.subscribe((data: Car[]) => {
+      this.data = data;
+      console.log('data', data)
+    });
   }
 
   addCarDialog() {
@@ -54,8 +52,8 @@ export class CarsComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteCarDialog(data: Car) {
-    console.log('deleteCarDialog', data);
+  deleteCarDialog(index: Car) {
+    console.log('deleteCarDialog', index);
   }
 
   ngOnDestroy(): void {

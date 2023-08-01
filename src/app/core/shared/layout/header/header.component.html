@@ -1,4 +1,10 @@
 <div class="header">
-  <p>Dashboard</p>
-  <mat-icon (click)="onOpenMenu()">reorder</mat-icon>
+  <p>Welcome in your dashboard</p>
+  <div class="header_menu"> 
+    <mat-icon (click)="onOpenMenu()">reorder</mat-icon>
+    <div class="header_logout" (click)="logout()">
+      <p>Log out</p>
+      <mat-icon>exit_to_app</mat-icon>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../services/auth.service";
+import { Subscription } from "rxjs";
 
 @Component({
     selector: 'app-auth',
@@ -7,26 +9,36 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
     styleUrls: ['./auth.component.scss']
 })
 
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
 
     authForm: FormGroup;
-    isLogin: boolean = true;
+    login: boolean = true;
     repeatPasswordError: boolean = false;
+    subscription: Subscription;
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(
+        private formBuilder: FormBuilder,
+        private auth: AuthService
+    ) { }
 
     ngOnInit(): void {
         this.registerForm();
         this.authForm.get('repeatPassword')?.valueChanges.subscribe(() => {
             this.checkRepeatPassword();
         });
+        this.subscription = this.auth.toLogin$.subscribe(data => {
+            this.login = data;
+            this.authForm.patchValue({ password: '', repeatPassword: '' });
+            this.authForm.get('repeatPassword')?.markAsUntouched();
+            this.authForm.get('password')?.markAsUntouched();
+        })
     }
 
     registerForm() {
         this.authForm = this.formBuilder.group({
-            username: new FormControl('', [Validators.required, Validators.minLength(4)]),
-            password: new FormControl('', [Validators.required, Validators.minLength(4)]),
-            repeatPassword: new FormControl('', Validators.minLength(4))
+            username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.email]),
+            password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            repeatPassword: new FormControl('', Validators.minLength(6))
         })
     }
 
@@ -42,12 +54,20 @@ export class AuthComponent implements OnInit {
         const username = this.authForm.get('username')?.value;
         const password = this.authForm.get('password')?.value;
 
-        this.authForm.reset();
+        if (this.login) {
+            this.auth.login(username, password)
+        } else {
+            this.auth.register(username, password)
+        }
+
+        // this.authForm.reset();
+
     }
 
+
     onSwitchLogin() {
-        this.isLogin = !this.isLogin;
-        if (this.isLogin) {
+        this.login = !this.login;
+        if (this.login) {
             this.authForm.get('repeatPassword')?.clearValidators();
         } else {
             this.authForm.get('repeatPassword')?.addValidators([Validators.required])
@@ -56,5 +76,9 @@ export class AuthComponent implements OnInit {
         this.authForm.patchValue({ password: '', repeatPassword: '' });
         this.authForm.get('repeatPassword')?.markAsUntouched();
         this.authForm.get('password')?.markAsUntouched();
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 }

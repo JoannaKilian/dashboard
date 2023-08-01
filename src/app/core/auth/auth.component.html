@@ -6,7 +6,7 @@
       <div class="icon"><mat-icon>pets</mat-icon></div>
     </div>
     <div class="auth_container">
-      <p>{{isLogin ? 'Login' : 'Sing Up'}}</p>
+      <p>{{login ? 'Login' : 'Sing Up'}}</p>
       <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
         <div class="auth_control">
           <label for="username">E-mail:</label>
@@ -25,10 +25,10 @@
             Password is required.
           </div>
           <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.hasError('minlength') && authForm.get('password')?.touched" class="error-message">
-            Password must be at least 4 characters long.
+            Password must be at least 6 characters long.
           </div>
         </div>
-        <ng-container *ngIf="!isLogin">
+        <ng-container *ngIf="!login">
           <div class="auth_control">
             <label for="password">Repeat Password:</label>
             <input type="password" id="password" formControlName="repeatPassword">
@@ -43,9 +43,9 @@
           </div>
         </ng-container>
         <ng-container></ng-container>
-        <button class="button" type="submit" [disabled]="authForm.invalid || repeatPasswordError">{{isLogin ? 'Log in' : 'Sing Up'}}<mat-icon>{{authForm.invalid || repeatPasswordError ? 'lock' : 'lock_open'}}</mat-icon></button>
+        <button class="button" type="submit" [disabled]="authForm.invalid || repeatPasswordError">{{login ? 'Log in' : 'Sing Up'}}<mat-icon>{{authForm.invalid || repeatPasswordError ? 'lock' : 'lock_open'}}</mat-icon></button>
         <div (click)="onSwitchLogin()" class="auth_switch">
-          <p>{{!isLogin ? 'Log in' : 'Sing Up'}}</p>
+          <p>{{!login ? 'Log in' : 'Sing Up'}}</p>
         </div>
       </form>
     </div>

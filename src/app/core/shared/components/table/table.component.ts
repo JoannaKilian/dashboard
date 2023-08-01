@@ -81,8 +81,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     this.editEvent.emit(item)
   }
 
-  onDeleteClick(item: any) {
-    this.deleteEvent.emit(item)
+  onDeleteClick(i: number) {
+    console.log(i);
+    this.deleteEvent.emit(i)
   }
 
   ngOnDestroy() {

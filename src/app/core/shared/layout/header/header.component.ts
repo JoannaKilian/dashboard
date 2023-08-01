@@ -1,4 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ export class HeaderComponent implements OnInit {
   @Output() openEvent = new EventEmitter<boolean>;
   openMenu: boolean;
 
-  constructor() {
+  constructor(private auth: AuthService) {
   }
 
 
@@ -20,6 +21,10 @@ export class HeaderComponent implements OnInit {
   onOpenMenu() {
     this.openMenu = !this.openMenu
     this.openEvent.emit(this.openMenu)
+  }
+
+  logout(){
+    this.auth.signout();
   }
 
 

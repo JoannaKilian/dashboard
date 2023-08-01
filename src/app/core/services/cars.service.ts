@@ -1,5 +1,5 @@
-import { EventEmitter, Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Car } from "../models/car.models";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { Validators } from "@angular/forms";
@@ -12,26 +12,9 @@ import { HttpClient } from "@angular/common/http";
 export class CarService {
 
     carsChanged: Subject<Car[]> = new Subject<Car[]>();
-    private carsList: Car[] = [
-        {
-            brand: "Toyota",
-            model: "Corolla",
-            productionYear: 2022,
-            color: "red",
-            insuranceDate: "2024-01-15",
-            engineCapacity: 1.8,
-            enginePower: 140
-        },
-        {
-            brand: "Honda",
-            model: "Civic",
-            productionYear: 2021,
-            color: "blue",
-            insuranceDate: "2023-07-19",
-            engineCapacity: 1.5,
-            enginePower: 130
-        }
-    ];
+    private carsList: Car[] = [];
+    private carsListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
+    public cars$: Observable<Car[]> = this.carsListSubject.asObservable();
 
     private formFields: FormConfig[] = [
         {
@@ -68,40 +51,44 @@ export class CarService {
     private carsUrl = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/cars.json';
 
     constructor(
-        private http: HttpClient) { };
+        private http: HttpClient) {
+    };
 
     getCarsList() {
         this.http.get<Car[]>(this.carsUrl)
-            .subscribe(response => {
-                console.log(response)
+            .subscribe((response: Car[]) => {
+                this.carsList = response;
+                this.carsListSubject.next(response);
             })
-        return this.carsList.slice();
     }
 
     addNewCar(car: Car) {
-        this.carsList.push(car);
-        this.carsChanged.next(this.carsList.slice());
-        this.http.put<Car[]>(this.carsUrl, this.carsList.slice())
-            .subscribe(response => {
-                console.log(response)
+        const clonedCarsList = [...this.carsList];
+        clonedCarsList.push(car);
+        this.http.put<Car[]>(this.carsUrl, clonedCarsList)
+            .subscribe(() => {
+                this.carsList = clonedCarsList;
+                this.carsListSubject.next([...this.carsList])
             })
     }
 
     updateCar(index: number, updatedCar: Car) {
-        this.carsList[index] = updatedCar;
-        this.carsChanged.next(this.carsList.slice());
-        this.http.put<Car[]>(this.carsUrl, this.carsList.slice())
-        .subscribe(response => {
-            console.log(response)
-        })
+        const clonedCarsList = [...this.carsList];
+        clonedCarsList[index] = updatedCar;
+        this.http.put<Car>(this.carsUrl, clonedCarsList)
+            .subscribe(() => {
+                this.carsList = clonedCarsList;
+                this.carsListSubject.next([...this.carsList])
+            })
     }
 
     deleteCar(index: number) {
-        this.carsList.splice(index, 1);
-        this.carsChanged.next(this.carsList.slice());
-        this.http.put<Car[]>(this.carsUrl, this.carsList.slice())
-            .subscribe(response => {
-                console.log(response)
+        const clonedCarsList = [...this.carsList];
+        clonedCarsList.splice(index, 1);
+        this.http.put<Car[]>(this.carsUrl, clonedCarsList)
+            .subscribe(() => {
+                this.carsList = clonedCarsList;
+                this.carsListSubject.next([...this.carsList])
             })
     }
 
