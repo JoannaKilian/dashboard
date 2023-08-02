@@ -7,10 +7,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthComponent } from './core/auth/auth.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat'
 import { environment } from 'src/environments/environment';
+import { ForgotPasswordComponent } from './core/auth/components/forgot-password/forgot-password.component';
 
 
 
@@ -18,6 +19,7 @@ import { environment } from 'src/environments/environment';
   declarations: [
     AppComponent,
     AuthComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,7 @@ import { environment } from 'src/environments/environment';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
+    FormsModule,
     ReactiveFormsModule, 
     HttpClientModule, 
     StoreModule.forRoot({}, {}),

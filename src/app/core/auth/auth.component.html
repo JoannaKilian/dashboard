@@ -6,48 +6,59 @@
       <div class="icon"><mat-icon>pets</mat-icon></div>
     </div>
     <div class="auth_container">
-      <p>{{login ? 'Login' : 'Sing Up'}}</p>
-      <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-        <div class="auth_control">
-          <label for="username">E-mail:</label>
-          <input type="text" id="username" formControlName="username">
-          <div *ngIf="authForm.get('username')?.hasError('required') && authForm.get('username')?.touched" class="error-message">
-            Email is required.
-          </div>
-          <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.hasError('minlength') && authForm.get('username')?.touched" class="error-message">
-            Email must be at least 4 characters long.
-          </div>
-        </div>
-        <div class="auth_control">
-          <label for="password">Password:</label>
-          <input type="password" id="password" formControlName="password">
-          <div *ngIf="authForm.get('password')?.hasError('required') && authForm.get('password')?.touched" class="error-message">
-            Password is required.
-          </div>
-          <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.hasError('minlength') && authForm.get('password')?.touched" class="error-message">
-            Password must be at least 6 characters long.
-          </div>
-        </div>
-        <ng-container *ngIf="!login">
+      <ng-container *ngIf="!forgotPassword; else forgot">
+        <p>{{login ? 'Login' : 'Sing Up'}}</p>
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
           <div class="auth_control">
-            <label for="password">Repeat Password:</label>
-            <input type="password" id="password" formControlName="repeatPassword">
-            <div *ngIf="authForm.get('repeatPassword')?.hasError('required') && authForm.get('repeatPassword')?.touched" class="error-message">
+            <label for="username">E-mail:</label>
+            <input type="text" id="username" formControlName="username">
+            <div *ngIf="authForm.get('username')?.hasError('required') && authForm.get('username')?.touched" class="error-message">
+              Email is required.
+            </div>
+            <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.hasError('minlength') && authForm.get('username')?.touched" class="error-message">
+              Email must be at least 4 characters long.
+            </div>
+          </div>
+          <div class="auth_control">
+            <label for="password">Password:</label>
+            <input type="password" id="password" formControlName="password">
+            <div *ngIf="authForm.get('password')?.hasError('required') && authForm.get('password')?.touched" class="error-message">
               Password is required.
             </div>
-            <div
-              *ngIf="repeatPasswordError && authForm.get('repeatPassword')?.touched"
-              class="error-message">
-              Repeat Password is different.
+            <div *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.hasError('minlength') && authForm.get('password')?.touched" class="error-message">
+              Password must be at least 6 characters long.
             </div>
           </div>
-        </ng-container>
-        <ng-container></ng-container>
-        <button class="button" type="submit" [disabled]="authForm.invalid || repeatPasswordError">{{login ? 'Log in' : 'Sing Up'}}<mat-icon>{{authForm.invalid || repeatPasswordError ? 'lock' : 'lock_open'}}</mat-icon></button>
-        <div (click)="onSwitchLogin()" class="auth_switch">
-          <p>{{!login ? 'Log in' : 'Sing Up'}}</p>
-        </div>
-      </form>
+          <ng-container *ngIf="!login">
+            <div class="auth_control">
+              <label for="password">Repeat Password:</label>
+              <input type="password" id="password" formControlName="repeatPassword">
+              <div *ngIf="authForm.get('repeatPassword')?.hasError('required') && authForm.get('repeatPassword')?.touched" class="error-message">
+                Password is required.
+              </div>
+              <div
+                *ngIf="repeatPasswordError && authForm.get('repeatPassword')?.touched"
+                class="error-message">
+                Repeat Password is different.
+              </div>
+            </div>
+          </ng-container>
+          <button class="button" type="submit" [disabled]="authForm.invalid || repeatPasswordError">{{login ? 'Log in' : 'Sing Up'}}<mat-icon>{{authForm.invalid || repeatPasswordError ? 'lock' : 'lock_open'}}</mat-icon></button>
+          <div (click)="onSwitchLogin()" class="auth_switch">
+            <p>{{!login ? 'Log in' : 'Sing Up'}}</p>
+          </div>
+          <div (click)="forgotPassword = true" class="auth_switch">
+            <p>Forgot your password?</p>
+          </div>
+        </form>
+      </ng-container>
+      <ng-template #forgot>
+        <app-forgot-password (isForgotPasswordOpenEvent)="forgotHandler($event)">
+          <div (click)="forgotPassword = false" class="auth_switch">
+            <p>Back to login</p>
+          </div>
+        </app-forgot-password>
+      </ng-template>
     </div>
   </div>
 </div>

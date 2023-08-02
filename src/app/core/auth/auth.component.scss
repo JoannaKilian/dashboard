@@ -61,7 +61,7 @@
             p {
                 color: var(--color-text-light);
                 font-size: var(--font-title);
-                margin-bottom: 30px;
+                margin-bottom: 10px;
             }
         }
 
@@ -87,7 +87,8 @@
         }
 
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="email"] {
             width: 400px;
             padding: 5px;
         }

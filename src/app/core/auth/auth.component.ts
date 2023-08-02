@@ -14,6 +14,10 @@ export class AuthComponent implements OnInit, OnDestroy {
     authForm: FormGroup;
     login: boolean = true;
     repeatPasswordError: boolean = false;
+
+    forgotPassword: boolean = false;
+    email: string = '';
+
     subscription: Subscription;
 
     constructor(
@@ -59,13 +63,11 @@ export class AuthComponent implements OnInit, OnDestroy {
         } else {
             this.auth.register(username, password)
         }
-
-        // this.authForm.reset();
-
     }
 
 
     onSwitchLogin() {
+        this.forgotPassword = false;
         this.login = !this.login;
         if (this.login) {
             this.authForm.get('repeatPassword')?.clearValidators();
@@ -76,6 +78,16 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.authForm.patchValue({ password: '', repeatPassword: '' });
         this.authForm.get('repeatPassword')?.markAsUntouched();
         this.authForm.get('password')?.markAsUntouched();
+    }
+
+    forgotPasswordClick() {
+        console.log(this.email);
+        this.auth.forgotPassword(this.email);
+        this.email = '';
+    }
+
+    forgotHandler(isForgotPasswordOpen: boolean) {
+        this.forgotPassword = isForgotPasswordOpen;
     }
 
     ngOnDestroy() {
