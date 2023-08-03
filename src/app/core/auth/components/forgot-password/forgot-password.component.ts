@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -7,9 +7,10 @@ import { AuthService } from 'src/app/core/services/auth.service';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
   email: string = '';
- @Output() isForgotPasswordOpenEvent: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() isForgotPasswordOpenEvent: EventEmitter<boolean> = new EventEmitter<boolean>()
+  goToLogin: boolean;
 
   subscription: Subscription;
 
@@ -18,14 +19,23 @@ export class ForgotPasswordComponent implements OnInit {
   ) { }
 
   forgotPassword() {
+    console.log('forgotHandler')
+    if(this.email !== ''){
+      this.auth.forgotPassword(this.email);
+      this.email = '';
+      this.isForgotPasswordOpenEvent.emit(!this.goToLogin)
+    }
     console.log(this.email);
-    this.auth.forgotPassword(this.email);
-    this.email = '';
   }
 
   ngOnInit(): void {
     this.subscription = this.auth.toLogin$.subscribe((data) => {
-      this.isForgotPasswordOpenEvent.emit(!data)
+      this.goToLogin = data
     })
+  }
+
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

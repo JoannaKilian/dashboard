@@ -1,0 +1,29 @@
+<div class="header">
+    <ng-container [ngSwitch]="data.type">
+        <mat-icon *ngSwitchDefault>info</mat-icon>
+        <mat-icon *ngSwitchCase="'warning' && 'error'">warning</mat-icon>
+        <mat-icon *ngSwitchCase="'submit'">check_circle_outline</mat-icon>
+    </ng-container>
+    <h1 mat-dialog-title>{{ data.title }}</h1>
+</div>
+<div class="description" mat-dialog-content>
+    {{ data.description }}
+</div>
+<div mat-dialog-actions>
+    <ng-container [ngSwitch]="data.type">
+        <div *ngSwitchDefault>
+            <button class="button" mat-button mat-dialog-close>Ok</button>
+        </div>
+        <div *ngSwitchCase="'error'">
+            <button class="button" mat-button mat-dialog-close>Ok</button>
+        </div>
+        <div *ngSwitchCase="'warning'">
+            <button class="button" mat-button mat-dialog-close>Back</button>
+            <button class="button" mat-button mat-dialog-close cdkFocusInitial>I am sure</button>
+        </div>
+        <div *ngSwitchCase="'submit'">
+            <button class="button" mat-button mat-dialog-close>Back</button>
+            <button class="button" mat-button mat-dialog-close cdkFocusInitial>Submit</button>
+        </div>
+    </ng-container>
+</div>

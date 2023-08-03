@@ -18,6 +18,9 @@
             <div *ngIf="authForm.get('username')?.invalid && authForm.get('username')?.hasError('minlength') && authForm.get('username')?.touched" class="error-message">
               Email must be at least 4 characters long.
             </div>
+            <div *ngIf="authForm.get('username')?.hasError('email') && authForm.get('username')?.touched && !authForm.get('username')?.hasError('minlength')" class="error-message">
+              Wrong email format.
+            </div>
           </div>
           <div class="auth_control">
             <label for="password">Password:</label>

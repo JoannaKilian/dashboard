@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat'
 import { environment } from 'src/environments/environment';
 import { ForgotPasswordComponent } from './core/auth/components/forgot-password/forgot-password.component';
+import { SharedModule } from './core/shared/shared.module';
 
 
 
@@ -30,6 +31,7 @@ import { ForgotPasswordComponent } from './core/auth/components/forgot-password/
     FormsModule,
     ReactiveFormsModule, 
     HttpClientModule, 
+    SharedModule,
     StoreModule.forRoot({}, {}),
   ],
   providers: [],

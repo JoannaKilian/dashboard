@@ -20,6 +20,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CreateFormComponent } from './components/form/create-form/create-form.component';
 import { FormControlComponent } from './components/form/form-control/form-control.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InfoDialogComponent } from './components/info-dialog/info-dialog/info-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddButtonComponent,
     ProgressComponent,
     CreateFormComponent,
-    FormControlComponent
+    FormControlComponent,
+    InfoDialogComponent
   ],
   exports: [
     BaseComponent,
@@ -45,7 +48,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddButtonComponent,
     ProgressComponent,
     CreateFormComponent,
-    FormControlComponent
+    FormControlComponent,
+    InfoDialogComponent
   ],
   imports: [
     RouterModule,
@@ -57,7 +61,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ]
 })
 export class SharedModule {

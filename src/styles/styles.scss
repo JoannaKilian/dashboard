@@ -4,13 +4,31 @@
 @import "button";
 
 
-.progress-container{
+.progress-container {
     flex-grow: 1;
     display: flex;
     justify-content: flex-end;
 }
 
-.mat-mdc-dialog-container .mdc-dialog__surface{
+.mat-mdc-dialog-container .mdc-dialog__surface {
     background-color: var(--color-base) !important;
     border: 8px double #fff;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__title {
+    color: var(--color-text-light) !important;
+    font-size: var(--font-title) !important;
+    margin: 17px 0px 7px 0 !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__content {
+    color: var(--color-text-light) !important;
+}
+
+.mat-mdc-dialog-container .mat-icon {
+    color: var(--color-text-light) !important;
+    font-size: 61px;
+    margin-left: 20px;
+    height: 60px;
+    width: 60px;
 }

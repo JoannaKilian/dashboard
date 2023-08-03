@@ -80,13 +80,10 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.authForm.get('password')?.markAsUntouched();
     }
 
-    forgotPasswordClick() {
-        console.log(this.email);
-        this.auth.forgotPassword(this.email);
-        this.email = '';
-    }
-
     forgotHandler(isForgotPasswordOpen: boolean) {
+        console.log('forgotHandler')
+        console.log(isForgotPasswordOpen, 'isForgotPasswordOpen')
+        console.log(this.forgotPassword, 'this.forgotPassword')
         this.forgotPassword = isForgotPasswordOpen;
     }
 
