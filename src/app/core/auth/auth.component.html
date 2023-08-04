@@ -11,7 +11,7 @@
         <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
           <div class="auth_control">
             <label for="username">E-mail:</label>
-            <input type="text" id="username" formControlName="username">
+            <input type="text" formControlName="username">
             <div *ngIf="authForm.get('username')?.hasError('required') && authForm.get('username')?.touched" class="error-message">
               Email is required.
             </div>
@@ -24,7 +24,8 @@
           </div>
           <div class="auth_control">
             <label for="password">Password:</label>
-            <input type="password" id="password" formControlName="password">
+            <input [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+            <mat-icon class="hide-password" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             <div *ngIf="authForm.get('password')?.hasError('required') && authForm.get('password')?.touched" class="error-message">
               Password is required.
             </div>
@@ -35,7 +36,8 @@
           <ng-container *ngIf="!login">
             <div class="auth_control">
               <label for="password">Repeat Password:</label>
-              <input type="password" id="password" formControlName="repeatPassword">
+              <input [type]="hideRepeatPassword ? 'password' : 'text'" formControlName="repeatPassword">
+              <mat-icon class="hide-password" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               <div *ngIf="authForm.get('repeatPassword')?.hasError('required') && authForm.get('repeatPassword')?.touched" class="error-message">
                 Password is required.
               </div>
@@ -58,7 +60,7 @@
       <ng-template #forgot>
         <app-forgot-password (isForgotPasswordOpenEvent)="forgotHandler($event)">
           <div (click)="forgotPassword = false" class="auth_switch">
-            <p>Back to login</p>
+            <p>Back</p>
           </div>
         </app-forgot-password>
       </ng-template>

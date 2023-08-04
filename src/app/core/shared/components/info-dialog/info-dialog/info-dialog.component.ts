@@ -10,10 +10,11 @@ import { InfoDialogData } from 'src/app/core/models/info-dialog.models';
 export class InfoDialogComponent {
 
   constructor(
-    // public dialogRef: MatDialogRef<InfoDialogComponent>,
+    public dialogRef: MatDialogRef<InfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InfoDialogData,
-  ) {}
+  ) { }
 
-
-
+  onSubmit() {
+    this.dialogRef.close('submit');
+  }
 }

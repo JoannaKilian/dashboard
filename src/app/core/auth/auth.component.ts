@@ -14,6 +14,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     authForm: FormGroup;
     login: boolean = true;
     repeatPasswordError: boolean = false;
+    hidePassword: boolean = true;
+    hideRepeatPassword: boolean = true;
 
     forgotPassword: boolean = false;
     email: string = '';
@@ -81,9 +83,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     forgotHandler(isForgotPasswordOpen: boolean) {
-        console.log('forgotHandler')
-        console.log(isForgotPasswordOpen, 'isForgotPasswordOpen')
-        console.log(this.forgotPassword, 'this.forgotPassword')
         this.forgotPassword = isForgotPasswordOpen;
     }
 

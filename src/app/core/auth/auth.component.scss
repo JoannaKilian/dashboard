@@ -14,7 +14,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 47%;
-        height: 65%;
+        height: 68%;
         background-color: var(--color-base);
         box-shadow: var(--shadow);
         border-radius: 4px;
@@ -61,7 +61,7 @@
             p {
                 color: var(--color-text-light);
                 font-size: var(--font-title);
-                margin-bottom: 10px;
+                margin-bottom: 20px;
             }
         }
 
@@ -71,11 +71,19 @@
 
             .error-message {
                 position: absolute;
-                top: 110%;
+                top: 104%;
                 left: 50%;
                 transform: translateX(-50%);
                 color: var(--color-alert);
                 font-size: var(--font-medium);
+            }
+
+            .hide-password {
+                position: absolute;
+                top: 25px;
+                left: 480px;
+                color: var(--color-base);
+                cursor: pointer;
             }
         }
 

@@ -6,7 +6,7 @@
     </ng-container>
     <h1 mat-dialog-title>{{ data.title }}</h1>
 </div>
-<div class="description" mat-dialog-content>
+<div *ngIf="data.description" class="description" mat-dialog-content>
     {{ data.description }}
 </div>
 <div mat-dialog-actions>
@@ -19,11 +19,11 @@
         </div>
         <div *ngSwitchCase="'warning'">
             <button class="button" mat-button mat-dialog-close>Back</button>
-            <button class="button" mat-button mat-dialog-close cdkFocusInitial>I am sure</button>
+            <button class="button" (click)="onSubmit()" mat-button mat-dialog-close cdkFocusInitial>I am sure</button>
         </div>
         <div *ngSwitchCase="'submit'">
             <button class="button" mat-button mat-dialog-close>Back</button>
-            <button class="button" mat-button mat-dialog-close cdkFocusInitial>Submit</button>
+            <button class="button" (click)="onSubmit()" mat-button mat-dialog-close cdkFocusInitial>Submit</button>
         </div>
     </ng-container>
 </div>

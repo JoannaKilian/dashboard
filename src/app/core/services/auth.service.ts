@@ -30,14 +30,14 @@ export class AuthService {
             localStorage.setItem('token', 'true');
             this.router.navigate(['/dashboard']);
         }, err => {
-            const dialogRef = this.dialog.open(InfoDialogComponent, {data: {
-                title: 'Error',
-                description: err.message,
-                type: 'error'
-            }});
-
-            dialogRef.afterClosed().subscribe(result => {
-                console.log(`Dialog result: ${result}`);
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Error',
+                    description: err.message,
+                    type: 'error'
+                }
+            });
+            dialogRef.afterClosed().subscribe(() => {
                 this.goToLoginSubject.next(true);
             });
         })
@@ -45,30 +45,83 @@ export class AuthService {
 
     register(email: string, password: string) {
         this.fireAuth.createUserWithEmailAndPassword(email, password).then(() => {
-            alert('Registration Successful')
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Registration Successful',
+                    description: 'Go to log in',
+                    type: 'info'
+                }
+            });
+            dialogRef.afterClosed().subscribe(() => {
+                this.goToLoginSubject.next(true);
+            });
             this.goToLoginSubject.next(true);
         }, err => {
-            alert(err.message);
-            this.goToLoginSubject.next(false);
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Error',
+                    description: err.message,
+                    type: 'error'
+                }
+            });
+            dialogRef.afterClosed().subscribe(() => {
+                this.goToLoginSubject.next(false);
+            });
         })
     }
 
     signout() {
         this.fireAuth.signOut().then(() => {
-            localStorage.removeItem('token');
-            this.router.navigate(['/login']);
-            this.goToLoginSubject.next(true);
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Confirm Leaving Dashboard',
+                    description: 'Are you sure you want to leave your dashboard?',
+                    type: 'submit'
+                }
+            });
+            dialogRef.afterClosed().subscribe((result) => {
+                if (result === 'submit') {
+                    localStorage.removeItem('token');
+                    this.router.navigate(['/login']);
+                    this.goToLoginSubject.next(true);
+                }
+            });
         }, err => {
-            alert(err.message);
-            this.goToLoginSubject.next(true);
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Error',
+                    description: err.message,
+                    type: 'error'
+                }
+            });
+            dialogRef.afterClosed().subscribe(() => {
+                this.goToLoginSubject.next(true);
+            });
         })
     }
 
     forgotPassword(email: string) {
         this.fireAuth.sendPasswordResetEmail(email).then(() => {
-            this.goToLoginSubject.next(false);
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Check your mailbox',
+                    type: 'info'
+                }
+            });
+            dialogRef.afterClosed().subscribe(() => {
+                this.goToLoginSubject.next(true);
+            });
         }, err => {
-            alert(err.message)
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Error',
+                    description: err.message,
+                    type: 'error'
+                }
+            });
+            dialogRef.afterClosed().subscribe(() => {
+                this.goToLoginSubject.next(true);
+            });
         })
     }
 

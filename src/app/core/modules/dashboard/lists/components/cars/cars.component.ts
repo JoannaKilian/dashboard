@@ -27,7 +27,6 @@ export class CarsComponent implements OnInit, OnDestroy {
     this.carService.getCarsList();
     this.carService.cars$.subscribe((data: Car[]) => {
       this.data = data;
-      console.log('data', data)
     });
   }
 

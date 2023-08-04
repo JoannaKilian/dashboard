@@ -19,13 +19,11 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   ) { }
 
   forgotPassword() {
-    console.log('forgotHandler')
-    if(this.email !== ''){
+    if (this.email !== '') {
       this.auth.forgotPassword(this.email);
       this.email = '';
       this.isForgotPasswordOpenEvent.emit(!this.goToLogin)
     }
-    console.log(this.email);
   }
 
   ngOnInit(): void {
