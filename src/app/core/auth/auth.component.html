@@ -56,6 +56,9 @@
             <p>Forgot your password?</p>
           </div>
         </form>
+        <div class="google">
+          <div (click)="signinWithGoogle()" class="google_button"></div>
+        </div>
       </ng-container>
       <ng-template #forgot>
         <app-forgot-password (isForgotPasswordOpenEvent)="forgotHandler($event)">

@@ -4,6 +4,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from "rxjs";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
+import { GoogleAuthProvider } from "@angular/fire/auth"
 
 @Injectable({
     providedIn: 'root'
@@ -26,8 +27,8 @@ export class AuthService {
 
 
     login(email: string, password: string) {
-        this.fireAuth.signInWithEmailAndPassword(email, password).then(() => {
-            localStorage.setItem('token', 'true');
+        this.fireAuth.signInWithEmailAndPassword(email, password).then((response) => {
+            localStorage.setItem('token', JSON.stringify(response.user?.uid));
             this.router.navigate(['/dashboard']);
         }, err => {
             const dialogRef = this.dialog.open(InfoDialogComponent, {
@@ -111,6 +112,24 @@ export class AuthService {
             dialogRef.afterClosed().subscribe(() => {
                 this.goToLoginSubject.next(true);
             });
+        }, err => {
+            const dialogRef = this.dialog.open(InfoDialogComponent, {
+                data: {
+                    title: 'Error',
+                    description: err.message,
+                    type: 'error'
+                }
+            });
+            dialogRef.afterClosed().subscribe(() => {
+                this.goToLoginSubject.next(true);
+            });
+        })
+    }
+
+    googleSignin() {
+        return this.fireAuth.signInWithPopup(new GoogleAuthProvider).then((response) => {
+            localStorage.setItem('token', JSON.stringify(response.user?.uid));
+            this.router.navigate(['/dashboard']);
         }, err => {
             const dialogRef = this.dialog.open(InfoDialogComponent, {
                 data: {

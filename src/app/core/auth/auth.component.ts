@@ -86,6 +86,10 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.forgotPassword = isForgotPasswordOpen;
     }
 
+    signinWithGoogle(){
+        this.auth.googleSignin();
+    }
+
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
