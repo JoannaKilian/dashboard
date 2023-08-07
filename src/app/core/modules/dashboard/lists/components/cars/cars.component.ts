@@ -32,23 +32,15 @@ export class CarsComponent implements OnInit, OnDestroy {
   }
 
   addCarDialog() {
-    const dialogRef = this.dialog.open(AddCarDialogComponent, {
+    this.dialog.open(AddCarDialogComponent, {
       width: '500px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
   editCarDialog(data: Car) {
-    const dialogRef = this.dialog.open(UpdateCarDialogComponent, {
+    this.dialog.open(UpdateCarDialogComponent, {
       width: '500px',
       data
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

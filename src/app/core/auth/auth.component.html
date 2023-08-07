@@ -48,7 +48,7 @@
               </div>
             </div>
           </ng-container>
-          <button class="button" type="submit" [disabled]="authForm.invalid || repeatPasswordError">{{login ? 'Log in' : 'Sing Up'}}<mat-icon>{{authForm.invalid || repeatPasswordError ? 'lock' : 'lock_open'}}</mat-icon></button>
+          <button type="submit" [disabled]="authForm.invalid || repeatPasswordError">{{login ? 'Log in' : 'Sing Up'}}<mat-icon>{{authForm.invalid || repeatPasswordError ? 'lock' : 'lock_open'}}</mat-icon></button>
           <div (click)="onSwitchLogin()" class="auth_switch">
             <p>{{!login ? 'Log in' : 'Sing Up'}}</p>
           </div>

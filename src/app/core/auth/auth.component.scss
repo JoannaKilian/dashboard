@@ -15,7 +15,7 @@
         transform: translate(-50%, -50%);
         width: 47%;
         height: 550px;
-        background-color: var(--color-base);
+        background-color: var(--color-base-dark);
         box-shadow: var(--shadow);
         border-radius: 4px;
 
@@ -102,11 +102,23 @@
 
         button {
             position: relative;
+            width: 200px;
+            padding: 10px;
+            margin: 20px;
+            border: none;
+            background-color: var(--color-base);
+            color: var(--color-text-light);
+            font-size: var(--font-subtitle);
+            box-shadow: var(--shadow);
 
             mat-icon {
                 position: absolute;
                 top: 7px;
                 right: 12px;
+            }
+
+            &:hover {
+                box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.336);
             }
         }
 
@@ -114,8 +126,6 @@
             background-color: #ccc;
             color: var(--color-base);
             cursor: not-allowed;
-            border: none;
-            box-shadow: none;
         }
 
         &_switch p {
@@ -140,7 +150,7 @@
             cursor: pointer;
 
             &:hover {
-                border: 0.5px solid var(--color-base);
+                box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.336);
             }
 
             &:active {

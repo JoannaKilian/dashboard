@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Car } from 'src/app/core/models/car.models';
 import { UpdateCarDialogComponent } from '../update-car-dialog/update-car-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -13,6 +13,7 @@ import { CarService } from 'src/app/core/services/cars.service';
 export class CarFormComponent implements OnInit {
 
   @Input() car: Car;
+  @Output() submitCarFormEvent: EventEmitter<Car> = new EventEmitter();
 
   formFields: FormConfig[];
 
@@ -23,7 +24,6 @@ export class CarFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.formFields = this.carService.getFormFields();
-    console.log('this.formFields',this.formFields)
   }
 
   closeHandler(): void {
@@ -31,6 +31,6 @@ export class CarFormComponent implements OnInit {
   }
 
   submitHandler(formValue: Car) {
-    this.carService.addNewCar(formValue);
+    this.submitCarFormEvent.emit(formValue);
   }
 }

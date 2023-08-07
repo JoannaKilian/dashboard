@@ -10,12 +10,12 @@ import { MenuService } from 'src/app/core/services/menu.service';
 })
 export class MainComponent {
   sections: Section[] = [
-    { title: 'Persons', value: 'persons' },
-    { title: 'Cars', value: 'cars' },
-    { title: 'Pets', value: 'pets' },
-    { title: 'Events', value: 'events' },
-    { title: 'Food', value: 'food' },
-    { title: 'Todos', value: 'todos' },
+    { title: 'Persons', value: 'persons', icon: 'person' },
+    { title: 'Cars', value: 'cars', icon: 'directions_car' },
+    { title: 'Pets', value: 'pets', icon: 'pets' },
+    { title: 'Events', value: 'events', icon: 'event_available' },
+    { title: 'Food', value: 'food', icon: 'fastfood' },
+    { title: 'Todos', value: 'todos', icon: 'event' },
   ];
 
   constructor(

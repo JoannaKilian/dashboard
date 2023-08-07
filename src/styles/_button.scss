@@ -1,32 +1,30 @@
-.button{
+.appButton {
     width: 200px;
-    padding: 10px;
-    background-color: var(--color-base-dark);
+    padding: 20px !important;
+    background-color: var(--color-base) !important;
     color: var(--color-text-light) !important;
     font-size: var(--font-subtitle);
     font-weight: bold;
-    border: none;
-    border-radius: 4px;
+    border: 1px solid #ffffff24 !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    border-radius: 2px !important;
+    box-shadow: var(--shadow);
     cursor: pointer;
     margin: 20px;
-    box-shadow: 1px 1px 0px 2px rgb(255 255 255 / 27%);
 
     &:hover {
-        text-shadow: #0c0c0cd8 2px 2px 20px;
+        background-color: var(--color-background) !important;
+        box-shadow: none;
+        color: var(--color-base) !important;
     }
 
-    &--cancel{
-        background-color: #ccc;
-        color: var(--color-base);
-        border: none;
-        box-shadow: none;
-        &:hover {
-            color: var(--color-text-light);
-        }
+    &--cancel {
+        color: var(--color-grey) !important;
     }
 }
 
-.button-container{
+.button-container {
     width: 100%;
     display: flex;
     align-items: center;

@@ -1,11 +1,11 @@
 <div class="app">
+  <app-header (openEvent)="switchMenuHandler()"></app-header>
   <ng-container *ngIf="showMenu">
     <div class="app_menu">
       <app-menu></app-menu>
     </div>
   </ng-container>
   <div class="app_container">
-    <app-header (openEvent)="switchMenuHandler()"></app-header>
     <div class="app_content">
       <router-outlet></router-outlet>
     </div>

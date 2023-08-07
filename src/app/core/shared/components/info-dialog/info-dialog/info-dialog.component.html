@@ -12,18 +12,18 @@
 <div mat-dialog-actions>
     <ng-container [ngSwitch]="data.type">
         <div *ngSwitchDefault>
-            <button class="button" mat-button mat-dialog-close>Ok</button>
+            <button class="appButton" mat-button mat-dialog-close>Ok</button>
         </div>
         <div *ngSwitchCase="'error'">
-            <button class="button" mat-button mat-dialog-close>Ok</button>
+            <button class="appButton" mat-button mat-dialog-close>Ok</button>
         </div>
         <div *ngSwitchCase="'warning'">
-            <button class="button" mat-button mat-dialog-close>Back</button>
-            <button class="button" (click)="onSubmit()" mat-button mat-dialog-close cdkFocusInitial>I am sure</button>
+            <button class="appButton appButton--cancel" mat-button mat-dialog-close>Back</button>
+            <button class="appButton" (click)="onSubmit()" mat-button mat-dialog-close>I am sure</button>
         </div>
         <div *ngSwitchCase="'submit'">
-            <button class="button" mat-button mat-dialog-close>Back</button>
-            <button class="button" (click)="onSubmit()" mat-button mat-dialog-close cdkFocusInitial>Submit</button>
+            <button class="appButton appButton--cancel" mat-button mat-dialog-close>Back</button>
+            <button class="appButton" (click)="onSubmit()" mat-button mat-dialog-close>Submit</button>
         </div>
     </ng-container>
 </div>

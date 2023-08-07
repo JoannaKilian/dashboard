@@ -1,12 +1,23 @@
 <div class="wrap">
   <div class="main">
     <ng-container *ngFor="let section of sections">
-      <div (click)="goToPage(section.value)" class="main_container" [ngStyle]="{'background-image': 'url(\'../../../../../assets/' + section.value + '.jpg\')'}">
+      <div (click)="goToPage(section.value)" class="main_container">
+        <div class="main_icon">
+         <mat-icon>{{section.icon}}</mat-icon>
+        </div>
         <div class="main_title">
           <p>{{section.title}}</p>
         </div>
       </div>
     </ng-container>
+    <div class="main_container">
+      <div class="main_icon">
+        <mat-icon>add</mat-icon>
+       </div>
+       <div class="main_title">
+         <p>ADD NEW SECTION</p>
+       </div>
+    </div>
     <app-upcoming-dates></app-upcoming-dates>
   </div>
   <app-stickers></app-stickers>

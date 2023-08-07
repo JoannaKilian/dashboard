@@ -66,6 +66,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataTable'] && !changes['dataTable'].firstChange) {
       this.dataSource = new MatTableDataSource(this.dataTable);
+      this.totalCount = this.dataTable.length;
     }
   }
 

@@ -12,5 +12,4 @@ export class UpdateCarDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<UpdateCarDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Car) {}
-
 }
