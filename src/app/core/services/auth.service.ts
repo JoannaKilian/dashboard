@@ -23,7 +23,8 @@ export class AuthService {
     constructor(
         private fireAuth: AngularFireAuth,
         private router: Router,
-        public dialog: MatDialog) { }
+        public dialog: MatDialog
+        ) { }
 
 
     login(email: string, password: string) {

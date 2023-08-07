@@ -23,6 +23,7 @@ export class CarFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.formFields = this.carService.getFormFields();
+    console.log('this.formFields',this.formFields)
   }
 
   closeHandler(): void {
@@ -32,10 +33,4 @@ export class CarFormComponent implements OnInit {
   submitHandler(formValue: Car) {
     this.carService.addNewCar(formValue);
   }
-
-  genderOptions = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-    { label: 'Other', value: 'other' },
-  ];
 }

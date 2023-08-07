@@ -26,6 +26,7 @@ export class CarsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.carService.getCarsList();
     this.carService.cars$.subscribe((data: Car[]) => {
+      console.log('data', data);
       this.data = data;
     });
   }
@@ -51,8 +52,8 @@ export class CarsComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteCarDialog(index: Car) {
-    console.log('deleteCarDialog', index);
+  deleteCarDialog(car: Car) {
+    this.carService.deleteCar(car);
   }
 
   ngOnDestroy(): void {

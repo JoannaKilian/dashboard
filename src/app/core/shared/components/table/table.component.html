@@ -26,7 +26,7 @@
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef aria-label="row actions" style="text-align: right; width: 30px;"><mat-icon>settings</mat-icon></th>
-        <td mat-cell *matCellDef="let element; let i = index" style="text-align: right;" (click)="onDeleteClick(i); $event.stopPropagation()">
+        <td mat-cell *matCellDef="let element" style="text-align: right;" (click)="onDeleteClick(element); $event.stopPropagation()">
           <mat-icon>delete</mat-icon>
         </td>
       </ng-container>

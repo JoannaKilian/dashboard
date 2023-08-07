@@ -2,8 +2,11 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Car } from "../models/car.models";
 import { FieldType, FormConfig } from "../models/form-config.models";
-import { Validators } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
+import { Validators } from "@angular/forms";
+import { v4 as uuidv4 } from 'uuid';
+import { MatDialog } from "@angular/material/dialog";
+import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +14,6 @@ import { HttpClient } from "@angular/common/http";
 
 export class CarService {
 
-    carsChanged: Subject<Car[]> = new Subject<Car[]>();
     private carsList: Car[] = [];
     private carsListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
     public cars$: Observable<Car[]> = this.carsListSubject.asObservable();
@@ -51,18 +53,34 @@ export class CarService {
     private carsUrl = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/cars.json';
 
     constructor(
-        private http: HttpClient) {
+        private http: HttpClient,
+        public dialog: MatDialog
+        ) {
     };
 
     getCarsList() {
         this.http.get<Car[]>(this.carsUrl)
-            .subscribe((response: Car[]) => {
-                this.carsList = response;
-                this.carsListSubject.next(response);
-            })
+        .subscribe({
+            next: (response: Car[] | null) => {
+                const data = response !== null ? response : [];
+                this.carsList = data;
+                this.carsListSubject.next(data);
+            },
+            error: () => {
+                this.dialog.open(InfoDialogComponent, {
+                    data: {
+                        title: 'Error',
+                        description: 'Error while fetching data',
+                        type: 'error'
+                    }
+                });
+            }
+        });
     }
 
     addNewCar(car: Car) {
+        const uniqueId = uuidv4();
+        car.id = uniqueId;
         const clonedCarsList = [...this.carsList];
         clonedCarsList.push(car);
         this.http.put<Car[]>(this.carsUrl, clonedCarsList)
@@ -72,24 +90,44 @@ export class CarService {
             })
     }
 
-    updateCar(index: number, updatedCar: Car) {
+    updateCar(id: string, updatedCar: Car) {
         const clonedCarsList = [...this.carsList];
-        clonedCarsList[index] = updatedCar;
-        this.http.put<Car>(this.carsUrl, clonedCarsList)
+        const carIndex = clonedCarsList.findIndex(x => x.id === id)
+
+        if(carIndex !== -1){
+            clonedCarsList[carIndex] = updatedCar;
+            this.http.put<Car[]>(this.carsUrl, clonedCarsList)
             .subscribe(() => {
                 this.carsList = clonedCarsList;
                 this.carsListSubject.next([...this.carsList])
             })
+        }
     }
 
-    deleteCar(index: number) {
-        const clonedCarsList = [...this.carsList];
-        clonedCarsList.splice(index, 1);
-        this.http.put<Car[]>(this.carsUrl, clonedCarsList)
-            .subscribe(() => {
-                this.carsList = clonedCarsList;
-                this.carsListSubject.next([...this.carsList])
-            })
+    deleteCar(car: Car) {
+
+        const dialogRef = this.dialog.open(InfoDialogComponent, {
+            data: {
+                title: `Delete ${car.brand}`,
+                description: `Are you sure you want to delete ${car.brand} ${car.model}`,
+                type: 'submit'
+            }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result === 'submit') {
+                const clonedCarsList = [...this.carsList];
+                const carIndex = clonedCarsList.findIndex(x => x.id === car.id);
+                console.log('carIndex', carIndex);
+                if(carIndex !== -1){
+                    clonedCarsList.splice(carIndex, 1);
+                    this.http.put<Car[]>(this.carsUrl, clonedCarsList)
+                        .subscribe(() => {
+                            this.carsList = clonedCarsList;
+                            this.carsListSubject.next([...this.carsList])
+                        })
+                }
+            }
+        });
     }
 
     getFormFields() {
