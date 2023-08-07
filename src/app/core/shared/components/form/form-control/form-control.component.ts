@@ -11,5 +11,4 @@ export class FormControlComponent {
   
   @Input() field: FormConfig;
   @Input() form: FormGroup;
-
 }

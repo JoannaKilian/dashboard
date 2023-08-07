@@ -27,7 +27,7 @@ export class PetDetailsComponent implements OnInit {
 
   checkTimeAlert(days: number): void {
     if (days <= 30) {
-      this.timeAlertService.setTimeAlert("Pets", this.petDetails.species, this.petDetails.name, days);
+      // this.timeAlertService.setTimeAlert("Pets", this.petDetails.species, this.petDetails.name, days);
     }
   }
 }

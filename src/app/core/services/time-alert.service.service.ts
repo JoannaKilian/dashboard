@@ -1,32 +1,60 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Alert } from '../models/alert.models';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimeAlertService {
 
-  alerts: Alert[] = [];
-  alertSubject: BehaviorSubject<Alert[]> = new BehaviorSubject<Alert[]>([]);
-  timeAlert$: Observable<Alert[]> = this.alertSubject.asObservable();
+  private alertsList: Alert[] = [];
+  private alertsListSubject: BehaviorSubject<Alert[]> = new BehaviorSubject<Alert[]>([]);
+  timeAlert$: Observable<Alert[]> = this.alertsListSubject.asObservable();
 
-  constructor() { }
+  private alertsUrl = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/alerts.json';
 
-  setTimeAlert(category: "Persons" | "Cars" | "Pets", title: string, subtitle: string, days: number): void {
-    const message = {
+  constructor(
+    private http: HttpClient,
+  ) { }
+
+  setTimeAlert(category: "Persons" | "Cars" | "Pets", id: string, title: string, subtitle: string, days: number): void {
+
+    const message: Alert = {
+      id,
       category,
       message: `${title} ${subtitle} - significant deadline ends in ${days} days`
+    };
+    const clonedAlertsList = [...this.alertsList];
+    const index = clonedAlertsList.findIndex(x => x.id === id);
+
+    if (index !== -1) {
+      clonedAlertsList[index] = message;
+    } else {
+      clonedAlertsList.push(message);
     }
-    if (!this.isMessageDuplicate(message)) {
-      this.alerts.push(message);
-      this.alertSubject.next(this.alerts);
+    this.http.put<Alert[]>(this.alertsUrl, clonedAlertsList)
+      .subscribe(() => {
+        this.alertsList = clonedAlertsList;
+        this.alertsListSubject.next([...this.alertsList]);
+      })
+  }
+
+  deleteTimeAlert(id: string) {
+    const clonedAlertsList = [...this.alertsList];
+    const index = clonedAlertsList.findIndex(x => x.id === id);
+    if (index !== -1) {
+      clonedAlertsList.splice(index, 1);
+      this.http.put<Alert[]>(this.alertsUrl, clonedAlertsList)
+        .subscribe(() => {
+          this.alertsList = clonedAlertsList;
+          this.alertsListSubject.next([...this.alertsList]);
+        })
+    } else {
+      return;
     }
   }
 
-  isMessageDuplicate(newMessage: Alert): boolean {
-    return this.alerts.some((message) => JSON.stringify(message) === JSON.stringify(newMessage));
-  }
 
   getCountEndTime(date: string): number {
     const currentDate = new Date();
@@ -50,7 +78,7 @@ export class TimeAlertService {
     return Math.ceil(daysDifference);
   }
 
-  getAge(birthDate: string){
+  getAge(birthDate: string) {
     const currentDate = new Date();
     const dateOfBirthAsDate = new Date(birthDate);
     if (dateOfBirthAsDate < currentDate) {

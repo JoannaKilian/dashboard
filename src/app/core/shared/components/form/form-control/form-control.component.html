@@ -1,5 +1,5 @@
 <div [formGroup]="form" class="control">
-  <label>{{ field.label }}</label>
+  <label>{{ field.label }}<span *ngIf="field?.validations"> *</span></label>
   <ng-container [ngSwitch]="field.type">
     <input *ngSwitchCase="'text'" [formControlName]="field.name" type="text" />
     <input *ngSwitchCase="'email'" [formControlName]="field.name" type="email" />

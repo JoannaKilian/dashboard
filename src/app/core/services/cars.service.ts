@@ -31,15 +31,14 @@ export class CarService {
                 'BMW'
             ], validations: [Validators.required]
         },
-        { type: FieldType.Text, label: 'Model', name: 'model' },
-        { type: FieldType.Number, label: 'Production Year', name: 'productionYear' },
+        { type: FieldType.Text, label: 'Model', name: 'model', validations: [Validators.required] },
+        { type: FieldType.Number, label: 'Production Year', name: 'productionYear', validations: [Validators.required] },
         {
             type: FieldType.Select, label: 'Color', name: 'color', options: [
                 'Red',
                 'Blue',
                 'Green',
                 'Black',
-                'White',
                 'Yellow',
                 'Silver',
                 'Gray'
@@ -90,9 +89,9 @@ export class CarService {
             })
     }
 
-    updateCar(id: string, updatedCar: Car) {
+    updateCar(updatedCar: Car) {
         const clonedCarsList = [...this.carsList];
-        const carIndex = clonedCarsList.findIndex(x => x.id === id)
+        const carIndex = clonedCarsList.findIndex(x => x.id === updatedCar.id)
 
         if(carIndex !== -1){
             clonedCarsList[carIndex] = updatedCar;
@@ -117,7 +116,6 @@ export class CarService {
             if (result === 'submit') {
                 const clonedCarsList = [...this.carsList];
                 const carIndex = clonedCarsList.findIndex(x => x.id === car.id);
-                console.log('carIndex', carIndex);
                 if(carIndex !== -1){
                     clonedCarsList.splice(carIndex, 1);
                     this.http.put<Car[]>(this.carsUrl, clonedCarsList)

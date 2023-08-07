@@ -37,10 +37,10 @@ export class CarsComponent implements OnInit, OnDestroy {
     });
   }
 
-  editCarDialog(data: Car) {
+  editCarDialog(car: Car) {
     this.dialog.open(UpdateCarDialogComponent, {
       width: '500px',
-      data
+      data: car
     });
   }
 

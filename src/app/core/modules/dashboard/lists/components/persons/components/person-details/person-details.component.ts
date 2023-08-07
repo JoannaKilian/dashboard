@@ -39,7 +39,7 @@ export class PersonDetailsComponent implements OnInit {
 
   checkTimeAlert(days: number): void {
     if (days <= 30) {
-      this.timeAlertService.setTimeAlert("Persons", this.personDetails.name, this.personDetails.surname, days);
+      // this.timeAlertService.setTimeAlert("Persons", this.personDetails.name, this.personDetails.surname, days);
     }
   }
 }
