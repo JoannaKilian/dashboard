@@ -3,8 +3,6 @@ import { MatTableDataSource } from "@angular/material/table";
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
-import { TimeAlertService } from 'src/app/core/services/time-alert.service.service';
-import { Subscription, filter } from 'rxjs';
 import { Alert } from 'src/app/core/models/alert.models';
 
 @Component({
@@ -25,6 +23,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() columnsToDisplay: string[];
   @Input() title: "Persons" | "Cars" | "Pets";
   @Input() icon: string;
+  @Input() alerts: Alert[];
 
   @Output() addEvent = new EventEmitter;
   @Output() editEvent = new EventEmitter<any>;
@@ -40,11 +39,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   expandedElement: any | null;
   columnsToDisplayWithExpand: string[];
   totalCount: number;
-  alerts: Alert[];
-  private subscription: Subscription;
 
   constructor(
-    private timeAlertService: TimeAlertService,
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
@@ -52,10 +48,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'edit', 'delete'];
     this.dataSource = new MatTableDataSource(this.dataTable);
     this.totalCount = this.dataTable.length;
-    this.subscription = this.timeAlertService.timeAlert$
-      .subscribe((data: Alert[]) => {
-        this.alerts = data.filter(alert => alert.category === this.title);
-      });
   }
 
   ngAfterViewInit() {
@@ -84,10 +76,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   onDeleteClick(rowElement: any) {
     this.deleteEvent.emit(rowElement)
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
 

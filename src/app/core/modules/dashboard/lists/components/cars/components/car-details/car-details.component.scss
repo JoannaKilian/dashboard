@@ -11,6 +11,10 @@
     span {
         font-weight: 700
     }
+
+    div:nth-child(2){
+        margin-left: 40px;
+    }; 
 }
 
 .car {
@@ -18,7 +22,6 @@
     align-items: center;
     flex-direction: column;
     width: 200px;
-    height: 110px;
 
     mat-icon {
         width: 80px;

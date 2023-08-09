@@ -1,5 +1,5 @@
 export interface Alert {
-  id: string;
-  category: string;
+  name: string
+  parentId: string;
   message: string;
 }

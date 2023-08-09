@@ -45,39 +45,40 @@ export class CarService {
             ]
         },
         { type: FieldType.Date, label: 'Insurance Date', name: 'insuranceDate', validations: [Validators.required] },
+        { type: FieldType.Date, label: 'Car Inspection', name: 'carInspection', validations: [Validators.required] },
         { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity' },
         { type: FieldType.Number, label: 'Engine Power', name: 'enginePower' },
     ];
 
-    private carsUrl = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/cars.json';
+    private carsUrl = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/cars/carsList.json';
 
     constructor(
         private http: HttpClient,
-        public dialog: MatDialog
-        ) {
+        public dialog: MatDialog,
+    ) {
     };
 
     getCarsList() {
         this.http.get<Car[]>(this.carsUrl)
-        .subscribe({
-            next: (response: Car[] | null) => {
-                const data = response !== null ? response : [];
-                this.carsList = data;
-                this.carsListSubject.next(data);
-            },
-            error: () => {
-                this.dialog.open(InfoDialogComponent, {
-                    data: {
-                        title: 'Error',
-                        description: 'Error while fetching data',
-                        type: 'error'
-                    }
-                });
-            }
-        });
+            .subscribe({
+                next: (response: Car[] | null) => {
+                    const data = response !== null ? response : [];
+                    this.carsList = data;
+                    this.carsListSubject.next(data);
+                },
+                error: () => {
+                    this.dialog.open(InfoDialogComponent, {
+                        data: {
+                            title: 'Error',
+                            description: 'Error while fetching data',
+                            type: 'error'
+                        }
+                    });
+                }
+            });
     }
 
-    addNewCar(car: Car) {
+    addNewCar(car: Car) { 
         const uniqueId = uuidv4();
         car.id = uniqueId;
         const clonedCarsList = [...this.carsList];
@@ -92,40 +93,27 @@ export class CarService {
     updateCar(updatedCar: Car) {
         const clonedCarsList = [...this.carsList];
         const carIndex = clonedCarsList.findIndex(x => x.id === updatedCar.id)
-
-        if(carIndex !== -1){
+        if (carIndex !== -1) {
             clonedCarsList[carIndex] = updatedCar;
             this.http.put<Car[]>(this.carsUrl, clonedCarsList)
-            .subscribe(() => {
-                this.carsList = clonedCarsList;
-                this.carsListSubject.next([...this.carsList])
-            })
+                .subscribe(() => {
+                    this.carsList = clonedCarsList;
+                    this.carsListSubject.next([...this.carsList])
+                })
         }
     }
 
     deleteCar(car: Car) {
-
-        const dialogRef = this.dialog.open(InfoDialogComponent, {
-            data: {
-                title: `Delete ${car.brand}`,
-                description: `Are you sure you want to delete ${car.brand} ${car.model}`,
-                type: 'submit'
-            }
-        });
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result === 'submit') {
-                const clonedCarsList = [...this.carsList];
-                const carIndex = clonedCarsList.findIndex(x => x.id === car.id);
-                if(carIndex !== -1){
-                    clonedCarsList.splice(carIndex, 1);
-                    this.http.put<Car[]>(this.carsUrl, clonedCarsList)
-                        .subscribe(() => {
-                            this.carsList = clonedCarsList;
-                            this.carsListSubject.next([...this.carsList])
-                        })
-                }
-            }
-        });
+        const clonedCarsList = [...this.carsList];
+        const carIndex = clonedCarsList.findIndex(x => x.id === car.id);
+        if (carIndex !== -1) {
+            clonedCarsList.splice(carIndex, 1);
+            this.http.put<Car[]>(this.carsUrl, clonedCarsList)
+                .subscribe(() => {
+                    this.carsList = clonedCarsList;
+                    this.carsListSubject.next([...this.carsList])
+                })
+        }
     }
 
     getFormFields() {

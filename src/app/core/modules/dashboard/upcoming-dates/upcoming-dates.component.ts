@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Alert } from 'src/app/core/models/alert.models';
-import { TimeAlertService } from 'src/app/core/services/time-alert.service.service';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TimeAlertService } from 'src/app/core/services/time-alert.service';
 
 @Component({
   selector: 'app-upcoming-dates',
@@ -13,10 +14,15 @@ export class UpcomingDatesComponent implements OnInit {
   alerts: Alert[];
   private subscription: Subscription;
 
-  constructor(private timeAlertService: TimeAlertService) { }
+  constructor(
+    private timeAlertService: TimeAlertService,
+    private alertService: AlertService,
+    ) {
+    this.alertService.getAlerts('cars');
+   }
 
   ngOnInit(): void {
-    this.subscription = this.timeAlertService.timeAlert$
+    this.subscription = this.alertService.categoryAlerts$
     .subscribe((data: Alert[]) => {
       this.alerts = data;
     });

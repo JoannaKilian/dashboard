@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Pet } from 'src/app/core/models/pet.models';
-import { TimeAlertService } from 'src/app/core/services/time-alert.service.service';
+import { TimeAlertService } from 'src/app/core/services/time-alert.service';
 
 @Component({
   selector: 'app-pet-details',

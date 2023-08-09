@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Person } from 'src/app/core/models/person.models';
-import { TimeAlertService } from 'src/app/core/services/time-alert.service.service';
+import { TimeAlertService } from 'src/app/core/services/time-alert.service';
 
 @Component({
   selector: 'app-person-details',
