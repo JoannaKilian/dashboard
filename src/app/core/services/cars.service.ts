@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { Car } from "../models/car.models";
-import { FieldType, FormConfig } from "../models/form-config.models";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from "@angular/material/dialog";
+import { Car } from "../models/car.models";
+import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
+
 
 @Injectable({
     providedIn: 'root'

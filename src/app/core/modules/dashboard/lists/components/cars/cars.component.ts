@@ -13,7 +13,8 @@ import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/
 @Component({
   selector: 'app-cars',
   templateUrl: './cars.component.html',
-  styleUrls: ['./cars.component.scss']
+  styleUrls: ['./cars.component.scss'],
+  providers: [AlertService],
 })
 export class CarsComponent implements OnInit, OnDestroy {
   data: Car[] = [];

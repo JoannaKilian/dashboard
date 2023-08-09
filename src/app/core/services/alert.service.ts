@@ -3,9 +3,8 @@ import { Alert } from '../models/alert.models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
+
 export class AlertService {
 
   private alerts: Alert[] = [];

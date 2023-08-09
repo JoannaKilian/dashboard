@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Alert } from 'src/app/core/models/alert.models';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { TimeAlertService } from 'src/app/core/services/time-alert.service';
 
 @Component({
   selector: 'app-upcoming-dates',
@@ -15,7 +14,6 @@ export class UpcomingDatesComponent implements OnInit {
   private subscription: Subscription;
 
   constructor(
-    private timeAlertService: TimeAlertService,
     private alertService: AlertService,
     ) {
     this.alertService.getAlerts('cars');
