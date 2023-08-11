@@ -1,27 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Section } from "../../../models/sections.models";
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MenuService } from 'src/app/core/services/menu.service';
+import { GlobalAlertService } from 'src/app/core/services/global-alerts.service';
+import { Observable } from 'rxjs';
+import { Alert } from 'src/app/core/models/alert.models';
+import { EntityAlertMap } from 'src/app/core/models/category-list.models';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
+
+  carsAlerts$: Observable<Alert[]>;
+  personsAlerts$: Observable<Alert[]>;
+  petsAlerts$: Observable<Alert[]>;
+  allAlerts$: Observable<EntityAlertMap>;
+
   sections: Section[] = [
-    { title: 'Persons', value: 'persons', icon: 'person' },
-    { title: 'Cars', value: 'cars', icon: 'directions_car' },
-    { title: 'Pets', value: 'pets', icon: 'pets' },
-    { title: 'Events', value: 'events', icon: 'event_available' },
-    { title: 'Food', value: 'food', icon: 'fastfood' },
-    { title: 'Todos', value: 'todos', icon: 'event' },
+    { title: 'persons', value: 'persons', icon: 'person' },
+    { title: 'cars', value: 'cars', icon: 'directions_car' },
+    { title: 'pets', value: 'pets', icon: 'pets' },
+    { title: 'events', value: 'events', icon: 'event_available' },
+    { title: 'food', value: 'food', icon: 'fastfood' },
+    { title: 'todos', value: 'todos', icon: 'event' },
   ];
 
   constructor(
     private router: Router,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private globalAlertService: GlobalAlertService,
   ) { }
+
+ngOnInit(): void {
+  this.globalAlertService.getGlobalAlerts();
+  this.carsAlerts$ = this.globalAlertService.carsAlerts$;
+  this.personsAlerts$ = this.globalAlertService.personsAlerts$;
+  this.petsAlerts$ = this.globalAlertService.petsAlerts$;
+  this.allAlerts$ = this.globalAlertService.allAlerts$;
+}
 
   goToPage(value: string,) {
     this.menuService.setCurrentIndex(2);

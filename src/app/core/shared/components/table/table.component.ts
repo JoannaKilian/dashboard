@@ -4,6 +4,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { Alert } from 'src/app/core/models/alert.models';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
 
 @Component({
   selector: 'app-table',
@@ -21,7 +22,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Input() dataTable: any[];
   @Input() columnsToDisplay: string[];
-  @Input() title: "Persons" | "Cars" | "Pets";
+  @Input() title: EntityCategory;
   @Input() icon: string;
   @Input() alerts: Alert[];
 

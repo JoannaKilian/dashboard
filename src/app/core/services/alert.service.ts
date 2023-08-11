@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Alert } from '../models/alert.models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { EntityCategory } from '../models/category-list.models';
 
 @Injectable()
 
@@ -17,7 +18,7 @@ export class AlertService {
     private http: HttpClient,
   ) { }
 
-  getAlerts(categoryName: string) {
+  getAlerts(categoryName: EntityCategory) {
     this.http.get<Alert[]>(`${this.alertsUrl}/${categoryName}/${categoryName}Alerts.json`)
       .subscribe((response: Alert[] | null) => {
         const data = response !== null ? response : [];
@@ -28,17 +29,18 @@ export class AlertService {
   }
 
   addAlert(
-    categoryName: string,
+    categoryName: EntityCategory,
     parentId: string,
     title: string,
     subtitle: string,
-    days: number,
+    deadline: number,
     name: string) {
 
     const alertMessage: Alert = {
       name,
       parentId,
-      message: `${title} ${subtitle} - deadline of ${name} ends in ${days} days`
+      deadline,
+      message: `${title} ${subtitle} - deadline of ${name} ends in ${deadline} days`
     };
 
     const isDuplicate = this.alerts.some(alert => alert.parentId === alertMessage.parentId && alert.name === alertMessage.name);
@@ -51,7 +53,7 @@ export class AlertService {
       })
   }
 
-  deleteAlert(categoryName: string, parentId: string) {
+  deleteAlert(categoryName: EntityCategory, parentId: string) {
     const newArray = this.alerts.filter(alert => alert.parentId !== parentId);
     this.http.put<Alert[]>(`${this.alertsUrl}/${categoryName}/${categoryName}Alerts.json`, newArray)
       .subscribe(() => {
@@ -60,7 +62,7 @@ export class AlertService {
       })
   }
 
-  deleteAlertByItem(categoryName: string, parentId: string, name: string) {
+  deleteAlertByItem(categoryName: EntityCategory, parentId: string, name: string) {
     const index = this.alerts.findIndex(alert => alert.parentId === parentId && alert.name === name);
     this.alerts.splice(index, 1);
 
@@ -71,17 +73,18 @@ export class AlertService {
   }
 
   updateAlert(
-    categoryName: string,
+    categoryName: EntityCategory,
     parentId: string,
     title: string,
     subtitle: string,
-    days: number,
+    deadline: number,
     name: string) {
 
     const alertMessage: Alert = {
       name,
       parentId,
-      message: `${title} ${subtitle} - deadline of ${name} ends in ${days} days`
+      deadline,
+      message: `${title} ${subtitle} - deadline of ${name} ends in ${deadline} days`
     };
 
     const index = this.alerts.findIndex(alert => alert.parentId === parentId && alert.name === name)

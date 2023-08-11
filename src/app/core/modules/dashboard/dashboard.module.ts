@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UpcomingDatesComponent } from './upcoming-dates/upcoming-dates.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { UpcomingDatesComponent } from './upcoming-dates/upcoming-dates.componen
     DragDropModule,
     MatIconModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class DashboardModule {

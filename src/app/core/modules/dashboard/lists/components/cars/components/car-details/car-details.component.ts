@@ -30,7 +30,6 @@ export class CarDetailsComponent implements OnInit {
   checkTimeAlert(expirationDate: number, name: string): void {
     if (expirationDate <= 30) {
       this.alertService.addAlert('cars', this.carDetails.id, this.carDetails.brand, this.carDetails.model, expirationDate, name);
-      console.log(expirationDate, name );
     }
   }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable, switchMap } from 'rxjs';
 import { Alert } from 'src/app/core/models/alert.models';
-import { AlertService } from 'src/app/core/services/alert.service';
+import { EntityAlertMap } from 'src/app/core/models/category-list.models';
+import { GlobalAlertService } from 'src/app/core/services/global-alerts.service';
 
 @Component({
   selector: 'app-upcoming-dates',
@@ -10,23 +11,43 @@ import { AlertService } from 'src/app/core/services/alert.service';
 })
 export class UpcomingDatesComponent implements OnInit {
 
-  alerts: Alert[];
-  private subscription: Subscription;
+  alerts: Alert[] = [];
+  loading: boolean = true;
 
   constructor(
-    private alertService: AlertService,
-    ) {
-    this.alertService.getAlerts('cars');
-   }
+    private globalAlertService: GlobalAlertService,
+    ) {}
 
   ngOnInit(): void {
-    this.subscription = this.alertService.categoryAlerts$
-    .subscribe((data: Alert[]) => {
-      this.alerts = data;
-    });
+    this.globalAlertService.getGlobalAlerts();
+    this.globalAlertService.allAlerts$.pipe(
+      switchMap((response: EntityAlertMap) => {
+        const data = response !== null ? response : {
+          "persons": [],
+          "cars": [],
+          "pets": [],
+          "events": [],
+          "food": [],
+          "todos": []
+        };
+        this.alerts = this.combineAlerts(data);
+        this.loading = false;
+        return this.globalAlertService.allAlerts$;
+      })
+    ).subscribe();
+  }
+
+  combineAlerts(data: EntityAlertMap): Alert[] {
+    console.log(data, 'combinedAlerts');
+    const combinedAlerts: Alert[] = [];
+    for (const category in data) {
+      combinedAlerts.push(...data[category]);
+    }
+    combinedAlerts.sort((a, b) => a.deadline - b.deadline);
+    return combinedAlerts;
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+
   }
 }

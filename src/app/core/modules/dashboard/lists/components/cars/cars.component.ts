@@ -27,9 +27,10 @@ export class CarsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private carService: CarService,
     private alertService: AlertService,
-  ) {this.alertService.getAlerts('cars') }
+  ) { }
 
   ngOnInit(): void {
+    this.alertService.getAlerts('cars');
     this.carService.getCarsList();
     this.subscription.add(
       this.carService.cars$.subscribe((data: Car[]) => {
@@ -52,7 +53,10 @@ export class CarsComponent implements OnInit, OnDestroy {
   editCarDialog(car: Car) {
     this.dialog.open(UpdateCarDialogComponent, {
       width: '500px',
-      data: car
+      data: {
+        car: car, 
+        alertService: this.alertService
+      }
     });
   }
 
