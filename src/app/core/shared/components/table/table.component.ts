@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { Alert } from 'src/app/core/models/alert.models';
 import { EntityCategory } from 'src/app/core/models/category-list.models';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -18,13 +19,13 @@ import { EntityCategory } from 'src/app/core/models/category-list.models';
     ]),
   ],
 })
-export class TableComponent implements OnInit, AfterViewInit, OnChanges {
+export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
-  @Input() dataTable: any[];
+  @Input() data$: Observable<any[]>;
   @Input() columnsToDisplay: string[];
   @Input() title: EntityCategory;
   @Input() icon: string;
-  @Input() alerts: Alert[];
+  @Input() alerts$: Observable<Alert[]>;
 
   @Output() addEvent = new EventEmitter;
   @Output() editEvent = new EventEmitter<any>;
@@ -35,20 +36,30 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   @ContentChild('detailsTemplate', { static: true })
   detailsTemplate!: TemplateRef<any>;
+  dataTable: any[];
 
   dataSource: MatTableDataSource<any>;
   expandedElement: any | null;
   columnsToDisplayWithExpand: string[];
   totalCount: number;
 
+  private subscription: Subscription = new Subscription();
+
   constructor(
     private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'edit', 'delete'];
-    this.dataSource = new MatTableDataSource(this.dataTable);
-    this.totalCount = this.dataTable.length;
+    this.subscription.add(this.data$.subscribe(data => {
+      console.log('datatable', data);
+      this.dataTable = data;
+      this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'edit', 'delete'];
+      this.dataSource = new MatTableDataSource(this.dataTable);
+      this.totalCount = this.dataTable.length;
+    }));
+    this.subscription.add(this.alerts$.subscribe(data => {
+      console.log('datatable alerts', data);
+    }));
   }
 
   ngAfterViewInit() {
@@ -78,5 +89,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   onDeleteClick(rowElement: any) {
     this.deleteEvent.emit(rowElement)
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
 }
 

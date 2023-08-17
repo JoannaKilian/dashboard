@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Car } from 'src/app/core/models/car.models';
 
 import { AddCarDialogComponent } from './components/add-car-dialog/add-car-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateCarDialogComponent } from './components/update-car-dialog/update-car-dialog.component';
 import { CarService } from 'src/app/core/services/cars.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
@@ -14,14 +14,13 @@ import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/
   selector: 'app-cars',
   templateUrl: './cars.component.html',
   styleUrls: ['./cars.component.scss'],
-  providers: [AlertService],
+  providers: [AlertService]
 })
-export class CarsComponent implements OnInit, OnDestroy {
-  data: Car[] = [];
-  carAlerts: Alert[] = [];
+export class CarsComponent implements OnInit {
+  data$: Observable<Car[]>;
+  carAlerts$: Observable<Alert[]>;
 
   headers: string[] = ['brand', 'model', 'productionYear'];
-  private subscription: Subscription = new Subscription();;
 
   constructor(
     public dialog: MatDialog,
@@ -32,21 +31,17 @@ export class CarsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.alertService.getAlerts('cars');
     this.carService.getCarsList();
-    this.subscription.add(
-      this.carService.cars$.subscribe((data: Car[]) => {
-        this.data = data;
-      })
-    );
-    this.subscription.add(
-      this.alertService.categoryAlerts$.subscribe((alert: Alert[]) => {
-        this.carAlerts = alert;
-      })
-    );
+    this.data$ = this.carService.cars$;
+    this.carAlerts$= this.alertService.categoryAlerts$
+
   }
 
   addCarDialog() {
     this.dialog.open(AddCarDialogComponent, {
       width: '500px',
+      data: {
+        alertService: this.alertService
+      }
     });
   }
 
@@ -75,10 +70,6 @@ export class CarsComponent implements OnInit, OnDestroy {
         this.carService.deleteCar(car);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
 }

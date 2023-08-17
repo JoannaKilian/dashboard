@@ -1,5 +1,3 @@
-import { Alert } from "./alert.models";
-
 export interface Car {
   id: string,
   brand: string,

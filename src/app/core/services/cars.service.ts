@@ -63,6 +63,7 @@ export class CarService {
         this.http.get<Car[]>(this.carsUrl)
             .subscribe({
                 next: (response: Car[] | null) => {
+                    console.log('getCarsList from service');
                     const data = response !== null ? response : [];
                     this.carsList = data;
                     this.carsListSubject.next(data);
@@ -79,15 +80,16 @@ export class CarService {
             });
     }
 
+    addCarUniqueId(): string{
+        return uuidv4();
+      }
+
     addNewCar(car: Car) { 
-        const uniqueId = uuidv4();
-        car.id = uniqueId;
-        const clonedCarsList = [...this.carsList];
-        clonedCarsList.push(car);
+        const clonedCarsList = [...this.carsList, car];
+        this.carsListSubject.next(clonedCarsList);
         this.http.put<Car[]>(this.carsUrl, clonedCarsList)
             .subscribe(() => {
                 this.carsList = clonedCarsList;
-                this.carsListSubject.next([...this.carsList])
             })
     }
 
@@ -96,10 +98,11 @@ export class CarService {
         const carIndex = clonedCarsList.findIndex(x => x.id === updatedCar.id)
         if (carIndex !== -1) {
             clonedCarsList[carIndex] = updatedCar;
+            this.carsListSubject.next(clonedCarsList);
             this.http.put<Car[]>(this.carsUrl, clonedCarsList)
                 .subscribe(() => {
+                    console.log('carservice update', clonedCarsList);
                     this.carsList = clonedCarsList;
-                    this.carsListSubject.next([...this.carsList])
                 })
         }
     }
@@ -109,10 +112,10 @@ export class CarService {
         const carIndex = clonedCarsList.findIndex(x => x.id === car.id);
         if (carIndex !== -1) {
             clonedCarsList.splice(carIndex, 1);
+            this.carsListSubject.next(clonedCarsList)
             this.http.put<Car[]>(this.carsUrl, clonedCarsList)
                 .subscribe(() => {
                     this.carsList = clonedCarsList;
-                    this.carsListSubject.next([...this.carsList])
                 })
         }
     }

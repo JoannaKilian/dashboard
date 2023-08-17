@@ -22,14 +22,16 @@ export class CarDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.insuranceDate = this.timeAlertService.getCountEndTime(this.carDetails.insuranceDate);
-    this.checkTimeAlert(this.insuranceDate, 'Insurance');
+    // this.updateTimeAlert(this.insuranceDate, 'Insurance');
     this.inspectionDate = this.timeAlertService.getCountEndTime(this.carDetails.carInspection);
-    this.checkTimeAlert(this.inspectionDate, 'Inspection');
+    // this.updateTimeAlert(this.inspectionDate, 'Inspection');
   }
 
-  checkTimeAlert(expirationDate: number, name: string): void {
+  updateTimeAlert(expirationDate: number, name: string): void {
     if (expirationDate <= 30) {
-      this.alertService.addAlert('cars', this.carDetails.id, this.carDetails.brand, this.carDetails.model, expirationDate, name);
+      this.alertService.updateAlert('cars', this.carDetails.id, this.carDetails.brand, this.carDetails.model, expirationDate, name);
+    } else {
+      this.alertService.deleteAlertByItem('cars', this.carDetails.id, name)
     }
   }
 }

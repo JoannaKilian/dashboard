@@ -1,6 +1,7 @@
 export interface Alert {
+  id?: string,
+  parentId?: string,
   name: string
-  parentId: string;
   message: string;
   deadline: number;
 }

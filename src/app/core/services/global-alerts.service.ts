@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Alert } from "../models/alert.models";
 import { EntityAlertMap, EntityCategory } from "../models/category-list.models";
-import { BehaviorSubject, forkJoin } from "rxjs";
+import { BehaviorSubject, catchError, forkJoin, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Injectable({
     providedIn: "root"
@@ -37,6 +39,7 @@ export class GlobalAlertService {
 
     constructor(
         private http: HttpClient,
+        public dialog: MatDialog,
     ) { }
 
     getGlobalAlerts() {
@@ -44,7 +47,20 @@ export class GlobalAlertService {
         const cars$ = this.http.get<Alert[]>(`${this.alertsUrl}/cars/carsAlerts.json`);
         const pets$ = this.http.get<Alert[]>(`${this.alertsUrl}/pets/petsAlerts.json`);
       
-        forkJoin([persons$, cars$, pets$]).subscribe(([persons, cars, pets]) => {
+        forkJoin([persons$, cars$, pets$])
+        .pipe(
+            catchError(() => {
+                this.dialog.open(InfoDialogComponent, {
+                    data: {
+                        title: 'Error',
+                        description: 'Error while fetching global alerts',
+                        type: 'error'
+                    }
+                });
+                return throwError('Failed to fetch alerts');
+            })
+        )
+        .subscribe(([persons, cars, pets]) => {
           this.personsAlerts = persons ? persons : [];
           this.carsAlerts = cars ? cars : [];
           this.petsAlerts = pets ? pets : [];
