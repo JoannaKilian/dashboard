@@ -42,8 +42,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   expandedElement: any | null;
   columnsToDisplayWithExpand: string[];
   totalCount: number;
+  loading: boolean = true;
 
-  private subscription: Subscription = new Subscription();
+  subscription: Subscription = new Subscription();
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef
@@ -51,14 +52,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
 
   ngOnInit(): void {
     this.subscription.add(this.data$.subscribe(data => {
-      console.log('datatable', data);
       this.dataTable = data;
       this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand', 'edit', 'delete'];
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.totalCount = this.dataTable.length;
-    }));
-    this.subscription.add(this.alerts$.subscribe(data => {
-      console.log('datatable alerts', data);
+      this.loading = false;
     }));
   }
 

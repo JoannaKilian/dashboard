@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Injectable, OnDestroy } from "@angular/core";
+import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +13,7 @@ import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialo
     providedIn: 'root'
 })
 
-export class CarService {
+export class CarService implements OnDestroy {
 
     private carsList: Car[] = [];
     private carsListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
@@ -52,6 +52,7 @@ export class CarService {
     ];
 
     private carsUrl = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/cars/carsList.json';
+    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
@@ -60,10 +61,9 @@ export class CarService {
     };
 
     getCarsList() {
-        this.http.get<Car[]>(this.carsUrl)
+        this.subscription.add(this.http.get<Car[]>(this.carsUrl)
             .subscribe({
                 next: (response: Car[] | null) => {
-                    console.log('getCarsList from service');
                     const data = response !== null ? response : [];
                     this.carsList = data;
                     this.carsListSubject.next(data);
@@ -77,20 +77,20 @@ export class CarService {
                         }
                     });
                 }
-            });
+            }))
     }
 
-    addCarUniqueId(): string{
+    addCarUniqueId(): string {
         return uuidv4();
-      }
+    }
 
-    addNewCar(car: Car) { 
+    addNewCar(car: Car) {
         const clonedCarsList = [...this.carsList, car];
         this.carsListSubject.next(clonedCarsList);
-        this.http.put<Car[]>(this.carsUrl, clonedCarsList)
-            .subscribe(() => {
-                this.carsList = clonedCarsList;
-            })
+        this.subscription.add(this.http.put<Car[]>(this.carsUrl, clonedCarsList)
+        .subscribe(() => {
+            this.carsList = clonedCarsList;
+        }))
     }
 
     updateCar(updatedCar: Car) {
@@ -99,11 +99,10 @@ export class CarService {
         if (carIndex !== -1) {
             clonedCarsList[carIndex] = updatedCar;
             this.carsListSubject.next(clonedCarsList);
-            this.http.put<Car[]>(this.carsUrl, clonedCarsList)
-                .subscribe(() => {
-                    console.log('carservice update', clonedCarsList);
-                    this.carsList = clonedCarsList;
-                })
+            this.subscription.add(this.http.put<Car[]>(this.carsUrl, clonedCarsList)
+            .subscribe(() => {
+                this.carsList = clonedCarsList;
+            }))
         }
     }
 
@@ -112,15 +111,19 @@ export class CarService {
         const carIndex = clonedCarsList.findIndex(x => x.id === car.id);
         if (carIndex !== -1) {
             clonedCarsList.splice(carIndex, 1);
-            this.carsListSubject.next(clonedCarsList)
-            this.http.put<Car[]>(this.carsUrl, clonedCarsList)
-                .subscribe(() => {
-                    this.carsList = clonedCarsList;
-                })
+            this.carsListSubject.next(clonedCarsList);
+            this.subscription.add(this.http.put<Car[]>(this.carsUrl, clonedCarsList)
+            .subscribe(() => {
+                this.carsList = clonedCarsList;
+            }))
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 }

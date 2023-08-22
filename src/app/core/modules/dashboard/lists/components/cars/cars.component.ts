@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Car } from 'src/app/core/models/car.models';
 
 import { AddCarDialogComponent } from './components/add-car-dialog/add-car-dialog.component';
@@ -16,11 +16,12 @@ import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/
   styleUrls: ['./cars.component.scss'],
   providers: [AlertService]
 })
-export class CarsComponent implements OnInit {
+export class CarsComponent implements OnInit, OnDestroy {
   data$: Observable<Car[]>;
   carAlerts$: Observable<Alert[]>;
 
   headers: string[] = ['brand', 'model', 'productionYear'];
+  subscription: Subscription = new Subscription();
 
   constructor(
     public dialog: MatDialog,
@@ -32,7 +33,7 @@ export class CarsComponent implements OnInit {
     this.alertService.getAlerts('cars');
     this.carService.getCarsList();
     this.data$ = this.carService.cars$;
-    this.carAlerts$= this.alertService.categoryAlerts$
+    this.carAlerts$ = this.alertService.categoryAlerts$
 
   }
 
@@ -49,7 +50,7 @@ export class CarsComponent implements OnInit {
     this.dialog.open(UpdateCarDialogComponent, {
       width: '500px',
       data: {
-        car: car, 
+        car: car,
         alertService: this.alertService
       }
     });
@@ -64,12 +65,16 @@ export class CarsComponent implements OnInit {
         type: 'submit'
       }
     });
-    dialogRef.afterClosed().subscribe((result) => {
+    this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
       if (result === 'submit') {
         this.alertService.deleteAlert('cars', car.id);
         this.carService.deleteCar(car);
       }
-    });
+    }))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

@@ -110,7 +110,7 @@ export class AuthService {
                     type: 'info'
                 }
             });
-            dialogRef.afterClosed().subscribe(() => {
+            dialogRef.afterClosed().subscribe(() => { 
                 this.goToLoginSubject.next(true);
             });
         }, err => {

@@ -38,7 +38,6 @@ export class UpcomingDatesComponent implements OnInit {
   }
 
   combineAlerts(data: EntityAlertMap): Alert[] {
-    console.log(data, 'combinedAlerts');
     const combinedAlerts: Alert[] = [];
     for (const category in data) {
       combinedAlerts.push(...data[category]);

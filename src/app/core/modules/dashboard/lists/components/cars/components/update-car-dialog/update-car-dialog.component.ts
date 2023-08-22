@@ -38,10 +38,12 @@ export class UpdateCarDialogComponent implements OnInit {
   }
 
   updateTimeAlert(expirationDate: number, name: string, updateCar: Car): void {
-    if (expirationDate <= 30) {
+    const needUpdate = this.alertService.isUpdateAlertNeeded(updateCar.id, name, expirationDate);
+
+    if (needUpdate && expirationDate <= 30) {
       this.alertService.updateAlert('cars', this.car.id, updateCar.brand, updateCar.model, expirationDate, name);
-    } else {
-      this.alertService.deleteAlertByItem('cars', this.car.id, name)
+    } else if (needUpdate) {
+      this.alertService.deleteAlertByItem('cars', this.car.id, name);
     }
   }
 }

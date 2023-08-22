@@ -37,7 +37,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     MatTabsModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   exports: [
     PersonDetailsComponent,

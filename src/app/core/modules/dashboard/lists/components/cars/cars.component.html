@@ -1,8 +1,6 @@
-<app-table title="cars" icon="directions_car" [alerts$]="carAlerts$" [data$]="data$" [columnsToDisplay]="headers" 
-(addEvent)="addCarDialog()"
-(editEvent)="editCarDialog($event)"
-(deleteEvent)="deleteCarDialog($event)">
+<app-table title="cars" icon="directions_car" [alerts$]="carAlerts$" [data$]="data$" [columnsToDisplay]="headers"
+  (addEvent)="addCarDialog()" (editEvent)="editCarDialog($event)" (deleteEvent)="deleteCarDialog($event)">
   <ng-template #detailsTemplate let-element="element">
-    <app-car-details [carDetails]="element"></app-car-details>
+    <app-car-details [carDetails]="element" [alerts$]="carAlerts$"></app-car-details>
   </ng-template>
 </app-table>

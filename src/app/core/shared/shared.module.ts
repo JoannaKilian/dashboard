@@ -62,7 +62,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
   ]
 })
 export class SharedModule {
