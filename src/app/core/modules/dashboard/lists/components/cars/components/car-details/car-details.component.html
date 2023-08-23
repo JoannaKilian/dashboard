@@ -1,18 +1,18 @@
 <div class="details">
     <div>
-        <p><span>Brand</span>: {{carDetails.brand}}</p>
-        <p><span>Model</span>: {{carDetails.model}}</p>
-        <p><span>Production Year</span>: {{carDetails.productionYear}}</p>
+        <p><span>Brand</span>: {{details.brand}}</p>
+        <p><span>Model</span>: {{details.model}}</p>
+        <p><span>Production Year</span>: {{details.productionYear}}</p>
     </div>
     <div>
-        <p><span>Insurance Date</span>: {{carDetails.insuranceDate}}</p>
-        <p><span>Car Inspection</span>: {{carDetails.carInspection}}</p>
-        <p *ngIf="carDetails.engineCapacity"><span>Engine Capacity</span>: {{carDetails.engineCapacity}}</p>
-        <p *ngIf="carDetails.enginePower"><span>Engine Power</span>: {{carDetails.enginePower}}</p>
+        <p><span>Insurance Date</span>: {{details.insuranceDate}}</p>
+        <p><span>Car Inspection</span>: {{details.carInspection}}</p>
+        <p *ngIf="details.engineCapacity"><span>Engine Capacity</span>: {{details.engineCapacity}}</p>
+        <p *ngIf="details.enginePower"><span>Engine Power</span>: {{details.enginePower}}</p>
     </div>
     <div class="car">
-        <mat-icon [ngStyle]="{'color': carDetails.color}">directions_car</mat-icon>
-        <p *ngIf="carDetails.color"><span>Color</span>: {{carDetails.color}}</p>
+        <mat-icon [ngStyle]="{'color': details.color}">directions_car</mat-icon>
+        <p *ngIf="details.color"><span>Color</span>: {{details.color}}</p>
     </div>
     <div class="progress-container">
         <app-progress *ngIf="insuranceDate" [days]="insuranceDate" title="Insurance"></app-progress>

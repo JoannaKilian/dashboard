@@ -4,20 +4,20 @@ import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from "@angular/material/dialog";
-import { Car } from "../models/car.models";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
+import { Employees } from "../models/employees.models";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class CarService implements OnDestroy {
+export class EmployeesService implements OnDestroy {
 
-    private dataList: Car[] = [];
-    private dataListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
-    public data$: Observable<Car[]> = this.dataListSubject.asObservable();
+    private dataList: Employees[] = [];
+    private dataListSubject: BehaviorSubject<Employees[]> = new BehaviorSubject<Employees[]>([]);
+    public data$: Observable<Employees[]> = this.dataListSubject.asObservable();
 
     private formFields: FormConfig[] = [
         {
@@ -51,7 +51,7 @@ export class CarService implements OnDestroy {
         { type: FieldType.Number, label: 'Engine Power', name: 'enginePower' },
     ];
 
-    private url = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/cars/carsList.json';
+    private url = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/employees/employeesList.json';
     subscription: Subscription = new Subscription();
 
     constructor(
@@ -61,9 +61,9 @@ export class CarService implements OnDestroy {
     };
 
     getList() {
-        this.subscription.add(this.http.get<Car[]>(this.url)
+        this.subscription.add(this.http.get<Employees[]>(this.url)
             .subscribe({
-                next: (response: Car[] | null) => {
+                next: (response: Employees[] | null) => {
                     const data = response !== null ? response : [];
                     this.dataList = data;
                     this.dataListSubject.next(data);
@@ -84,35 +84,35 @@ export class CarService implements OnDestroy {
         return uuidv4();
     }
 
-    add(item: Car) {
+    add(item: Employees) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
+        this.subscription.add(this.http.put<Employees[]>(this.url, clonedList)
         .subscribe(() => {
             this.dataList = clonedList;
         }))
     }
 
-    update(updatedItem: Car) {
+    update(updatedItem: Employees) {
         const clonedList = [...this.dataList];
         const index = clonedList.findIndex(x => x.id === updatedItem.id)
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
+            this.subscription.add(this.http.put<Employees[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
             }))
         }
     }
 
-    delete(item: Car) {
+    delete(item: Employees) {
         const clonedList = [...this.dataList];
         const index = clonedList.findIndex(x => x.id === item.id);
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
+            this.subscription.add(this.http.put<Employees[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
             }))

@@ -9,6 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
 
 @Component({
   selector: 'app-cars',
@@ -18,26 +19,27 @@ import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/
 })
 export class CarsComponent implements OnInit, OnDestroy {
   data$: Observable<Car[]>;
-  carAlerts$: Observable<Alert[]>;
+  alerts$: Observable<Alert[]>;
 
+  title: EntityCategory = 'cars';
   headers: string[] = ['brand', 'model', 'productionYear'];
   subscription: Subscription = new Subscription();
 
   constructor(
     public dialog: MatDialog,
-    private carService: CarService,
+    private dataService: CarService,
     private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
-    this.alertService.getAlerts('cars');
-    this.carService.getCarsList();
-    this.data$ = this.carService.cars$;
-    this.carAlerts$ = this.alertService.categoryAlerts$
+    this.alertService.getAlerts(this.title);
+    this.dataService.getList();
+    this.data$ = this.dataService.data$;
+    this.alerts$ = this.alertService.categoryAlerts$
 
   }
 
-  addCarDialog() {
+  addDialog() {
     this.dialog.open(AddCarDialogComponent, {
       width: '500px',
       data: {
@@ -46,29 +48,30 @@ export class CarsComponent implements OnInit, OnDestroy {
     });
   }
 
-  editCarDialog(car: Car) {
+  editDialog(car: Car) {
     this.dialog.open(UpdateCarDialogComponent, {
       width: '500px',
       data: {
+        title: this.title,
         car: car,
         alertService: this.alertService
       }
     });
   }
 
-  deleteCarDialog(car: Car) {
+  deleteDialog(item: Car) {
 
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       data: {
-        title: `Delete ${car.brand}`,
-        description: `Are you sure you want to delete ${car.brand} ${car.model}`,
+        title: `Delete ${item.brand}`,
+        description: `Are you sure you want to delete ${item.brand} ${item.model}`,
         type: 'submit'
       }
     });
     this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
       if (result === 'submit') {
-        this.alertService.deleteAlert('cars', car.id);
-        this.carService.deleteCar(car);
+        this.alertService.deleteAlert(this.title, item.id);
+        this.dataService.delete(item);
       }
     }))
   }

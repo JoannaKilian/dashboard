@@ -1,5 +1,5 @@
-<p class="title" mat-dialog-title>{{car ? 'Edit ' + car.brand + ' ' + car.model : 'Add new car'}}</p>
+<p class="title" mat-dialog-title>{{data ? 'Edit ' + data.brand + ' ' + data.model : 'Add new car'}}</p>
 <div mat-dialog-content>
-  <app-create-form [data]="car" [fields]="formFields" (submitEvent)="submitHandler($event)" (closeEvent)="closeHandler()">
+  <app-create-form [data]="data" [fields]="formFields" (submitEvent)="submitHandler($event)" (closeEvent)="closeHandler()">
   </app-create-form>
 </div>

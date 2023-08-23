@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Alert } from 'src/app/core/models/alert.models';
 import { Car } from 'src/app/core/models/car.models';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { TimeAlertService } from 'src/app/core/services/time-alert.service';
 
@@ -12,8 +13,9 @@ import { TimeAlertService } from 'src/app/core/services/time-alert.service';
 })
 export class CarDetailsComponent implements OnInit, OnDestroy {
 
-  @Input() carDetails: Car;
+  @Input() details: Car;
   @Input() alerts$: Observable<Alert[]>;
+  @Input() title: EntityCategory;
 
   insuranceDate: number;
   inspectionDate: number;
@@ -26,8 +28,8 @@ export class CarDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.insuranceDate = this.timeAlertService.getCountEndTime(this.carDetails.insuranceDate);
-    this.inspectionDate = this.timeAlertService.getCountEndTime(this.carDetails.carInspection);
+    this.insuranceDate = this.timeAlertService.getCountEndTime(this.details.insuranceDate);
+    this.inspectionDate = this.timeAlertService.getCountEndTime(this.details.carInspection);
 
     this.subscription.add(this.alerts$.subscribe(data => {
       this.alerts = data;
@@ -40,12 +42,12 @@ export class CarDetailsComponent implements OnInit, OnDestroy {
   }
 
   updateTimeAlert(expirationDate: number, name: string): void {
-    const needUpdate = this.alertService.isUpdateAlertNeeded(this.carDetails.id, name, expirationDate);
+    const needUpdate = this.alertService.isUpdateAlertNeeded(this.details.id, name, expirationDate);
 
     if (needUpdate && expirationDate <= 30) {
-      this.alertService.updateAlert('cars', this.carDetails.id, this.carDetails.brand, this.carDetails.model, expirationDate, name);
+      this.alertService.updateAlert(this.title, this.details.id, this.details.brand, this.details.model, expirationDate, name);
     } else if (needUpdate) {
-      this.alertService.deleteAlertByItem('cars', this.carDetails.id, name)
+      this.alertService.deleteAlertByItem(this.title, this.details.id, name)
     }
   }
 

@@ -14,33 +14,33 @@ export class AddCarDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<AddCarDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private carService: CarService,
+    private dataService: CarService,
     private timeAlertService: TimeAlertService,
   ) { }
 
   alertService: AlertService;
-  newCar: Car;
+  newItem: Car;
 
   ngOnInit() {
     this.alertService = this.dialogData.alertService;
   }
 
-  addCarHandler(car: Car) {
+  addHandler(car: Car) {
 
-    const id: string = this.carService.addCarUniqueId();
+    const id: string = this.dataService.addUniqueId();
     car.id = id;
-    this.newCar = car
+    this.newItem = car
 
     const inspectionDate = this.timeAlertService.getCountEndTime(car.carInspection);
     const insuranceDate = this.timeAlertService.getCountEndTime(car.insuranceDate);
     this.checkTimeAlert(inspectionDate, 'Inspection');
     this.checkTimeAlert(insuranceDate, 'Insurance');
-    this.carService.addNewCar(this.newCar);
+    this.dataService.add(this.newItem);
   }
 
   checkTimeAlert(expirationDate: number, name: string): void {
     if (expirationDate <= 30) {
-      this.alertService.addAlert('cars', this.newCar.id, this.newCar.brand, this.newCar.model, expirationDate, name);
+      this.alertService.addAlert('cars', this.newItem.id, this.newItem.brand, this.newItem.model, expirationDate, name);
     }
   }
 }

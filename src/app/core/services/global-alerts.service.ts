@@ -30,7 +30,7 @@ export class GlobalAlertService {
         "persons": [],
         "cars": [],
         "pets": [],
-        "events": [],
+        "employees": [],
         "food": [],
         "todos": []
     };

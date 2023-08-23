@@ -26,7 +26,7 @@ export class UpcomingDatesComponent implements OnInit {
           "persons": [],
           "cars": [],
           "pets": [],
-          "events": [],
+          "employees": [],
           "food": [],
           "todos": []
         };

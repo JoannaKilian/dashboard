@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Car } from 'src/app/core/models/car.models';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { CarService } from 'src/app/core/services/cars.service';
 import { TimeAlertService } from 'src/app/core/services/time-alert.service';
@@ -15,35 +16,37 @@ export class UpdateCarDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<UpdateCarDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private carService: CarService,
+    private dataService: CarService,
     private timeAlertService: TimeAlertService,
   ) { }
 
+  title: EntityCategory;
   car: Car;
   alertService: AlertService;
 
   ngOnInit() {
+    this.title = this.dialogData.title;
     this.car = this.dialogData.car;
     this.alertService = this.dialogData.alertService;
   }
 
-  updateCarHandler(updateCar: Car) {
+  updateHandler(updateCar: Car) {
     updateCar.id = this.car.id;
     const newInsuranceDate = this.timeAlertService.getCountEndTime(updateCar.insuranceDate);
     this.updateTimeAlert(newInsuranceDate, 'Insurance', updateCar);
     const newInspectionDate = this.timeAlertService.getCountEndTime(updateCar.carInspection);
     this.updateTimeAlert(newInspectionDate, 'Inspection', updateCar);
 
-    this.carService.updateCar(updateCar);
+    this.dataService.update(updateCar);
   }
 
   updateTimeAlert(expirationDate: number, name: string, updateCar: Car): void {
     const needUpdate = this.alertService.isUpdateAlertNeeded(updateCar.id, name, expirationDate);
 
     if (needUpdate && expirationDate <= 30) {
-      this.alertService.updateAlert('cars', this.car.id, updateCar.brand, updateCar.model, expirationDate, name);
+      this.alertService.updateAlert(this.title, this.car.id, updateCar.brand, updateCar.model, expirationDate, name);
     } else if (needUpdate) {
-      this.alertService.deleteAlertByItem('cars', this.car.id, name);
+      this.alertService.deleteAlertByItem(this.title, this.car.id, name);
     }
   }
 }

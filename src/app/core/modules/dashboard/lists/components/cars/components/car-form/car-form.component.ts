@@ -12,18 +12,18 @@ import { CarService } from 'src/app/core/services/cars.service';
 })
 export class CarFormComponent implements OnInit {
 
-  @Input() car: Car;
-  @Output() submitCarFormEvent: EventEmitter<Car> = new EventEmitter();
+  @Input() data: Car;
+  @Output() submitFormEvent: EventEmitter<Car> = new EventEmitter();
 
   formFields: FormConfig[];
 
   constructor(
     public dialogRef: MatDialogRef<UpdateCarDialogComponent>,
-    private carService: CarService
+    private dataService: CarService
   ) { }
 
   ngOnInit(): void {
-    this.formFields = this.carService.getFormFields();
+    this.formFields = this.dataService.getFormFields();
   }
 
   closeHandler(): void {
@@ -31,6 +31,6 @@ export class CarFormComponent implements OnInit {
   }
 
   submitHandler(formValue: Car) {
-    this.submitCarFormEvent.emit(formValue);
+    this.submitFormEvent.emit(formValue);
   }
 }

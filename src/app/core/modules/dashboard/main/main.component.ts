@@ -23,7 +23,7 @@ export class MainComponent implements OnInit {
     { title: 'persons', value: 'persons', icon: 'person' },
     { title: 'cars', value: 'cars', icon: 'directions_car' },
     { title: 'pets', value: 'pets', icon: 'pets' },
-    { title: 'events', value: 'events', icon: 'event_available' },
+    { title: 'employees', value: 'persons', icon: 'event_available' },
     { title: 'food', value: 'food', icon: 'fastfood' },
     { title: 'todos', value: 'todos', icon: 'event' },
   ];
