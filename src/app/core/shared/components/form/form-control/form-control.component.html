@@ -1,14 +1,23 @@
 <div [formGroup]="form" class="control">
   <label>{{ field.label }}<span *ngIf="field?.validations"> *</span></label>
   <ng-container [ngSwitch]="field.type">
-    <input *ngSwitchCase="'text'" [formControlName]="field.name" type="text" />
-    <input *ngSwitchCase="'email'" [formControlName]="field.name" type="email" />
-    <input *ngSwitchCase="'password'" [formControlName]="field.name" type="password" />
-    <textarea *ngSwitchCase="'textarea'" [formControlName]="field.name"></textarea>
-    <select *ngSwitchCase="'select'" [formControlName]="field.name">
-      <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
-    </select>
-    <input *ngSwitchCase="'number'" [formControlName]="field.name" type="number" />
-    <input *ngSwitchCase="'date'" [formControlName]="field.name" type="date" />
+    <div style="flex-grow: 1;">
+      <div> 
+        <input *ngSwitchCase="'text'" [formControlName]="field.name" type="text"/>
+        <input *ngSwitchCase="'email'" [formControlName]="field.name" type="email" />
+        <input *ngSwitchCase="'password'" [formControlName]="field.name" type="password" />
+        <textarea *ngSwitchCase="'textarea'" [formControlName]="field.name"></textarea>
+        <select *ngSwitchCase="'select'" [formControlName]="field.name">
+          <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
+        </select>
+        <input *ngSwitchCase="'number'" [formControlName]="field.name" type="number" />
+        <input *ngSwitchCase="'date'" [formControlName]="field.name" type="date" /></div>
+      <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched"
+      class="error-message">
+      <div *ngIf="form.get(field.name)?.hasError('required')">
+        {{ field.label }} is required.
+      </div>
+    </div>
+    </div>
   </ng-container>
 </div>

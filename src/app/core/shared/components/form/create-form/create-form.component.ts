@@ -31,12 +31,14 @@ export class CreateFormComponent implements OnInit {
       controlsConfig[field.name] = [this.data ? this.data[field.name] : '', field.validations || []]
     }
     this.form = this.formBuilder.group(controlsConfig);
+    console.log(this.form);
   }
 
 
   onSubmit() {
     if (this.form.invalid) {
-      this.invalid = true
+      this.invalid = true;
+      this.form.markAllAsTouched;
       return;
     }
 

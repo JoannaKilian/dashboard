@@ -1,9 +1,8 @@
 <div class="wrap-form">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <ng-container *ngFor="let field of fields">
-      <app-form-control [field]="field" [form]="form"></app-form-control>
+      <app-form-control [invalid]="invalid" [field]="field" [form]="form"></app-form-control>
     </ng-container>
-    <div *ngIf="this.invalid" class="error-message">"Please fill out all required fields."</div>
     <div class="button-container">
       <button class="appButton appButton--cancel" type="button" (click)="onCloseClick()">Back</button>
       <button class="appButton" type="button" (click)="onSubmit()">Submit</button>

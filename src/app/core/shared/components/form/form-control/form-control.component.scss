@@ -3,7 +3,7 @@
     margin-bottom: 10px;
 
     label {
-        width: 114px;
+        width: 150px;
         color: var(--color-text-light);
         font-size: var(--font-medium);
     }
@@ -11,9 +11,14 @@
     textarea,
     select,
     input {
-        flex-grow: 1;
+        width: 100%;
         padding: 2px 2px 2px 10px;
         font-size: var(--font-medium);
         min-height: 32px;
+    }
+
+    .error-message {
+        color: var(--color-alert);
+        font-size: var(--font-medium);
     }
 }
