@@ -5,6 +5,7 @@ import { MainComponent } from "./main.component";
 import { SharedModule } from "../../../shared/shared.module";
 import { DashboardModule } from "../dashboard.module";
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
     MainRoutingModule,
     SharedModule,
     MatIconModule,
-    DashboardModule
+    DashboardModule,
+    MatTooltipModule
   ],
   providers: []
 })

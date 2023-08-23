@@ -9,7 +9,21 @@
           <p>{{section.title}}</p>
         </div>
         <div class="main_alert-box">
-          <div class="alert alert--ok"></div>
+          <ng-container *ngIf="allAlerts$ | async as alerts">
+            <ng-container *ngIf="alerts[section.value].length > 0; else ok">
+              <div class="alert alert--warning">
+                <div class="main_alert-number">
+                  {{alerts[section.value].length}}
+                </div>
+              </div>
+              <mat-icon class="main_alert-tooltip" 
+              [matTooltip]="getTooltipContent(alerts[section.value])"
+              >info</mat-icon>
+            </ng-container>
+            <ng-template #ok>
+              <div class="alert alert--ok"></div>
+            </ng-template>
+          </ng-container>
         </div>
       </div>
     </ng-container>

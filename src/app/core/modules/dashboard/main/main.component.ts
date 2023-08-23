@@ -34,16 +34,25 @@ export class MainComponent implements OnInit {
     private globalAlertService: GlobalAlertService,
   ) { }
 
-ngOnInit(): void {
-  this.globalAlertService.getGlobalAlerts();
-  this.carsAlerts$ = this.globalAlertService.carsAlerts$;
-  this.personsAlerts$ = this.globalAlertService.personsAlerts$;
-  this.petsAlerts$ = this.globalAlertService.petsAlerts$;
-  this.allAlerts$ = this.globalAlertService.allAlerts$;
-}
+  ngOnInit(): void {
+    this.globalAlertService.getGlobalAlerts();
+    this.carsAlerts$ = this.globalAlertService.carsAlerts$;
+    this.personsAlerts$ = this.globalAlertService.personsAlerts$;
+    this.petsAlerts$ = this.globalAlertService.petsAlerts$;
+    this.allAlerts$ = this.globalAlertService.allAlerts$;
+  }
 
   goToPage(value: string,) {
     this.menuService.setCurrentIndex(2);
     this.router.navigate([`/dashboard/lists`], { queryParams: { tab: value } });
+  }
+
+  getTooltipContent(alerts: Alert[]): string {
+    if (alerts && alerts.length > 0) {
+      const messages = alerts.map((alert, index) => `${index + 1}. ${alert.message.split(' ').slice(0, 2).join(' ')} - ${alert.name}`);
+      return messages.join(', ');
+    } else {
+      return ''
+    }
   }
 }

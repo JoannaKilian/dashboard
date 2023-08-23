@@ -105,5 +105,19 @@
         }
       }
     }
+    &_alert-number{
+      color: #fff;
+      position: absolute;
+      top: 2px;
+      right: 8px;
+    }
+
+    &_alert-tooltip{
+      color: grey;
+      position: absolute;
+      top: 1px;
+      right: 33px;
+    }
+
   }
 }
