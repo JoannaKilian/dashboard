@@ -3,26 +3,27 @@
   position: relative;
   min-height: 100%;
 
+  .sections {
+    flex-grow: 1;
+    display: flex;
+  }
+
   .main {
     display: flex;
-    flex-grow: 1;
     flex-wrap: wrap;
     align-content: flex-start;
-    gap: 30px;
-    margin-right: 20px;
+    justify-content: flex-end;
+    gap: 22px;
+    width: 50%;
 
     &_container {
       position: relative;
-      background-color: var(--color-base-dark);
-      width: 30%;
+      background-color: var(--color-base);
+      width: 47%;
       height: 180px;
       box-shadow: var(--shadow);
       border-radius: 4px;
       cursor: pointer;
-
-      &:nth-of-type(2n) {
-        background-color: var(--color-base);
-      }
 
       &:hover {
 
@@ -105,19 +106,45 @@
         }
       }
     }
-    &_alert-number{
+
+    &_alert-number {
       color: #fff;
       position: absolute;
       top: 2px;
       right: 8px;
     }
 
-    &_alert-tooltip{
+    &_alert-tooltip {
       color: grey;
       position: absolute;
       top: 1px;
       right: 33px;
     }
 
+  }
+
+  .todos {
+    position: relative;
+    background-color: var(--color-base-dark);
+    width: 50%;
+    height: 382px;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 22px;
+
+    &:hover {
+
+      box-shadow: 2px 4px 10px 0px #000;
+
+      .main_title p {
+        font-size: calc(var(--font-subtitle) + 1px);
+        color: var();
+      }
+    }
+
+    &:active {
+      box-shadow: inset 2px 4px 10px 0px #000;
+    }
   }
 }

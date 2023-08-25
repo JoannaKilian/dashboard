@@ -26,9 +26,7 @@ export class UpcomingDatesComponent implements OnInit {
           "persons": [],
           "cars": [],
           "pets": [],
-          "employees": [],
-          "food": [],
-          "todos": []
+          "events": [],
         };
         this.alerts = this.combineAlerts(data);
         this.loading = false;

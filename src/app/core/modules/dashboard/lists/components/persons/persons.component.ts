@@ -1,19 +1,84 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { MatDialog } from '@angular/material/dialog';
+import { UpdatePersonDialogComponent } from './components/update-person-dialog/update-person-dialog.component';
+import { Observable, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { Alert } from 'src/app/core/models/alert.models';
+import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
 import { Person } from 'src/app/core/models/person.models';
+import { PersonsService } from 'src/app/core/services/persons.service';
+import { AddPersonDialogComponent } from './components/add-person-dialog/add-person-dialog.component';
 
 @Component({
   selector: 'app-persons',
   templateUrl: './persons.component.html',
-  styleUrls: ['./persons.component.scss']
+  styleUrls: ['./persons.component.scss'],
+  providers: [AlertService]
 })
-export class PersonsComponent {
-  data: Person[] = [
-    { name: 'Alex', surname: 'Johnson', dateOfBirth: '1983-06-02', weedingAnniversary: '2020-10-15', socialSecurityNumber: '53224HUI5544', IDcard: 'HUI 5544' },
-    { name: 'Anna', surname: 'Johnson', dateOfBirth: '1985-05-27', weedingAnniversary: '2020-10-15', socialSecurityNumber: '56832LOP5522', IDcard: 'LOP 5522' },
-    { name: 'Noemi', surname: 'Johnson', dateOfBirth: '2023-04-30', socialSecurityNumber: '345467KDR4087', IDcard: 'KDR 4087' },
-    { name: 'Robson', surname: 'Johnson', dateOfBirth: '2020-12-12', socialSecurityNumber: '435345SER3487', IDcard: 'SER 3487' },
-    { name: 'Max', surname: 'Johnson', dateOfBirth: '2000-05-22', socialSecurityNumber: '46456HYR4721', IDcard: 'HYR 4721' },
-  ];
+export class PersonsComponent implements OnInit, OnDestroy {
+  data$: Observable<Person[]>;
+  alerts$: Observable<Alert[]>;
 
+  title: EntityCategory = 'persons';
   headers: string[] = ['name', 'surname'];
+  subscription: Subscription = new Subscription();
+
+  constructor(
+    public dialog: MatDialog,
+    private dataService: PersonsService,
+    private alertService: AlertService,
+  ) { }
+
+  ngOnInit(): void {
+    this.alertService.getAlerts(this.title);
+    this.dataService.getList();
+    this.data$ = this.dataService.data$;
+    this.alerts$ = this.alertService.categoryAlerts$
+
+  }
+
+  addDialog() {
+    this.dialog.open(AddPersonDialogComponent, {
+      width: '500px',
+      data: {
+        alertService: this.alertService,
+        title: this.title,
+      }
+    });
+  }
+
+  editDialog(person: Person) {
+    this.dialog.open(UpdatePersonDialogComponent, {
+      width: '500px',
+      data: {
+        title: this.title,
+        person: person,
+        alertService: this.alertService
+      }
+    });
+  }
+
+  deleteDialog(item: Person) {
+
+    const dialogRef = this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: `Delete ${item.name}`,
+        description: `Are you sure you want to delete ${item.name} ${item.surname}`,
+        type: 'submit'
+      }
+    });
+    this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'submit') {
+        this.alertService.deleteAlert(this.title, item.id);
+        this.dataService.delete(item);
+      }
+    }))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
 }

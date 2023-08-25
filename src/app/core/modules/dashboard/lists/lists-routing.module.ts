@@ -2,10 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ListsComponent} from "./lists.component";
 
-
-
 const routes: Routes = [
-  { path: '', component: ListsComponent }
+  {
+    path: "", component: ListsComponent, children: [
+      {path: "", pathMatch: "full", redirectTo: "persons"},
+      {path: "persons", loadChildren: () => import("./components/persons/persons.module").then(x => x.PersonsModule)},
+      {path: "cars", loadChildren: () => import("./components/cars/cars.module").then(x => x.CarsModule)},
+      // {path: "pets", loadChildren: () => import("./lists/lists.module").then(x => x.ListsModule)},
+      // {path: "events", loadChildren: () => import("./lists/lists.module").then(x => x.ListsModule)},
+    ]
+  }
 ];
 
 @NgModule({

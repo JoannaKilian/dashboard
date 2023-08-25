@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Section } from '../models/sections.models';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,19 @@ import { BehaviorSubject } from 'rxjs';
 export class MenuService {
 
   private currentIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  sections: Section[] = [
+    { title: 'persons', value: 'persons', icon: 'person' },
+    { title: 'cars', value: 'cars', icon: 'directions_car' },
+    { title: 'pets', value: 'pets', icon: 'pets' },
+    { title: 'events', value: 'events', icon: 'cake' }
+  ];
 
   getCurrentIndex() {
     return this.currentIndex.asObservable();
+  }
+
+  getSections() {
+    return this.sections;
   }
 
   setCurrentIndex(index: number) {

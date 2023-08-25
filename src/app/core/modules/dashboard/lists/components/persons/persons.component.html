@@ -1,5 +1,6 @@
-<!-- <app-table title="persons" icon="person" [dataTable]="data" [columnsToDisplay]="headers">
+<app-table title="persons" icon="persons" [alerts$]="alerts$" [data$]="data$" [columnsToDisplay]="headers"
+  (addEvent)="addDialog()" (editEvent)="editDialog($event)" (deleteEvent)="deleteDialog($event)">
   <ng-template #detailsTemplate let-element="element">
-    <app-person-details [personDetails]="element"></app-person-details>
+    <app-person-details [title]="title" [details]="element" [alerts$]="alerts$"></app-person-details>
   </ng-template>
-</app-table> -->
+</app-table>

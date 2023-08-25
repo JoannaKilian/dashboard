@@ -25,14 +25,14 @@ export class AddCarDialogComponent implements OnInit {
     this.alertService = this.dialogData.alertService;
   }
 
-  addHandler(car: Car) {
+  addHandler(item: Car) {
 
     const id: string = this.dataService.addUniqueId();
-    car.id = id;
-    this.newItem = car
+    item.id = id;
+    this.newItem = item
 
-    const inspectionDate = this.timeAlertService.getCountEndTime(car.carInspection);
-    const insuranceDate = this.timeAlertService.getCountEndTime(car.insuranceDate);
+    const inspectionDate = this.timeAlertService.getCountEndTime(item.carInspection);
+    const insuranceDate = this.timeAlertService.getCountEndTime(item.insuranceDate);
     this.checkTimeAlert(inspectionDate, 'Inspection');
     this.checkTimeAlert(insuranceDate, 'Insurance');
     this.dataService.add(this.newItem);

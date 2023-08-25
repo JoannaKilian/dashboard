@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Section } from "../../../models/sections.models";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuService } from 'src/app/core/services/menu.service';
 import { GlobalAlertService } from 'src/app/core/services/global-alerts.service';
 import { Observable } from 'rxjs';
@@ -19,14 +19,7 @@ export class MainComponent implements OnInit {
   petsAlerts$: Observable<Alert[]>;
   allAlerts$: Observable<EntityAlertMap>;
 
-  sections: Section[] = [
-    { title: 'persons', value: 'persons', icon: 'person' },
-    { title: 'cars', value: 'cars', icon: 'directions_car' },
-    { title: 'pets', value: 'pets', icon: 'pets' },
-    { title: 'employees', value: 'persons', icon: 'event_available' },
-    { title: 'food', value: 'food', icon: 'fastfood' },
-    { title: 'todos', value: 'todos', icon: 'event' },
-  ];
+  sections: Section[];
 
   constructor(
     private router: Router,
@@ -35,6 +28,7 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sections = this.menuService.getSections();
     this.globalAlertService.getGlobalAlerts();
     this.carsAlerts$ = this.globalAlertService.carsAlerts$;
     this.personsAlerts$ = this.globalAlertService.personsAlerts$;
@@ -44,7 +38,7 @@ export class MainComponent implements OnInit {
 
   goToPage(value: string,) {
     this.menuService.setCurrentIndex(2);
-    this.router.navigate([`/dashboard/lists`], { queryParams: { tab: value } });
+    this.router.navigate([`/dashboard/lists/${value}`]);
   }
 
   getTooltipContent(alerts: Alert[]): string {

@@ -30,9 +30,7 @@ export class GlobalAlertService {
         "persons": [],
         "cars": [],
         "pets": [],
-        "employees": [],
-        "food": [],
-        "todos": []
+        "events": [],
     };
     private allAlertsSubject = new BehaviorSubject<EntityAlertMap>(this.allAlerts);
     allAlerts$ = this.allAlertsSubject.asObservable();

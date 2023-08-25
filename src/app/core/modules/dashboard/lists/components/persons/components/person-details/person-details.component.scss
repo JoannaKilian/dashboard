@@ -11,13 +11,19 @@
     span {
         font-weight: 700
     }
+
+    div:nth-child(2){
+        margin-left: 40px;
+    }; 
 }
 
 .person {
     display: flex;
     align-items: center;
-    width: 100px;
+    flex-direction: column;
+    width: 200px;
     height: 110px;
+    margin-left: 40px;
 
     mat-icon {
         width: 80px;

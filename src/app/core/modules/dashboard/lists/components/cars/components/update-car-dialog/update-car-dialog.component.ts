@@ -30,22 +30,20 @@ export class UpdateCarDialogComponent implements OnInit {
     this.alertService = this.dialogData.alertService;
   }
 
-  updateHandler(updateCar: Car) {
-    updateCar.id = this.car.id;
-    const newInsuranceDate = this.timeAlertService.getCountEndTime(updateCar.insuranceDate);
-    this.updateTimeAlert(newInsuranceDate, 'Insurance', updateCar);
-    const newInspectionDate = this.timeAlertService.getCountEndTime(updateCar.carInspection);
-    this.updateTimeAlert(newInspectionDate, 'Inspection', updateCar);
+  updateHandler(updateItem: Car) {
+    updateItem.id = this.car.id;
+    const newInsuranceDate = this.timeAlertService.getCountEndTime(updateItem.insuranceDate);
+    this.updateTimeAlert(newInsuranceDate, 'Insurance', updateItem);
+    const newInspectionDate = this.timeAlertService.getCountEndTime(updateItem.carInspection);
+    this.updateTimeAlert(newInspectionDate, 'Inspection', updateItem);
 
-    this.dataService.update(updateCar);
+    this.dataService.update(updateItem);
   }
 
-  updateTimeAlert(expirationDate: number, name: string, updateCar: Car): void {
-    const needUpdate = this.alertService.isUpdateAlertNeeded(updateCar.id, name, expirationDate);
-
-    if (needUpdate && expirationDate <= 30) {
-      this.alertService.updateAlert(this.title, this.car.id, updateCar.brand, updateCar.model, expirationDate, name);
-    } else if (needUpdate) {
+  updateTimeAlert(expirationDate: number, name: string, item: Car): void {
+    if (expirationDate <= 30) {
+      this.alertService.updateAlert(this.title, this.car.id, item.brand, item.model, expirationDate, name);
+    } else {
       this.alertService.deleteAlertByItem(this.title, this.car.id, name);
     }
   }

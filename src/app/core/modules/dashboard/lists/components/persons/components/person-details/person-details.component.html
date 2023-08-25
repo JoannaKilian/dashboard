@@ -1,19 +1,21 @@
 <div class="details">
-    <div class="person">
-        <mat-icon>{{getIconAge()}}</mat-icon>
+    <div>
+        <p><span>Name</span>: {{details.name}}</p>
+        <p><span>Surname</span>: {{details.surname}}</p>
+        <p><span>Sex</span>: {{details.sex}}</p>
     </div>
     <div>
-        <p *ngIf="personDetails.dateOfBirth"><span>Date Of Birth</span>:
-            {{personDetails.dateOfBirth}}</p>
-            <ng-container *ngIf="age >= 1">
-                <p><span>Age</span>: {{age}} years</p>
-            </ng-container>
-        <p *ngIf="personDetails.socialSecurityNumber"><span>Social Security Number</span>:
-            {{personDetails.socialSecurityNumber}}</p>
-        <p *ngIf="personDetails.IDcard"><span>ID card</span>: {{personDetails.IDcard}}</p>
+        <p><span>Birthday</span>: {{details.dateOfBirth}}</p>
+        <p *ngIf="details.nameDay"><span>Wedding</span>: {{details.nameDay}}</p>
+        <p *ngIf="details.socialSecurityNumber"><span>PESEL</span>: {{details.socialSecurityNumber}}</p>
+        <p><span>ID card</span>: {{details.IDcard}}</p>
+    </div>
+    <div class="person">
+        <mat-icon>{{getIconAge()}}</mat-icon>
+        <p><span>Age</span>: {{age}}</p>
     </div>
     <div class="progress-container">
-        <app-progress *ngIf="daysUntilBirthday" [days]="daysUntilBirthday" title="Birthday"></app-progress>
-        <app-progress *ngIf="toWeedingAnniversary" [days]="toWeedingAnniversary" title="Wedding"></app-progress>
+        <app-progress [days]="birthdayDate" title="Birthday"></app-progress>
+        <app-progress *ngIf="details.nameDay" [days]="nameDay" title="Wedding"></app-progress>
     </div>
 </div>
