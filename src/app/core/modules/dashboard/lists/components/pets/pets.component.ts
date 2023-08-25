@@ -26,6 +26,7 @@ export class PetsComponent implements OnInit, OnDestroy {
   alerts$: Observable<Alert[]>;
 
   title: EntityCategory;
+  icon: string;
   sections: Section[];
   headers: string[] = ['species', 'name']
   subscription: Subscription = new Subscription();
@@ -38,12 +39,20 @@ export class PetsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.sections = this.menuService.getSections();
-    this.title = this.sections[2].title;
+    this.getSectionInfo(2);
     this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;
     this.alerts$ = this.alertService.categoryAlerts$
+  }
+
+  getSectionInfo(index: number){
+    this.sections = this.menuService.getSections();
+    this.title = this.sections[index].title;
+    const foundedSection = this.sections.find(section => section.title === this.title);
+    if(foundedSection){
+      this.icon = foundedSection.icon;
+    }
   }
 
   addDialog() {

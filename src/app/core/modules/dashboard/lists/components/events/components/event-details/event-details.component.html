@@ -1,0 +1,20 @@
+<div class="details">
+    <div>
+        <p><span>Title</span>: {{details.name}}</p>
+        <p><span>Category</span>: {{details.category}}</p>
+        <p><span>Date</span>: {{details.date}}</p>
+        <p *ngIf="details.description"><span>Description</span>: {{details.description}}</p>
+    </div>
+    <div style="flex-grow: 1; display: flex; justify-content: flex-end;">
+        <div class="importance-bar">
+            <div class="importance-level" [ngClass]="{ 
+                'importance-level_low': level === 'Low', 
+                'importance-level_medium': level === 'Medium', 
+                'importance-level_high': level === 'High',
+                'importance-level--active': level === details.importance}" *ngFor="let level of importanceLevels">
+                {{ level }}
+            </div>
+        </div>
+    </div>
+    <app-progress [days]="date" title="Date"></app-progress>
+</div>

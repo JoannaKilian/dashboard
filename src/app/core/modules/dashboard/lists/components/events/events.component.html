@@ -1,6 +1,6 @@
 <app-table [title]="title" [icon]="icon" [alerts$]="alerts$" [data$]="data$" [columnsToDisplay]="headers"
   (addEvent)="addDialog()" (editEvent)="editDialog($event)" (deleteEvent)="deleteDialog($event)">
   <ng-template #detailsTemplate let-element="element">
-    <app-car-details [title]="title" [details]="element" [alerts$]="alerts$"></app-car-details>
+    <app-event-details [title]="title" [details]="element" [alerts$]="alerts$"></app-event-details>
   </ng-template>
 </app-table>

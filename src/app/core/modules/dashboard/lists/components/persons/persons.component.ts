@@ -23,6 +23,7 @@ export class PersonsComponent implements OnInit, OnDestroy {
   alerts$: Observable<Alert[]>;
 
   title: EntityCategory;
+  icon: string;
   sections: Section[];
   headers: string[] = ['name', 'surname'];
   subscription: Subscription = new Subscription();
@@ -35,12 +36,20 @@ export class PersonsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.sections = this.menuService.getSections();
-    this.title = this.sections[0].title;
+    this.getSectionInfo(3);
     this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;
     this.alerts$ = this.alertService.categoryAlerts$
+  }
+
+    getSectionInfo(index: number){
+    this.sections = this.menuService.getSections();
+    this.title = this.sections[index].title;
+    const foundedSection = this.sections.find(section => section.title === this.title);
+    if(foundedSection){
+      this.icon = foundedSection.icon;
+    }
   }
 
   addDialog() {
@@ -65,7 +74,6 @@ export class PersonsComponent implements OnInit, OnDestroy {
   }
 
   deleteDialog(item: Person) {
-
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       data: {
         title: `Delete ${item.name}`,

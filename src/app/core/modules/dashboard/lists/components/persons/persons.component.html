@@ -1,4 +1,4 @@
-<app-table [title]="this.sections[0].title" [icon]="this.sections[0].icon" [alerts$]="alerts$" [data$]="data$" [columnsToDisplay]="headers"
+<app-table [title]="title" [icon]="icon" [alerts$]="alerts$" [data$]="data$" [columnsToDisplay]="headers"
   (addEvent)="addDialog()" (editEvent)="editDialog($event)" (deleteEvent)="deleteDialog($event)">
   <ng-template #detailsTemplate let-element="element">
     <app-person-details [title]="title" [details]="element" [alerts$]="alerts$"></app-person-details>

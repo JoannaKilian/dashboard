@@ -9,7 +9,7 @@ const routes: Routes = [
       { path: "persons", loadChildren: () => import("./components/persons/persons.module").then(x => x.PersonsModule) },
       { path: "cars", loadChildren: () => import("./components/cars/cars.module").then(x => x.CarsModule) },
       { path: "pets", loadChildren: () => import("./components/pets/pets.module").then(x => x.PetsModule) },
-      // {path: "events", loadChildren: () => import("./lists/lists.module").then(x => x.ListsModule)},
+      {path: "events", loadChildren: () => import("./components/events/events.module").then(x => x.EventsModule)},
     ]
   }
 ];

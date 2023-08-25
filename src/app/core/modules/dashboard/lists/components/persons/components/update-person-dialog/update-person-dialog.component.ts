@@ -13,16 +13,16 @@ import { TimeAlertService } from 'src/app/core/services/time-alert.service';
 })
 export class UpdatePersonDialogComponent implements OnInit {
 
+  title: EntityCategory;
+  person: Person;
+  alertService: AlertService;
+
   constructor(
     public dialogRef: MatDialogRef<UpdatePersonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private dataService: PersonsService,
     private timeAlertService: TimeAlertService,
   ) { }
-
-  title: EntityCategory;
-  person: Person;
-  alertService: AlertService;
 
   ngOnInit() {
     this.title = this.dialogData.title;
