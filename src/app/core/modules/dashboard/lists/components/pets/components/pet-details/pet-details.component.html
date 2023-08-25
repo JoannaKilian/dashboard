@@ -1,0 +1,27 @@
+<div class="details">
+    <div>
+        <p><span>Name</span>: {{details.name}}</p>
+        <p><span>Species</span>: {{details.species}}</p>
+        <p *ngIf="details.breed"><span>Breed</span>: {{details.breed}}</p>
+        <p><span>Sex</span>: {{details.sex}}</p>
+    </div>
+    <div>
+        <p><span>Birthday</span>: {{details.dateOfBirth}}</p>
+        <p *ngIf="details.vaccinationDate"><span>Vaccination Date</span>: {{details.vaccinationDate}}</p>
+    </div>
+    <div class="details_life">
+        <p><span>Length of life: </span></p>
+        <ng-container *ngIf="age > 0; else bellowYear">
+            <p><span>Age: </span>{{age}} years</p>
+        </ng-container>
+        <ng-template #bellowYear>
+            <p><span>Age: </span>Bellow year</p>
+        </ng-template>
+        <p *ngIf="averageLifespan"><span>Average Lifespan</span>: {{averageLifespan}}</p>
+    </div>
+    <app-stars *ngIf="age <= averageLifespan" [numberAll]="averageLifespan" [range]="age"></app-stars>
+    <div class="progress-container">
+        <app-progress [days]="birthdayDate" title="Birthday"></app-progress>
+        <app-progress *ngIf="details.vaccinationDate" [days]="vaccinationDate" title="Vaccination Date"></app-progress>
+    </div>
+</div>

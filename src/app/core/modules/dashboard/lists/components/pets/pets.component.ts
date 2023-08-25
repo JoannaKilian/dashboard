@@ -1,21 +1,90 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { MatDialog } from '@angular/material/dialog';
+import { Observable, Subscription } from 'rxjs';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { Alert } from 'src/app/core/models/alert.models';
+import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
 import { Pet } from 'src/app/core/models/pet.models';
+import { PetsService } from 'src/app/core/services/pets.service';
+import { AddPetDialogComponent } from './components/add-pet-dialog/add-pet-dialog.component';
+import { UpdatePetDialogComponent } from './components/update-pet-dialog/update-pet-dialog.component';
+import { MenuService } from 'src/app/core/services/menu.service';
+import { Section } from 'src/app/core/models/sections.models';
+
 
 @Component({
   selector: 'app-pets',
   templateUrl: './pets.component.html',
-  styleUrls: ['./pets.component.scss']
+  styleUrls: ['./pets.component.scss'],
+  providers: [AlertService]
 })
-export class PetsComponent {
+export class PetsComponent implements OnInit, OnDestroy {
 
-  data: Pet[] = [
-    { name: 'Miau', species: 'Cat', breed: 'Maine Coon', dateOfBirth: '2018-03-15', color: 'Red', favoriteToy: 'Feathered dangler', vaccinationDate: '2024-08-10', averageLifeLength: 15 },
-    { name: 'Buddy', species: 'Dog', breed: 'Golden Retriever', dateOfBirth: '2019-05-20', color: 'Golden', favoriteToy: 'Rubber ball', vaccinationDate: '2023-07-15', averageLifeLength: 12 },
-    { name: 'Fiona', species: 'Horse', breed: 'Hanoverian', dateOfBirth: '2015-11-03', color: 'Chestnut', favoriteToy: 'Sack for tossing', vaccinationDate: '2023-12-05', averageLifeLength: 25 },
-    { name: 'Hammy', species: 'Hamster', breed: 'Dwarf Hamster', dateOfBirth: '2022-02-10', color: 'Grey', favoriteToy: 'Running wheel', vaccinationDate: '2024-01-18', averageLifeLength: 2 },
-    { name: 'Shelly', species: 'Turtle', breed: 'Red-Eared Slider', dateOfBirth: '2020-08-25', color: 'Green', favoriteToy: 'Floating platform', vaccinationDate: '2023-10-12', averageLifeLength: 30 },
-  ];
+  data$: Observable<Pet[]>;
+  alerts$: Observable<Alert[]>;
 
-  headers: string[] = ['species', 'breed', 'name']
+  title: EntityCategory;
+  sections: Section[];
+  headers: string[] = ['species', 'name']
+  subscription: Subscription = new Subscription();
 
+  constructor(
+    public dialog: MatDialog,
+    private menuService: MenuService,
+    private dataService: PetsService,
+    private alertService: AlertService,
+  ) { }
+
+  ngOnInit(): void {
+    this.sections = this.menuService.getSections();
+    this.title = this.sections[2].title;
+    this.alertService.getAlerts(this.title);
+    this.dataService.getList();
+    this.data$ = this.dataService.data$;
+    this.alerts$ = this.alertService.categoryAlerts$
+  }
+
+  addDialog() {
+    this.dialog.open(AddPetDialogComponent, {
+      width: '500px',
+      data: {
+        alertService: this.alertService,
+        title: this.title,
+      }
+    });
+  }
+
+  editDialog(pet: Pet) {
+    this.dialog.open(UpdatePetDialogComponent, {
+      width: '500px',
+      data: {
+        title: this.title,
+        pet: pet,
+        alertService: this.alertService
+      }
+    });
+  }
+
+  deleteDialog(item: Pet) {
+
+    const dialogRef = this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: `Delete ${item.name}`,
+        description: `Are you sure you want to delete ${item.name} ${item.species}`,
+        type: 'submit'
+      }
+    });
+    this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'submit') {
+        this.alertService.deleteAlert(this.title, item.id);
+        this.dataService.delete(item);
+      }
+    }))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

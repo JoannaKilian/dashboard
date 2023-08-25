@@ -6,8 +6,8 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./stars.scss']
 })
 export class Stars implements OnInit {
-  @Input() numberAll: number = 10;
-  @Input() range: number = 1;
+  @Input() numberAll: number;
+  @Input() range: number;
 
   numberEmptyArray: unknown[] = [];
   numberRangeArray: unknown[] = []

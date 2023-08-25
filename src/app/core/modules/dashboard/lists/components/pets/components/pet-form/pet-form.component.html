@@ -1,0 +1,5 @@
+<p class="title" mat-dialog-title>{{data ? 'Edit ' + data.name + ' ' + data.species : 'Add new ' + title.slice(0, -1)}}</p>
+<div mat-dialog-content>
+  <app-create-form [data]="data" [fields]="formFields" (submitEvent)="submitHandler($event)" (closeEvent)="closeHandler()">
+  </app-create-form>
+</div>

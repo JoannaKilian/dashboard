@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { MatDialog } from '@angular/material/dialog';
 import { UpdatePersonDialogComponent } from './components/update-person-dialog/update-person-dialog.component';
 import { Observable, Subscription } from 'rxjs';
@@ -10,6 +9,8 @@ import { EntityCategory } from 'src/app/core/models/category-list.models';
 import { Person } from 'src/app/core/models/person.models';
 import { PersonsService } from 'src/app/core/services/persons.service';
 import { AddPersonDialogComponent } from './components/add-person-dialog/add-person-dialog.component';
+import { Section } from 'src/app/core/models/sections.models';
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-persons',
@@ -21,22 +22,25 @@ export class PersonsComponent implements OnInit, OnDestroy {
   data$: Observable<Person[]>;
   alerts$: Observable<Alert[]>;
 
-  title: EntityCategory = 'persons';
+  title: EntityCategory;
+  sections: Section[];
   headers: string[] = ['name', 'surname'];
   subscription: Subscription = new Subscription();
 
   constructor(
     public dialog: MatDialog,
+    private menuService: MenuService,
     private dataService: PersonsService,
     private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
+    this.sections = this.menuService.getSections();
+    this.title = this.sections[0].title;
     this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;
     this.alerts$ = this.alertService.categoryAlerts$
-
   }
 
   addDialog() {

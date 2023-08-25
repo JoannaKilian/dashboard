@@ -1,5 +1,6 @@
-<!-- <app-table title="pets" icon="pets" [dataTable]="data" [columnsToDisplay]="headers">
-    <ng-template #detailsTemplate let-element="element">
-        <app-pet-details [petDetails]="element"></app-pet-details>
-    </ng-template>
-</app-table> -->
+<app-table [title]="this.sections[2].title" [icon]="this.sections[2].icon" [alerts$]="alerts$" [data$]="data$" [columnsToDisplay]="headers"
+  (addEvent)="addDialog()" (editEvent)="editDialog($event)" (deleteEvent)="deleteDialog($event)">
+  <ng-template #detailsTemplate let-element="element">
+    <app-pet-details [title]="title" [details]="element" [alerts$]="alerts$"></app-pet-details>
+  </ng-template>
+</app-table>

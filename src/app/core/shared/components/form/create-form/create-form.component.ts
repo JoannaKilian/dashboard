@@ -31,7 +31,6 @@ export class CreateFormComponent implements OnInit {
       controlsConfig[field.name] = [this.data ? this.data[field.name] : '', field.validations || []]
     }
     this.form = this.formBuilder.group(controlsConfig);
-    console.log(this.form);
   }
 
 

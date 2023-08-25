@@ -12,13 +12,11 @@
         font-weight: 700
     }
 
-    &_life-container {
-        margin-top: 30px;
+    div:nth-child(2), div:nth-child(3){
+        margin-left: 40px;
     }
 
     &_life {
-        display: flex;
-        
         p{
             margin-right: 30px;
         }

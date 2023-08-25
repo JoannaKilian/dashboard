@@ -12,14 +12,13 @@ import { SharedModule } from 'src/app/core/shared/shared.module';
 import { CarsRoutingModule } from './cars-routing';
 
 
-
 @NgModule({
   declarations: [
     CarsComponent,
-    CarDetailsComponent,
     CarFormComponent,
-    UpdateCarDialogComponent,
+    CarDetailsComponent,
     AddCarDialogComponent,
+    UpdateCarDialogComponent,
   ],
   imports: [
     CarsRoutingModule,

@@ -10,6 +10,8 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
 import { EntityCategory } from 'src/app/core/models/category-list.models';
+import { Section } from 'src/app/core/models/sections.models';
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-cars',
@@ -21,17 +23,21 @@ export class CarsComponent implements OnInit, OnDestroy {
   data$: Observable<Car[]>;
   alerts$: Observable<Alert[]>;
 
-  title: EntityCategory = 'cars';
+  title: EntityCategory;
+  sections: Section[];
   headers: string[] = ['brand', 'model', 'productionYear'];
   subscription: Subscription = new Subscription();
 
   constructor(
     public dialog: MatDialog,
+    private menuService: MenuService,
     private dataService: CarService,
     private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
+    this.sections = this.menuService.getSections();
+    this.title = this.sections[1].title;
     this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;
