@@ -13,6 +13,7 @@ export class MenuService {
     { title: 'events', value: 'events', icon: 'cake' },
     { title: 'cars', value: 'cars', icon: 'directions_car' },
     { title: 'pets', value: 'pets', icon: 'pets' },
+    { title: 'links', value: 'links', icon: 'link' },
   ];
 
   getCurrentIndex() {
