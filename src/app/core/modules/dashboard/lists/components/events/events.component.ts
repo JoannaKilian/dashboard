@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
-import { EntityCategory } from 'src/app/core/models/category-list.models';
+import { EntityCategory, SectionNumber } from 'src/app/core/models/category-list.models';
 import { Section } from 'src/app/core/models/sections.models';
 import { MenuService } from 'src/app/core/services/menu.service';
 import { CalendarEvent } from 'src/app/core/models/event.models';
@@ -39,7 +39,7 @@ export class EventsComponent implements OnInit, OnDestroy  {
   ) { }
 
   ngOnInit(): void {
-    this.getSectionInfo(3);
+    this.getSectionInfo(SectionNumber.Events);
     this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;

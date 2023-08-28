@@ -10,9 +10,9 @@ export class MenuService {
   private currentIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   sections: Section[] = [
     { title: 'persons', value: 'persons', icon: 'person' },
+    { title: 'events', value: 'events', icon: 'cake' },
     { title: 'cars', value: 'cars', icon: 'directions_car' },
     { title: 'pets', value: 'pets', icon: 'pets' },
-    { title: 'events', value: 'events', icon: 'cake' }
   ];
 
   getCurrentIndex() {

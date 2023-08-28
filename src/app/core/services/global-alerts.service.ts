@@ -26,11 +26,15 @@ export class GlobalAlertService {
     private petsAlertsSubject = new BehaviorSubject<Alert[]>([]);
     petsAlerts$ = this.petsAlertsSubject.asObservable();
 
+    eventsAlerts: Alert[] = [];
+    private eventsAlertsSubject = new BehaviorSubject<Alert[]>([]);
+    eventsAlerts$ = this.petsAlertsSubject.asObservable();
+
     allAlerts: EntityAlertMap = {
         "persons": [],
+        "events": [],
         "cars": [],
         "pets": [],
-        "events": [],
     };
     private allAlertsSubject = new BehaviorSubject<EntityAlertMap>(this.allAlerts);
     allAlerts$ = this.allAlertsSubject.asObservable();
@@ -42,10 +46,11 @@ export class GlobalAlertService {
 
     getGlobalAlerts() {
         const persons$ = this.http.get<Alert[]>(`${this.alertsUrl}/persons/personsAlerts.json`);
+        const events$ = this.http.get<Alert[]>(`${this.alertsUrl}/events/eventsAlerts.json`);
         const cars$ = this.http.get<Alert[]>(`${this.alertsUrl}/cars/carsAlerts.json`);
         const pets$ = this.http.get<Alert[]>(`${this.alertsUrl}/pets/petsAlerts.json`);
       
-        forkJoin([persons$, cars$, pets$])
+        forkJoin([persons$, cars$, pets$, events$])
         .pipe(
             catchError(() => {
                 this.dialog.open(InfoDialogComponent, {
@@ -58,20 +63,24 @@ export class GlobalAlertService {
                 return throwError('Failed to fetch alerts');
             })
         )
-        .subscribe(([persons, cars, pets]) => {
+        .subscribe(([persons, cars, pets, events]) => {
           this.personsAlerts = persons ? persons : [];
+          this.eventsAlerts = events ? events : [];
           this.carsAlerts = cars ? cars : [];
           this.petsAlerts = pets ? pets : [];
       
           this.personsAlertsSubject.next(persons);
+          this.eventsAlertsSubject.next(events);
           this.carsAlertsSubject.next(cars);
           this.petsAlertsSubject.next(pets);
       
           this.allAlerts["persons"] = persons ? persons : [];
+          this.allAlerts["events"] = events ? events : [];
           this.allAlerts["cars"] = cars ? cars : [];
           this.allAlerts["pets"] = pets ? pets : [];
       
           this.allAlertsSubject.next(this.allAlerts);
+          console.log('this.allAlerts', this.allAlerts)
         });
       }
 }

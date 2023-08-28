@@ -2,16 +2,14 @@
   <div class="wrap_container">
     <app-add-button (addEvent)="onAddNote()"></app-add-button>
     <ng-container *ngFor="let note of notes; let i = index">
-      <div class="box" cdkDragBoundary=".wrap_container" cdkDrag>
+      <div class="box" cdkDragBoundary=".wrap_container" cdkDrag
+      [cdkDragFreeDragPosition]="note.dragPosition" 
+      (cdkDragEnded)="onDragEnd($event, note)">
         <div class="box_actions">
-          <mat-icon *ngIf="!notes[i].edit" (click)="notes[i].edit = !notes[i].edit">edit</mat-icon>
-          <ng-container *ngIf="notes[i].edit">
-            <mat-icon (click)="notes[i].edit = !notes[i].edit">close</mat-icon>
-            <mat-icon (click)="notes[i].edit = !notes[i].edit">check_circle</mat-icon>
-          </ng-container>
-          <mat-icon (click)="onDeleteNote(i)">delete_outline</mat-icon>
+          <mat-icon>control_camera</mat-icon>
+          <mat-icon (click)="onDeleteNote(note)">delete_outline</mat-icon>
         </div>
-        <textarea [(ngModel)]="notes[i].content"></textarea>
+        <textarea [(ngModel)]="note.content" (ngModelChange)="onNoteContentChange(note)"></textarea>
       </div>
     </ng-container>
   </div>

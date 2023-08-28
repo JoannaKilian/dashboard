@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
-import { EntityCategory } from 'src/app/core/models/category-list.models';
+import { EntityCategory, SectionNumber } from 'src/app/core/models/category-list.models';
 import { Pet } from 'src/app/core/models/pet.models';
 import { PetsService } from 'src/app/core/services/pets.service';
 import { AddPetDialogComponent } from './components/add-pet-dialog/add-pet-dialog.component';
@@ -39,7 +39,7 @@ export class PetsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.getSectionInfo(2);
+    this.getSectionInfo(SectionNumber.Pets);
     this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;

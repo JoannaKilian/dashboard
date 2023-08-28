@@ -1,10 +1,17 @@
 import { Alert } from "./alert.models";
 
-export type EntityCategory = "persons" | "cars" | "pets" | "events";
+export enum SectionNumber {
+    Persons = 0,
+    Events =  1,
+    Cars = 2,
+    Pets = 3,
+  }
+
+export type EntityCategory = "persons" | "events" | "cars" | "pets";
 export interface EntityAlertMap {
     persons: Alert[];
+    events: Alert[];
     cars: Alert[];
     pets: Alert[];
-    events: Alert[];
     [key: string]: Alert[];
 }

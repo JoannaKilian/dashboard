@@ -1,5 +1,9 @@
+interface Position {
+  x: number;
+  y: number;
+}
 export interface Note {
-    content: string;
-    edit: boolean;
-  }
-  
+  id?: string;
+  content: string;
+  dragPosition: Position;
+}

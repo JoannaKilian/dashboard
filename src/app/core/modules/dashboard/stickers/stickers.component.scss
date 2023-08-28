@@ -1,42 +1,36 @@
 .wrap {
   position: relative;
-  background-color: var(--color-base-transparent);
-  border: 2px solid #ccc;
+  background-color: var(--color-base-dark);
   border-radius: 2px;
-  min-height: 90%;
+  height: 100%;
   width: 400px;
 
   &_container {
     position: absolute;
+    overflow: hidden;
     top: 10px;
     left: 10px;
     right: 10px;
     bottom: 10px;
-    display: flex;
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content: space-around;
-    padding: 10px 20px;
     border-radius: 2px;
-    box-shadow: var(--shadow);
+    box-shadow: inset 1px 1px 7px 2px #000;
+    background-color: var(--color-base);
   }
 
   .box {
+    position: absolute;
     width: 120px;
     height: 120px;
     border: solid 1px var(--color-grey);
     color: rgba(0, 0, 0, 0.87);
     cursor: move;
-    margin: 2px;
     background-color: var(--color-base-light);
     border-radius: 4px;
     margin-right: 25px;
-    position: relative;
     z-index: 1;
     box-sizing: border-box;
     transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
-    box-shadow: var(--shadow);
+    box-shadow: 1px 1px 8px 0px #000000a1;
 
 
     &:active {
@@ -48,20 +42,23 @@
     &_actions {
       position: absolute;
       display: flex;
-      justify-content: space-around;
-      padding-top: 2px;
+      justify-content: space-between;
+      padding: 2px 10px 0 10px;
       top: 0;
       height: 22px;
       width: 100%;
       background-color: #ffffff56;
 
       mat-icon {
-        color: var(--color-text-light);
+        color: var(--color-base-dark);
         font-size: 16px;
+      }
+
+      mat-icon:nth-child(2) {
         cursor: pointer;
 
         &:hover {
-          color: var(--color-text);
+          color: var(--color-text-light);
         }
       }
     }
