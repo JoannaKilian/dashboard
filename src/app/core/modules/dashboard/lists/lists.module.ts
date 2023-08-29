@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ListsRoutingModule } from './lists-routing.module';
 import { ListsComponent } from "./lists.component";
 import { SharedModule } from "../../../shared/shared.module";
-import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -16,7 +15,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     ListsRoutingModule,
     SharedModule,
-    MatTabsModule,
     MatIconModule,
     MatDialogModule,
   ],
