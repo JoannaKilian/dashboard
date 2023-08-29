@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, Subscription, debounceTime } from 'rxjs';
 import { Note } from 'src/app/core/models/note.models';
@@ -11,6 +11,9 @@ import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/
   styleUrls: ['./stickers.component.scss']
 })
 export class StickersComponent implements OnInit, OnDestroy {
+
+  @Output() openStickersEvent = new EventEmitter<boolean>();
+  open: boolean = false;
 
   notes: Note[];
   subscription: Subscription = new Subscription();

@@ -1,10 +1,18 @@
-<div class="wrap">
+<div [ngClass]="open ? 'wrap' : 'wrap wrap--close'">
+  <div [ngClass]="open ? 'arrow' : 'arrow arrow--left'" (click)="open = !open">
+    <div *ngIf="notes.length > 0" class="alert">
+      <div *ngIf="!open" class="alert_ring">
+        <p class="alert_number">{{notes.length}}</p>
+      </div>
+    </div>
+    <mat-icon *ngIf="!open">arrow_left</mat-icon>
+    <mat-icon *ngIf="open">arrow_right</mat-icon>
+  </div>
   <div class="wrap_container">
     <app-add-button (addEvent)="onAddNote()"></app-add-button>
     <ng-container *ngFor="let note of notes; let i = index">
-      <div class="box" cdkDragBoundary=".wrap_container" cdkDrag
-      [cdkDragFreeDragPosition]="note.dragPosition" 
-      (cdkDragEnded)="onDragEnd($event, note)">
+      <div class="box" cdkDragBoundary=".wrap_container" cdkDrag [cdkDragFreeDragPosition]="note.dragPosition"
+        (cdkDragEnded)="onDragEnd($event, note)">
         <div class="box_actions">
           <mat-icon>control_camera</mat-icon>
           <mat-icon (click)="onDeleteNote(note)">delete_outline</mat-icon>
