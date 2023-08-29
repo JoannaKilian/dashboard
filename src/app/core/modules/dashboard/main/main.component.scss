@@ -123,28 +123,38 @@
 
   }
 
-  .todos {
+  .info {
     position: relative;
     background-color: var(--color-base-dark);
-    width: 50%;
-    height: 382px;
+    width: calc(100% - 44px);
     box-shadow: var(--shadow);
     border-radius: 4px;
-    cursor: pointer;
-    margin: 0 22px;
+    margin: 0 22px 22px 22px;
+
+    &_todos {
+      height: 382px;
+    }
+
+    &_links {
+      min-height: 180px;
+    }
+
+    &_title {
+      position: absolute;
+      left: 84px;
+      top: 30px;
+
+      p {
+        color: var(--color-text-light);
+        font-size: var(--font-subtitle);
+        text-transform: uppercase;
+      }
+    }
 
     &:hover {
 
       box-shadow: 2px 4px 10px 0px #000;
 
-      .main_title p {
-        font-size: calc(var(--font-subtitle) + 1px);
-        color: var();
-      }
-    }
-
-    &:active {
-      box-shadow: inset 2px 4px 10px 0px #000;
     }
   }
 }

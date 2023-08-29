@@ -1,13 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
-import { EntityCategory, SectionNumber } from 'src/app/core/models/category-list.models';
 import { Link } from 'src/app/core/models/links.models';
-import { Section } from 'src/app/core/models/sections.models';
 import { LinksService } from 'src/app/core/services/links.service';
-import { MenuService } from 'src/app/core/services/menu.service';
-import { AddLinksDialogComponent } from './components/add-links-dialog/add-links-dialog.component';
-import { UpdateLinksDialogComponent } from './components/update-links-dialog/update-links-dialog.component';
+import { AddLinkDialogComponent } from './components/add-link-dialog/add-link-dialog.component';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
+import { UpdateLinkDialogComponent } from './components/update-link-dialog/update-link-dialog.component';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
 
 @Component({
@@ -19,34 +17,21 @@ export class LinksComponent implements OnInit, OnDestroy {
 
   data$: Observable<Link[]>;
   title: EntityCategory;
-  icon: string;
-  sections: Section[];
-  headers: string[] = ['name', 'url', 'login'];
   subscription: Subscription = new Subscription();
 
   constructor(
-    public dialog: MatDialog,
-    private menuService: MenuService,
     private dataService: LinksService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
-    this.getSectionInfo(SectionNumber.Persons);
+    this.title = "links";
     this.dataService.getList();
     this.data$ = this.dataService.data$;
   }
 
-  getSectionInfo(index: number){
-    this.sections = this.menuService.getSections();
-    this.title = this.sections[index].title;
-    const foundedSection = this.sections.find(section => section.title === this.title);
-    if(foundedSection){
-      this.icon = foundedSection.icon;
-    }
-  }
-
   addDialog() {
-    this.dialog.open(AddLinksDialogComponent, {
+    this.dialog.open(AddLinkDialogComponent, {
       width: '500px',
       data: {
         title: this.title,
@@ -54,12 +39,12 @@ export class LinksComponent implements OnInit, OnDestroy {
     });
   }
 
-  editDialog(person: Link) {
-    this.dialog.open(UpdateLinksDialogComponent, {
+  editDialog(link: Link) {
+    this.dialog.open(UpdateLinkDialogComponent, {
       width: '500px',
       data: {
         title: this.title,
-        person: person,
+        link: link,
       }
     });
   }
@@ -79,8 +64,28 @@ export class LinksComponent implements OnInit, OnDestroy {
     }))
   }
 
+  getIcon(category: string): string {
+    switch (category) {
+      case 'Social':
+        return 'alternate_email';
+      case 'Home':
+        return 'home';
+      case 'Music':
+        return 'music_note';
+      case 'School':
+        return 'school';
+      case 'Phone':
+        return 'phone';
+      case 'Forum':
+        return 'forum';
+      case 'Entertiment':
+        return 'casino';
+      default:
+        return 'link';
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
 }

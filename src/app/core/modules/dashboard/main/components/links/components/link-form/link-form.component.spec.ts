@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LinksFormComponent } from './links-form.component';
+import { LinkFormComponent } from './link-form.component';
 
-describe('LinksFormComponent', () => {
-  let component: LinksFormComponent;
-  let fixture: ComponentFixture<LinksFormComponent>;
+describe('LinkFormComponent', () => {
+  let component: LinkFormComponent;
+  let fixture: ComponentFixture<LinkFormComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LinksFormComponent]
+      declarations: [LinkFormComponent]
     });
-    fixture = TestBed.createComponent(LinksFormComponent);
+    fixture = TestBed.createComponent(LinkFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

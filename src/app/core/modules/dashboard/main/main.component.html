@@ -24,21 +24,41 @@
               <ng-template #ok>
                 <div class="alert alert--ok"></div>
               </ng-template>
+              <ng-container *ngIf="alerts">
+
+              </ng-container>
             </ng-container>
           </div>
         </div>
       </ng-container>
       <div style="width: 100%;">
+        <mat-slide-toggle
+          class=""
+          [disabled]="!allAlerts$">
+          Show sorted top alerts
+      </mat-slide-toggle>
         <app-upcoming-dates></app-upcoming-dates>
       </div>
     </div>
-    <div class="todos">
-      <div class="main_icon">
-        <!-- <mat-icon>event_available</mat-icon> -->
-        <mat-icon>attach_money</mat-icon>
+    <div style="width: 50%">
+      <div class="info info_todos">
+        <div class="main_icon">
+          <!-- <mat-icon>event_available</mat-icon> -->
+          <mat-icon>attach_money</mat-icon>
+        </div>
+        <div class="info_title">
+          <p>bills</p>
+        </div>
       </div>
-      <div class="main_title">
-        <p>bills</p>
+      <div class="info info_links">
+        <app-links>
+          <div class="main_icon">
+            <mat-icon>link</mat-icon>
+          </div>
+          <div class="info_title">
+            <p>Favourite links</p>
+          </div>
+        </app-links>
       </div>
     </div>
   </div>

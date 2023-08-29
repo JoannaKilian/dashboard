@@ -1,0 +1,28 @@
+<ng-content></ng-content>
+<div class="container">
+    <ng-container *ngIf="data$ | async as links">
+        <ng-container *ngFor="let link of links">
+            <div class="box">
+                <a class="box_link" [href]="link.url" target="_blank" [matTooltip]="link.name">
+                    <mat-icon class="box_icon">{{getIcon(link.category)}}</mat-icon>
+                </a>
+                <div class="box_menu">
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button (click)="editDialog(link)" mat-menu-item>
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit link</span>
+                        </button>
+                        <button (click)="deleteDialog(link)" mat-menu-item>
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete link</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+    <app-add-button (addEvent)="addDialog()"></app-add-button>
+</div>
