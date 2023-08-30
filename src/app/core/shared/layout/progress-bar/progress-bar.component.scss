@@ -23,7 +23,7 @@
         border-radius: 4px;
         background-color: var(--color-base-dark);
         padding: 2px 4px;
-        box-shadow: 1px 2px 6px 1px black;
+        box-shadow: var(--shadow);
         margin-left: 20px;
 
         &--alert{
@@ -65,7 +65,7 @@
 
         &--submit{
             color: var(--color-ok);
-            box-shadow: 1px 2px 6px 1px black;
+            box-shadow: var(--shadow);
             border-radius: 4px;
         }
 
