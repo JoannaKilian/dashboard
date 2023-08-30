@@ -22,6 +22,8 @@ import { FormControlComponent } from './components/form/form-control/form-contro
 import { ReactiveFormsModule } from '@angular/forms';
 import { InfoDialogComponent } from './components/info-dialog/info-dialog/info-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ProgressBarComponent } from './layout/progress-bar/progress-bar.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProgressComponent,
     CreateFormComponent,
     FormControlComponent,
-    InfoDialogComponent
+    InfoDialogComponent,
+    ProgressBarComponent,
   ],
   exports: [
     BaseComponent,
@@ -49,7 +52,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProgressComponent,
     CreateFormComponent,
     FormControlComponent,
-    InfoDialogComponent
+    InfoDialogComponent,
+    ProgressBarComponent,
   ],
   imports: [
     RouterModule,
@@ -63,6 +67,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatProgressBarModule
   ]
 })
 export class SharedModule {

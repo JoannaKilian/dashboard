@@ -15,7 +15,7 @@
         <p *ngIf="details.color"><span>Color</span>: {{details.color}}</p>
     </div>
     <div class="progress-container">
-        <app-progress *ngIf="insuranceDate" [days]="insuranceDate" title="Insurance"></app-progress>
-        <app-progress *ngIf="inspectionDate" [days]="inspectionDate" title="Car Inspection"></app-progress>
+        <app-progress [days]="insuranceDate" title="Insurance"></app-progress>
+        <app-progress [days]="inspectionDate" title="Car Inspection"></app-progress>
     </div>
 </div>

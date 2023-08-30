@@ -30,7 +30,6 @@ export class StickersComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.dataService.data$.subscribe(data => {
         this.notes = data;
-        console.log('data', data)
       })
     );
     this.subscription.add(

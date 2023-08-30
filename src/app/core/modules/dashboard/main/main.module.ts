@@ -13,6 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UpdateLinkDialogComponent } from './components/links/components/update-link-dialog/update-link-dialog.component';
 import { AddLinkDialogComponent } from './components/links/components/add-link-dialog/add-link-dialog.component';
+import { BillsComponent } from './components/bills/bills.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AddLinkDialogComponent } from './components/links/components/add-link-d
     LinksComponent,
     UpdateLinkDialogComponent,
     AddLinkDialogComponent,
-    LinkFormComponent
+    LinkFormComponent,
+    BillsComponent
   ],
   imports: [
     CommonModule,

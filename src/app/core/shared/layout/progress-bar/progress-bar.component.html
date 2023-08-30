@@ -1,0 +1,13 @@
+<div class="wrap">
+    <p class="title">{{name}}</p>
+    <div class="bar">
+        <div class="bar_content">
+            <div class="value" [ngStyle]="{'width': progress + '%', 'background-color': getColor(progress)}"></div>
+        </div>
+        <div class="bar_number">
+            <p>{{value}} days</p>
+        </div>
+    </div>
+    <mat-icon class="icons" (click)="editDialog()">edit</mat-icon>
+    <mat-icon class="icons" (click)="deleteDialog()">delete</mat-icon>
+</div>
