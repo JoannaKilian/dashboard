@@ -14,6 +14,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UpdateLinkDialogComponent } from './components/links/components/update-link-dialog/update-link-dialog.component';
 import { AddLinkDialogComponent } from './components/links/components/add-link-dialog/add-link-dialog.component';
 import { BillsComponent } from './components/bills/bills.component';
+import { AddBillDialogComponent } from './components/bills/components/add-bill-dialog/add-bill-dialog.component';
+import { UpdateBillDialogComponent } from './components/bills/components/update-bill-dialog/update-bill-dialog.component';
+import { BillFormComponent } from './components/bills/components/bill-form/bill-form.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { BillsComponent } from './components/bills/bills.component';
     UpdateLinkDialogComponent,
     AddLinkDialogComponent,
     LinkFormComponent,
-    BillsComponent
+    BillsComponent,
+    AddBillDialogComponent,
+    UpdateBillDialogComponent,
+    BillFormComponent
   ],
   imports: [
     CommonModule,

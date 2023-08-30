@@ -1,4 +1,11 @@
 <ng-content></ng-content>
 <div class="bills">
-    <app-progress-bar [value]="20" [maxValue]="31" name="Electrisity"></app-progress-bar>
+  <ng-container *ngIf="data$ | async as bills">
+    <ng-container *ngFor="let bill of bills">
+      <app-progress-bar [date]="bill.date" [frequency]="bill.frequency" [name]="bill.name"
+      (editClick)="onEditHandler(bill)"
+      (deleteClick)="onDeleteHandler(bill)"></app-progress-bar>
+    </ng-container>
+  </ng-container>
 </div>
+<app-add-button (addEvent)="addDialog()"></app-add-button>

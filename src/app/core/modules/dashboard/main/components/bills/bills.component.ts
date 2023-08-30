@@ -1,10 +1,73 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable, Subscription } from 'rxjs';
+import { Bill } from 'src/app/core/models/bills.models';
+import { EntityCategory } from 'src/app/core/models/category-list.models';
+import { BillsService } from 'src/app/core/services/bills.service';
+import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
+import { AddBillDialogComponent } from './components/add-bill-dialog/add-bill-dialog.component';
+import { UpdateBillDialogComponent } from './components/update-bill-dialog/update-bill-dialog.component';
+import { TimeAlertService } from 'src/app/core/services/time-alert.service';
+
 
 @Component({
   selector: 'app-bills',
   templateUrl: './bills.component.html',
-  styleUrls: ['./bills.component.scss']
+  styleUrls: ['./bills.component.scss'],
 })
-export class BillsComponent {
+export class BillsComponent implements OnInit, OnDestroy {
 
+
+  data$: Observable<Bill[]>;
+  title: EntityCategory;
+  subscription: Subscription = new Subscription();
+
+  constructor(
+    private dataService: BillsService,
+    public dialog: MatDialog,
+  ) { }
+
+  ngOnInit(): void {
+    this.title = "bills";
+    this.dataService.getList();
+    this.data$ = this.dataService.data$;
+  }
+
+  addDialog() {
+    this.dialog.open(AddBillDialogComponent, {
+      width: '500px',
+      data: {
+        title: this.title,
+      }
+    });
+  }
+
+  onEditHandler(bill: Bill) {
+    this.dialog.open(UpdateBillDialogComponent, {
+      width: '500px',
+      data: {
+        title: this.title,
+        bill: bill,
+      }
+    });
+  }
+
+  onDeleteHandler(item: Bill) {
+    const dialogRef = this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: `Delete ${item.name}`,
+        description: `Are you sure you want to delete ${item.name} link`,
+        type: 'submit'
+      }
+    });
+    this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'submit') {
+        this.dataService.delete(item);
+      }
+    }))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

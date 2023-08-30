@@ -1,6 +1,7 @@
 .wrap {
     display: flex;
     align-items: end;
+    margin: 10px 0;
 
     p {
         margin: 0;
@@ -13,6 +14,7 @@
     }
 
     .bar {
+        flex-grow: 1;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -24,6 +26,10 @@
         box-shadow: 1px 2px 6px 1px black;
         margin-left: 20px;
 
+        &--alert{
+            background-color: var(--color-alert);
+        }
+
         &_content {
             position: relative;
             flex-grow: 1;
@@ -31,6 +37,7 @@
             height: 80%;
             background-color: var(--color-background);
             box-shadow: inset 1px 2px 6px 1px black;
+            overflow: hidden;
 
             .value {
                 position: absolute;

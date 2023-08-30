@@ -7,7 +7,7 @@ export enum SectionNumber {
     Pets = 3,
   }
 
-export type EntityCategory = "persons" | "events" | "cars" | "pets" | "links";
+export type EntityCategory = "persons" | "events" | "cars" | "pets" | "links" | "bills";
 export interface EntityAlertMap {
     persons: Alert[];
     events: Alert[];

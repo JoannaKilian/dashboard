@@ -6,37 +6,38 @@ import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
-import { Link } from "../models/links.models";
+import { Bill } from "../models/bills.models";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class LinksService implements OnDestroy {
+export class BillsService implements OnDestroy {
 
-    private dataList: Link[] = [];
-    private dataListSubject: BehaviorSubject<Link[]> = new BehaviorSubject<Link[]>([]);
-    public data$: Observable<Link[]> = this.dataListSubject.asObservable();
+    private dataList: Bill[] = [];
+    private dataListSubject: BehaviorSubject<Bill[]> = new BehaviorSubject<Bill[]>([]);
+    public data$: Observable<Bill[]> = this.dataListSubject.asObservable();
 
     private formFields: FormConfig[] = [
         { type: FieldType.Text, label: 'Name', name: 'name', validations: [Validators.required] },
-        { type: FieldType.Text, label: 'Url', name: 'url', validations: [Validators.required] },
+        { type: FieldType.Date, label: 'Payment date', name: 'date', validations: [Validators.required] },
         {
-            type: FieldType.Select, label: 'Category', name: 'category', options: [
-                'Social',
-                'Home',
-                'Phone',
-                'Music',
-                'School',
-                'Entertiment',
-                'Forum',
-                'Another'
-            ], validations: [Validators.required]
+            type: FieldType.Select,
+            label: 'Payment Frequency',
+            name: 'Frequency',
+            options: [
+                'Monthly',
+                'Every 2 Months',
+                'Quarterly',
+                'Semi-Annually',
+                'Annually',
+            ],
+            validations: [Validators.required]
         },
     ];
 
-    private url = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/links/linksList.json';
+    private url = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/bills/billsList.json';
     subscription: Subscription = new Subscription();
 
     constructor(
@@ -46,9 +47,9 @@ export class LinksService implements OnDestroy {
     };
 
     getList() {
-        this.subscription.add(this.http.get<Link[]>(this.url)
+        this.subscription.add(this.http.get<Bill[]>(this.url)
             .subscribe({
-                next: (response: Link[] | null) => {
+                next: (response: Bill[] | null) => {
                     const data = response !== null ? response : [];
                     this.dataList = data;
                     this.dataListSubject.next(data);
@@ -69,38 +70,39 @@ export class LinksService implements OnDestroy {
         return uuidv4();
     }
 
-    add(item: Link) {
+    add(item: Bill) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
-        .subscribe(() => {
-            this.dataList = clonedList;
-        }))
+        this.subscription.add(this.http.put<Bill[]>(this.url, clonedList)
+            .subscribe(() => {
+                this.dataList = clonedList;
+            }))
     }
 
-    update(updatedItem: Link) {
+    update(updatedItem: Bill) {
+        console.log(updatedItem);
         const clonedList = [...this.dataList];
         const index = clonedList.findIndex(x => x.id === updatedItem.id)
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+            this.subscription.add(this.http.put<Bill[]>(this.url, clonedList)
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                }))
         }
     }
 
-    delete(item: Link) {
+    delete(item: Bill) {
         const clonedList = [...this.dataList];
         const index = clonedList.findIndex(x => x.id === item.id);
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+            this.subscription.add(this.http.put<Bill[]>(this.url, clonedList)
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                }))
         }
     }
 
@@ -108,28 +110,24 @@ export class LinksService implements OnDestroy {
         return this.formFields.slice()
     }
 
-    getIcon(category: string): string {
-        switch (category) {
-          case 'Social':
-            return 'alternate_email';
-          case 'Home':
-            return 'home';
-          case 'Music':
-            return 'music_note';
-          case 'School':
-            return 'school';
-          case 'Phone':
-            return 'phone';
-          case 'Forum':
-            return 'forum';
-          case 'Entertiment':
-            return 'casino';
-          default:
-            return 'link';
-        }
-      }
-
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    getPaymentIntervalDays(paymentInterval: string): number {
+        switch (paymentInterval) {
+            case 'Monthly':
+                return 30;
+            case 'Every 2 Months':
+                return 60;
+            case 'Quarterly':
+                return 90;
+            case 'Semi-Annually':
+                return 182;
+            case 'Annually':
+                return 365;
+            default:
+                return 30;
+        }
     }
 }

@@ -65,24 +65,7 @@ export class LinksComponent implements OnInit, OnDestroy {
   }
 
   getIcon(category: string): string {
-    switch (category) {
-      case 'Social':
-        return 'alternate_email';
-      case 'Home':
-        return 'home';
-      case 'Music':
-        return 'music_note';
-      case 'School':
-        return 'school';
-      case 'Phone':
-        return 'phone';
-      case 'Forum':
-        return 'forum';
-      case 'Entertiment':
-        return 'casino';
-      default:
-        return 'link';
-    }
+    return this.dataService.getIcon(category)
   }
 
   ngOnDestroy(): void {

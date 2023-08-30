@@ -1,35 +1,37 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Bill } from 'src/app/core/models/bills.models';
 import { EntityCategory } from 'src/app/core/models/category-list.models';
-import { Link } from 'src/app/core/models/links.models';
-import { LinksService } from 'src/app/core/services/links.service';
-
+import { BillsService } from 'src/app/core/services/bills.service';
 
 @Component({
-  selector: 'app-add-link-dialog',
-  templateUrl: './add-link-dialog.component.html',
-  styleUrls: ['./add-link-dialog.component.scss']
+  selector: 'app-add-bill-dialog',
+  templateUrl: './add-bill-dialog.component.html',
+  styleUrls: ['./add-bill-dialog.component.scss']
 })
-export class AddLinkDialogComponent implements OnInit {
+export class AddBillDialogComponent  implements OnInit {
 
+  
   title: EntityCategory;
-  newItem: Link;
+  newItem: Bill;
+
 
   constructor(
-    public dialogRef: MatDialogRef<AddLinkDialogComponent>,
+    public dialogRef: MatDialogRef<AddBillDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private dataService: LinksService,
+    private dataService: BillsService,
   ) { }
 
   ngOnInit() {
     this.title = this.dialogData.title;
   }
 
-  addHandler(item: Link) {
+  addHandler(item: Bill) {
     const id: string = this.dataService.addUniqueId();
     item.id = id;
     this.newItem = item
 
     this.dataService.add(this.newItem);
   }
+
 }
