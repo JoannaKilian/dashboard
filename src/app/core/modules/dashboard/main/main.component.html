@@ -17,27 +17,25 @@
                     {{alerts[section.value].length}}
                   </div>
                 </div>
-                <mat-icon class="main_alert-tooltip" 
-                [matTooltip]="getTooltipContent(alerts[section.value])"
-                >info</mat-icon>
+                <mat-icon class="main_alert-tooltip"
+                  [matTooltip]="getTooltipContent(alerts[section.value])">info</mat-icon>
               </ng-container>
               <ng-template #ok>
                 <div class="alert alert--ok"></div>
               </ng-template>
-              <ng-container *ngIf="alerts">
-
-              </ng-container>
             </ng-container>
           </div>
         </div>
       </ng-container>
-      <div style="width: 100%;">
-        <mat-slide-toggle
-          class=""
-          [disabled]="!allAlerts$">
-          Show sorted top alerts
-      </mat-slide-toggle>
-        <app-upcoming-dates></app-upcoming-dates>
+      <div class="info info_wide">
+        <app-upcoming-dates>
+          <div class="main_icon">
+            <mat-icon>notification_important</mat-icon>
+          </div>
+          <div class="info_title">
+            <p>Sorted top alerts</p>
+          </div>
+        </app-upcoming-dates>
       </div>
     </div>
     <div style="width: 50%">

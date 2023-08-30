@@ -22,13 +22,15 @@ export class LinksService implements OnDestroy {
     private formFields: FormConfig[] = [
         { type: FieldType.Text, label: 'Name', name: 'name', validations: [Validators.required] },
         { type: FieldType.Text, label: 'Url', name: 'url', validations: [Validators.required] },
-        { type: FieldType.Text, label: 'Login', name: 'Login'},
         {
-            type: FieldType.Select, label: 'Icon', name: 'icon', options: [
+            type: FieldType.Select, label: 'Category', name: 'category', options: [
                 'Social',
                 'Home',
+                'Phone',
+                'Music',
                 'School',
                 'Entertiment',
+                'Forum',
                 'Another'
             ], validations: [Validators.required]
         },

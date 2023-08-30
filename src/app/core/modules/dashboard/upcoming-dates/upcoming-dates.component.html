@@ -1,17 +1,17 @@
-<p>Sorted upcoming dates</p>
-<ng-container *ngIf="loading; else showAlerts">
-  <mat-spinner></mat-spinner>
-</ng-container>
-<ng-template #showAlerts>
-  <p>Alert: <span>{{ alerts.length }}</span></p>
-  <ng-container *ngIf="alerts.length > 0; else noAlerts">
-    <div *ngFor="let alert of alerts" class="alert"
-    [ngClass]="alert.deadline >= 20 ? 'alert--low' : alert.deadline >= 10 ? 'alert--medium' : 'alert--high'">
+<ng-content></ng-content>
+<div class="wrap">
+  <ng-container *ngIf="loading; else showAlerts">
+    <mat-spinner></mat-spinner>
+  </ng-container>
+  <ng-template #showAlerts>
+    <ng-container *ngIf="alerts.length > 0; else noAlerts">
+      <div *ngFor="let alert of alerts" class="alert"
+        [ngClass]="alert.deadline >= 20 ? 'alert--low' : alert.deadline >= 10 ? 'alert--medium' : 'alert--high'">
         <p>{{alert.message}}</p>
       </div>
-  </ng-container>
-  <ng-template #noAlerts>
-    <mat-icon>slow_motion_video</mat-icon>
-    <p>No upcoming important dates</p>
+    </ng-container>
+    <ng-template #noAlerts>
+      <p>No upcoming important dates</p>
+    </ng-template>
   </ng-template>
-</ng-template>
+</div>
