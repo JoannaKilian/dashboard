@@ -37,4 +37,13 @@ export class TimeAlertService {
       return Math.floor(ageDelta / (1000 * 60 * 60 * 24 * 365));
     } else return 0;
   }
+
+  addIntervalToDate(date: string, interval: number): string {
+    const miliInterval = interval * 1000 * 3600 * 24
+    const startDate = new Date(date);
+    const newDate = new Date(startDate.getTime() + miliInterval);
+    const formattedDate = newDate.toISOString().slice(0, 10);
+
+    return formattedDate;
+  }
 }

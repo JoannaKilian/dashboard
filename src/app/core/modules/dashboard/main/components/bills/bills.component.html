@@ -2,9 +2,10 @@
 <div class="bills">
   <ng-container *ngIf="data$ | async as bills">
     <ng-container *ngFor="let bill of bills">
-      <app-progress-bar [date]="bill.date" [frequency]="bill.frequency" [name]="bill.name"
+      <app-progress-bar [date]="bill.date" [maxValue]="getMaxValue(bill.frequency)" [name]="bill.name"
       (editClick)="onEditHandler(bill)"
-      (deleteClick)="onDeleteHandler(bill)"></app-progress-bar>
+      (deleteClick)="onDeleteHandler(bill)"
+      (paidClick)="onPaidHandler(bill)"></app-progress-bar>
     </ng-container>
   </ng-container>
 </div>

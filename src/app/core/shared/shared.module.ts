@@ -23,7 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InfoDialogComponent } from './components/info-dialog/info-dialog/info-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ProgressBarComponent } from './layout/progress-bar/progress-bar.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTooltipModule
   ]
 })
 export class SharedModule {

@@ -25,7 +25,7 @@ export class BillsService implements OnDestroy {
         {
             type: FieldType.Select,
             label: 'Payment Frequency',
-            name: 'Frequency',
+            name: 'frequency',
             options: [
                 'Monthly',
                 'Every 2 Months',
