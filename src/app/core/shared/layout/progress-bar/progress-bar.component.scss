@@ -8,8 +8,10 @@
         color: var(--color-text-light);
         font-size: var(--font-medium);
 
-        &.title {
+        &.title {    
             text-transform: uppercase;
+            width: 30%;
+            overflow: hidden;
         }
     }
 
@@ -17,14 +19,14 @@
         flex-grow: 1;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
         width: 220px;
         height: 24px;
         border-radius: 4px;
         background-color: var(--color-base-dark);
         padding: 2px 4px;
         box-shadow: var(--shadow);
-        margin-left: 20px;
+        margin-left: 2%;
 
         &--alert{
             background-color: var(--color-alert);
@@ -60,7 +62,7 @@
     }
 
     .icons {
-        margin-left: 20px;
+        margin-left: 2%;
         color: var(--color-text-light);
 
         &--submit{

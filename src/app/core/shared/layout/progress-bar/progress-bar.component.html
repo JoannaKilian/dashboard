@@ -1,7 +1,7 @@
 <div class="wrap">
     <p class="title">{{name}}</p>
-    <div [ngClass]="value !== 0 ? 'bar' : 'bar bar--alert'">
-        <div *ngIf="value !== 0" class="bar_content">
+    <div [ngClass]="value > 0 ? 'bar' : 'bar bar--alert'">
+        <div *ngIf="value > 0" class="bar_content">
             <div class="value" [ngStyle]="{'width': progress + '%', 'background-color': getColor(progress)}"></div>
         </div>
         <div class="bar_number">

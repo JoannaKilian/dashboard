@@ -11,6 +11,8 @@ import { Subscription } from "rxjs";
 
 export class AuthComponent implements OnInit, OnDestroy {
 
+    user = new Subject
+
     authForm: FormGroup;
     login: boolean = true;
     repeatPasswordError: boolean = false;
@@ -19,6 +21,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     forgotPassword: boolean = false;
     email: string = '';
+
 
     subscription: Subscription;
 

@@ -1,6 +1,7 @@
 .bills {
     position: absolute;
     margin: 90px 20px 10px 20px;
-    padding: 14px;
     width: calc(100% - 40px);
+    height: calc(100% - 90px - 10px);
+    overflow: auto;
 }
