@@ -25,7 +25,6 @@ export class BillFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.formFields = this.dataService.getFormFields();
   }
 

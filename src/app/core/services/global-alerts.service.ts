@@ -80,7 +80,6 @@ export class GlobalAlertService {
           this.allAlerts["pets"] = pets ? pets : [];
       
           this.allAlertsSubject.next(this.allAlerts);
-          console.log('this.allAlerts', this.allAlerts)
         });
       }
 }

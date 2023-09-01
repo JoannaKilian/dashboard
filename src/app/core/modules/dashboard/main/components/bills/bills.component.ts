@@ -33,9 +33,6 @@ export class BillsComponent implements OnInit, OnDestroy {
     this.title = "bills";
     this.dataService.getList();
     this.data$ = this.dataService.data$;
-    this.dataService.data$.subscribe(data=> {
-      console.log(data)
-    })
   }
 
   addDialog() {
