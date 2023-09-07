@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { StateObservable } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +12,21 @@ export class HeaderComponent implements OnInit {
 
   @Output() openEvent = new EventEmitter<boolean>;
   openMenu: boolean;
+  displayName$: StateObservable
 
-  constructor(private auth: AuthService) {
+  constructor(
+    private auth: AuthService,
+    private userService: UserService
+  ) {
   }
 
 
   ngOnInit() {
+    this.displayName$ = this.userService.displayName$;
+console.log(this.userService);
+    this.userService.authState$.subscribe(data=> {
+      console.log(data)
+    })
   }
 
   onOpenMenu() {
@@ -23,7 +34,7 @@ export class HeaderComponent implements OnInit {
     this.openEvent.emit(this.openMenu)
   }
 
-  logout(){
+  logout() {
     this.auth.signout();
   }
 

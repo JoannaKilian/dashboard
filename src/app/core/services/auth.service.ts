@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, Subject, map } from "rxjs";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { GoogleAuthProvider } from "@angular/fire/auth"
 
@@ -24,7 +24,7 @@ export class AuthService {
         private fireAuth: AngularFireAuth,
         private router: Router,
         public dialog: MatDialog
-        ) { }
+    ) { }
 
 
     login(email: string, password: string) {
@@ -45,19 +45,25 @@ export class AuthService {
         })
     }
 
-    register(email: string, password: string) {
-        this.fireAuth.createUserWithEmailAndPassword(email, password).then(() => {
-            const dialogRef = this.dialog.open(InfoDialogComponent, {
-                data: {
-                    title: 'Registration Successful',
-                    description: 'Go to log in',
-                    type: 'info'
-                }
-            });
-            dialogRef.afterClosed().subscribe(() => {
-                this.goToLoginSubject.next(true);
-            });
-            this.goToLoginSubject.next(true);
+    register(email: string, password: string, displayName: string) {
+        this.fireAuth.createUserWithEmailAndPassword(email, password).then((response) => {
+            if (response.user){
+                response.user.updateProfile({
+                    displayName: displayName
+                }).then(() => {
+                    const dialogRef = this.dialog.open(InfoDialogComponent, {
+                        data: {
+                            title: `${response.user?.displayName}, your registration was successful!`,
+                            description: 'Let\'s log in',
+                            type: 'info'
+                        }
+                    });
+                    dialogRef.afterClosed().subscribe(() => {
+                        this.goToLoginSubject.next(true);
+                    });
+                    this.goToLoginSubject.next(true);
+                })
+            }
         }, err => {
             const dialogRef = this.dialog.open(InfoDialogComponent, {
                 data: {
@@ -110,7 +116,7 @@ export class AuthService {
                     type: 'info'
                 }
             });
-            dialogRef.afterClosed().subscribe(() => { 
+            dialogRef.afterClosed().subscribe(() => {
                 this.goToLoginSubject.next(true);
             });
         }, err => {

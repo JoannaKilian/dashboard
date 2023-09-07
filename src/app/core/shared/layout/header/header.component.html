@@ -1,6 +1,6 @@
 <div class="header">
-  <p>Welcome in your dashboard</p>
-  <div class="header_menu"> 
+  <p><span *ngIf="displayName$ | async as name">{{ name }}, </span>Welcome in your dashboard</p>
+  <div class="header_menu">
     <mat-icon (click)="onOpenMenu()">reorder</mat-icon>
     <div class="header_logout" (click)="logout()">
       <p>Log out</p>

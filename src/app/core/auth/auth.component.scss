@@ -14,7 +14,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 47%;
-        height: 550px;
+        min-height: 650px;
         background-color: var(--color-base-dark);
         box-shadow: var(--shadow);
         border-radius: 4px;
@@ -29,13 +29,13 @@
                 width: 130px;
                 height: 130px;
                 font-size: 130px;
-                color: rgba(255, 255, 255, 0.068);
+                color: rgba(255, 255, 255, 0.02);
                 z-index: 1;
             }
 
             &:first-child {
-                top: 75%;
-                left: 61%;
+                top: 78%;
+                left: 60%;
                 transform: rotate(10deg);
             }
 
@@ -47,6 +47,9 @@
         }
 
         &_container {
+            display: flex;
+            flex-direction: column;
+         justify-content: center;
             text-align: center;
             position: absolute;
             top: 20px;

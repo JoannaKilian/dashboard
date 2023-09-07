@@ -35,7 +35,7 @@
           </div>
           <ng-container *ngIf="!login">
             <div class="auth_control">
-              <label for="password">Repeat Password:</label>
+              <label for="repassword">Repeat Password:</label>
               <input [type]="hideRepeatPassword ? 'password' : 'text'" formControlName="repeatPassword">
               <mat-icon class="hide-password" (click)="hideRepeatPassword = !hideRepeatPassword">{{hideRepeatPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               <div *ngIf="authForm.get('repeatPassword')?.hasError('required') && authForm.get('repeatPassword')?.touched" class="error-message">
@@ -45,6 +45,13 @@
                 *ngIf="repeatPasswordError && authForm.get('repeatPassword')?.touched"
                 class="error-message">
                 Repeat Password is different.
+              </div>
+            </div>
+            <div class="auth_control">
+              <label for="name">Name:</label>
+              <input type="text" formControlName="name">
+              <div *ngIf="authForm.get('name')?.hasError('required') && authForm.get('name')?.touched" class="error-message">
+                Name is required.
               </div>
             </div>
           </ng-container>

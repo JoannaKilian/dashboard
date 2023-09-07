@@ -13,6 +13,7 @@ import { AngularFireModule } from '@angular/fire/compat'
 import { environment } from 'src/environments/environment';
 import { ForgotPasswordComponent } from './core/auth/components/forgot-password/forgot-password.component';
 import { SharedModule } from './core/shared/shared.module';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 
 
@@ -25,6 +26,7 @@ import { SharedModule } from './core/shared/shared.module';
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,

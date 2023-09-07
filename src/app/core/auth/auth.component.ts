@@ -35,6 +35,13 @@ export class AuthComponent implements OnInit, OnDestroy {
         });
         this.subscription = this.auth.toLogin$.subscribe(data => {
             this.login = data;
+            if (this.login) {
+                this.authForm.get('repeatPassword')?.clearValidators();
+                this.authForm.get('name')?.clearValidators();
+            } else {
+                this.authForm.get('repeatPassword')?.addValidators([Validators.required]);
+                this.authForm.get('name')?.addValidators([Validators.required])
+            }
             this.authForm.patchValue({ password: '', repeatPassword: '' });
             this.authForm.get('repeatPassword')?.markAsUntouched();
             this.authForm.get('password')?.markAsUntouched();
@@ -44,6 +51,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     registerForm() {
         this.authForm = this.formBuilder.group({
             username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.email]),
+            name: new FormControl('', [Validators.required]),
             password: new FormControl('', [Validators.required, Validators.minLength(6)]),
             repeatPassword: new FormControl('', Validators.minLength(6))
         })
@@ -59,12 +67,13 @@ export class AuthComponent implements OnInit, OnDestroy {
         }
 
         const username = this.authForm.get('username')?.value;
+        const name = this.authForm.get('name')?.value;
         const password = this.authForm.get('password')?.value;
 
         if (this.login) {
-            this.auth.login(username, password)
+            this.auth.login(username, password);
         } else {
-            this.auth.register(username, password)
+            this.auth.register(username, password, name);
         }
     }
 
@@ -74,12 +83,15 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.login = !this.login;
         if (this.login) {
             this.authForm.get('repeatPassword')?.clearValidators();
+            this.authForm.get('name')?.clearValidators();
         } else {
-            this.authForm.get('repeatPassword')?.addValidators([Validators.required])
+            this.authForm.get('repeatPassword')?.addValidators([Validators.required]);
+            this.authForm.get('name')?.addValidators([Validators.required])
         }
         this.repeatPasswordError = false;
         this.authForm.patchValue({ password: '', repeatPassword: '' });
         this.authForm.get('repeatPassword')?.markAsUntouched();
+        this.authForm.get('name')?.markAsUntouched();
         this.authForm.get('password')?.markAsUntouched();
     }
 
