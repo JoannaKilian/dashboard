@@ -42,9 +42,10 @@ export class AuthComponent implements OnInit, OnDestroy {
                 this.authForm.get('repeatPassword')?.addValidators([Validators.required]);
                 this.authForm.get('name')?.addValidators([Validators.required])
             }
-            this.authForm.patchValue({ password: '', repeatPassword: '' });
+            this.authForm.patchValue({ password: '', repeatPassword: '', name: '' });
             this.authForm.get('repeatPassword')?.markAsUntouched();
             this.authForm.get('password')?.markAsUntouched();
+            this.authForm.get('name')?.markAsUntouched();
         })
     }
 
@@ -89,7 +90,7 @@ export class AuthComponent implements OnInit, OnDestroy {
             this.authForm.get('name')?.addValidators([Validators.required])
         }
         this.repeatPasswordError = false;
-        this.authForm.patchValue({ password: '', repeatPassword: '' });
+        this.authForm.patchValue({ password: '', repeatPassword: '', name: '' });
         this.authForm.get('repeatPassword')?.markAsUntouched();
         this.authForm.get('name')?.markAsUntouched();
         this.authForm.get('password')?.markAsUntouched();

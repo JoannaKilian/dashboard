@@ -7,6 +7,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Person } from "../models/person.models";
+import { UserService } from "./user.service";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
@@ -34,13 +36,17 @@ export class PersonsService implements OnDestroy {
         { type: FieldType.Text, label: 'ID card', name: 'IDcard' },
     ];
 
-    private url = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/persons/personsList.json';
+    private url: string;
+    uid: string | null;
     subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
+        private userService: UserService,
     ) {
+        this.uid = userService.getUid();
+        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/persons/personsList.json`;
     };
 
     getList() {

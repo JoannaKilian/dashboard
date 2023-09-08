@@ -23,10 +23,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.displayName$ = this.userService.displayName$;
-console.log(this.userService);
-    this.userService.authState$.subscribe(data=> {
-      console.log(data)
-    })
   }
 
   onOpenMenu() {

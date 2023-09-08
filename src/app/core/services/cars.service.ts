@@ -7,6 +7,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { Car } from "../models/car.models";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
+import { UserService } from "./user.service";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
@@ -18,6 +20,10 @@ export class CarService implements OnDestroy {
     private dataList: Car[] = [];
     private dataListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
     public data$: Observable<Car[]> = this.dataListSubject.asObservable();
+
+    private url: string;
+    uid: string | null;
+    subscription: Subscription = new Subscription();
 
     private formFields: FormConfig[] = [
         {
@@ -51,13 +57,13 @@ export class CarService implements OnDestroy {
         { type: FieldType.Number, label: 'Engine Power', name: 'enginePower' },
     ];
 
-    private url = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/cars/carsList.json';
-    subscription: Subscription = new Subscription();
-
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
+        private userService: UserService,
     ) {
+        this.uid = userService.getUid();
+        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/cars/carsList.json`;
     };
 
     getList() {
@@ -85,12 +91,13 @@ export class CarService implements OnDestroy {
     }
 
     add(item: Car) {
+        console.log('this.url', this.url)
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
         this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
-        .subscribe(() => {
-            this.dataList = clonedList;
-        }))
+            .subscribe(() => {
+                this.dataList = clonedList;
+            }))
     }
 
     update(updatedItem: Car) {
@@ -100,9 +107,9 @@ export class CarService implements OnDestroy {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
             this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                }))
         }
     }
 
@@ -113,9 +120,9 @@ export class CarService implements OnDestroy {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
             this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                }))
         }
     }
 

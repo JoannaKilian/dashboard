@@ -5,6 +5,8 @@ import { BehaviorSubject, catchError, forkJoin, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import { environment } from "src/environments/environment";
+import { UserService } from "./user.service";
 
 @Injectable({
     providedIn: "root"
@@ -12,7 +14,7 @@ import { MatDialog } from "@angular/material/dialog";
 
 export class GlobalAlertService {
 
-    private alertsUrl = 'https://dashboard-e83c7-default-rtdb.firebaseio.com';
+    private alertsUrl = `${environment.firebaseConfig.databaseURL}`;
 
     carsAlerts: Alert[] = [];
     private carsAlertsSubject = new BehaviorSubject<Alert[]>([]);
@@ -39,16 +41,21 @@ export class GlobalAlertService {
     private allAlertsSubject = new BehaviorSubject<EntityAlertMap>(this.allAlerts);
     allAlerts$ = this.allAlertsSubject.asObservable();
 
+    uid: string | null;
+
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-    ) { }
+        private userService: UserService,
+    ) {
+        this.uid = userService.getUid();
+     }
 
     getGlobalAlerts() {
-        const persons$ = this.http.get<Alert[]>(`${this.alertsUrl}/persons/personsAlerts.json`);
-        const events$ = this.http.get<Alert[]>(`${this.alertsUrl}/events/eventsAlerts.json`);
-        const cars$ = this.http.get<Alert[]>(`${this.alertsUrl}/cars/carsAlerts.json`);
-        const pets$ = this.http.get<Alert[]>(`${this.alertsUrl}/pets/petsAlerts.json`);
+        const persons$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/persons/personsAlerts.json`);
+        const events$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/events/eventsAlerts.json`);
+        const cars$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/cars/carsAlerts.json`);
+        const pets$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/pets/petsAlerts.json`);
       
         forkJoin([persons$, cars$, pets$, events$])
         .pipe(

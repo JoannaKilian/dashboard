@@ -7,6 +7,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Link } from "../models/links.models";
+import { UserService } from "./user.service";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
@@ -36,13 +38,17 @@ export class LinksService implements OnDestroy {
         },
     ];
 
-    private url = 'https://dashboard-e83c7-default-rtdb.firebaseio.com/links/linksList.json';
+    private url: string;
+    uid: string | null;
     subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
+        private userService: UserService,
     ) {
+        this.uid = userService.getUid();
+        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/links/linksList.json`;
     };
 
     getList() {
