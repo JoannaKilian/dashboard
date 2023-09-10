@@ -13,7 +13,7 @@ import { environment } from "src/environments/environment";
     providedIn: 'root'
 })
 
-export class StickersService implements OnDestroy {
+export class ColorService implements OnDestroy {
 
     private dataList: Note[] = [];
     private dataListSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
@@ -30,10 +30,10 @@ export class StickersService implements OnDestroy {
         private userService: UserService,
     ) {
         this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/stickers.json`;
+        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/colors.json`;
     };
 
-    getList() {
+    getColor() {
         this.subscription.add(this.http.get<Note[]>(this.url)
             .subscribe({
                 next: (response: Note[] | null) => {
@@ -58,9 +58,9 @@ export class StickersService implements OnDestroy {
         const note: Note = {
             id: id,
             content: '',
-            dragPosition: { 
-                x: this.dataList.length > 0  ? this.dataList.length*10 : 5 ,
-                y: this.dataList.length > 0  ? this.dataList.length*10 : 5
+            dragPosition: {
+                x: this.dataList.length > 0 ? this.dataList.length * 10 : 5,
+                y: this.dataList.length > 0 ? this.dataList.length * 10 : 5
             }
         };
         const clonedList = [...this.dataList, note];
@@ -78,32 +78,46 @@ export class StickersService implements OnDestroy {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
             this.subscription.add(this.http.put<Note[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                }))
         }
     }
 
-    delete(item: Note) {
-        const clonedList = [...this.dataList];
-        const index = clonedList.findIndex(x => x.id === item.id);
-        clonedList.splice(index, 1);
-        this.dataListSubject.next(clonedList);
-        this.dataList = clonedList;
-        this.http.put<Note[]>(this.url, clonedList);
-    }
-
-    deleteEmptyItems(itemList: Note[]) {
-        const clonedList = [...this.dataList];
-        itemList.forEach(note => {
-            const index = clonedList.findIndex(x => x.id === note.id);
-            clonedList.splice(index, 1);
-        })
-        this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Note[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+    changeColor(i: number) {
+        const root = document.documentElement;
+        switch (i) {
+            case 0:
+                root.style.setProperty('--color-base-dark', '#eeeeee');
+                root.style.setProperty('--color-base', '#eeeeee');
+                root.style.setProperty('--color-base-light', '#a0cbd1');
+                root.style.setProperty('--color-background', '#444444');
+                break;
+            case 1:
+                root.style.setProperty('--color-base-dark', '#111111');
+                root.style.setProperty('--color-base', '#111111');
+                root.style.setProperty('--color-base-light', '#283e41');
+                root.style.setProperty('--color-background', '#cccccc');
+                break;
+            case 2:
+                root.style.setProperty('--color-base-dark', '#164B60');
+                root.style.setProperty('--color-base', '#1B6B93');
+                root.style.setProperty('--color-base-light', '#4FC0D0');
+                root.style.setProperty('--color-background', '#FFFFFF');
+                break;
+            case 3:
+                root.style.setProperty('--color-base-dark', '#9B59B6');
+                root.style.setProperty('--color-base', '#603F83');
+                root.style.setProperty('--color-base-light', '#A96BAE');
+                root.style.setProperty('--color-background', '#E5E5E5');
+                break;
+            case 4:
+                root.style.setProperty('--color-base-dark', '#3D9970');
+                root.style.setProperty('--color-base', '#60CC99');
+                root.style.setProperty('--color-base-light', '#7AE5B9');
+                root.style.setProperty('--color-background', '#E5E5E5');
+                break;
+        }
     }
 
     ngOnDestroy(): void {

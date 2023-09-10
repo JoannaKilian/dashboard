@@ -1,6 +1,6 @@
 .wrap {
   position: relative;
-  background-color: var(--color-base-dark);
+  background-color: var(--color-1);
   border-radius: 2px;
   height: 100%;
   width: 20vw;
@@ -23,7 +23,7 @@
 
     mat-icon {
       position: absolute;
-      color: var(--color-base-dark);
+      color: var(--color-1);
       font-size: 100px;
       width: 100px;
       height: 100px;
@@ -65,7 +65,7 @@
       bottom: 10px;
       border-radius: 2px;
       box-shadow: inset 1px 1px 7px 2px #000;
-      background-color: var(--color-base);
+      background-color: var(--color-2);
     }
 
   .box {
@@ -75,7 +75,7 @@
     border: solid 1px var(--color-grey);
     color: rgba(0, 0, 0, 0.87);
     cursor: move;
-    background-color: var(--color-base-light);
+    background-color: var(--color-3);
     border-radius: 4px;
     margin-right: 25px;
     z-index: 1;
@@ -101,7 +101,7 @@
       background-color: #ffffff56;
 
       mat-icon {
-        color: var(--color-base-dark);
+        color: var(--color-1);
         font-size: 16px;
       }
 

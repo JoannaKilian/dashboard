@@ -4,7 +4,7 @@
   left: 0;
   bottom: 0;
   width: 193px;
-  background-color: var(--color-base);
+  background-color: var(--color-2);
   padding-top: 60px;
 
   .container {
@@ -28,15 +28,15 @@
 
       &:hover,
       &--active {
-        background-color: var(--color-background);
+        background-color: var(--color-4);
         box-shadow: none;
 
         .container_name {
-          color: var(--color-base);
+          color: var(--color-2);
         }
 
         .container_img {
-          color: var(--color-base);
+          color: var(--color-2);
         }
       }
 

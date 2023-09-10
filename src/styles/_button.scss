@@ -1,7 +1,7 @@
 .appButton {
     width: 200px;
     padding: 20px !important;
-    background-color: var(--color-base) !important;
+    background-color: var(--color-2) !important;
     color: var(--color-text-light) !important;
     font-size: var(--font-subtitle);
     font-weight: bold;
@@ -14,9 +14,9 @@
     margin: 20px;
 
     &:hover {
-        background-color: var(--color-background) !important;
+        background-color: var(--color-4) !important;
         box-shadow: none;
-        color: var(--color-base) !important;
+        color: var(--color-2) !important;
     }
 
     &--cancel {

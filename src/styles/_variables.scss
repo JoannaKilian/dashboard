@@ -1,12 +1,9 @@
 :root {
   --color-base-dark: #164B60;
   --color-base: #1B6B93;
-  --color-base-transparent: #1b6b930c;
   --color-base-light: #4FC0D0;
-  --color-base-active: #A2FF86;
   --color-background: #FFFFFF;
-  --color-text: #164B60;
-  --color-text-light: #FFFFFF;
+  --color-base-transparent: #1b6b930c;
   --color-grey: #ccc;
   --color-alert: #f00;
   --color-ok: rgb(14, 116, 5);
@@ -18,7 +15,9 @@
   --color-1: var(--color-base-dark);
   --color-2: var(--color-base);
   --color-3: var(--color-base-light);
-  --color-4: var(--color-base-active);
+  --color-4: var(--color-background);
+  --color-text-light: var(--color-background);
+  --color-text: var(--color-base-dark);
 
   --shadow: 1px 2px 6px 1px rgba(0, 0, 0, 0.822);
   --shadow-alert: 0px 1px 10px 0px var(--color-alert);

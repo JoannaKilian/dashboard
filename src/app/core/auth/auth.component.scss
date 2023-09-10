@@ -14,7 +14,7 @@
         transform: translate(-50%, -50%);
         width: 60%;
         min-height: 650px;
-        background-color: var(--color-base-dark);
+        background-color: var(--color-1);
         box-shadow: var(--shadow);
         border-radius: 4px;
 
@@ -83,7 +83,7 @@
                 position: absolute;
                 top: 25px;
                 right: 28%;
-                color: var(--color-base);
+                color: var(--color-2);
                 cursor: pointer;
             }
         }
@@ -108,7 +108,7 @@
             padding: 10px;
             margin: 20px;
             border: none;
-            background-color: var(--color-base);
+            background-color: var(--color-2);
             color: var(--color-text-light);
             font-size: var(--font-subtitle);
             box-shadow: var(--shadow);
@@ -126,7 +126,7 @@
 
         button[disabled] {
             background-color: #ccc;
-            color: var(--color-base);
+            color: var(--color-2);
             cursor: not-allowed;
         }
 

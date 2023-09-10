@@ -8,11 +8,11 @@
   }
 
   tr.element-row:not(.expanded-row):hover {
-    background: var(--color-background);
+    background: var(--color-4);
   }
 
   tr.element-row.expanded-row {
-    background: var(--color-base);
+    background: var(--color-2);
 
     .mat-mdc-cell{
       color: var(--color-text-light);
@@ -20,7 +20,7 @@
   }
 
   tr.element-row:not(.expanded-row):active {
-    background: var(--color-background);
+    background: var(--color-4);
   }
 
   .element-row td {
@@ -29,13 +29,13 @@
 
   tr.mat-mdc-row {
     &:hover {
-      background-color: var(--color-base) !important;
+      background-color: var(--color-2) !important;
       cursor: pointer;
     }
   }
 
   tr.mat-mdc-row.detail-row:hover {
-    background-color: var(--color-background) !important;
+    background-color: var(--color-4) !important;
     cursor: auto;
   }
 
@@ -48,6 +48,6 @@
   th.mat-mdc-header-cell {
     font-size: var(--font-medium);
     color: var(--color-text-light);
-    background-color: var(--color-base-dark) !important;
+    background-color: var(--color-1) !important;
   }
 }

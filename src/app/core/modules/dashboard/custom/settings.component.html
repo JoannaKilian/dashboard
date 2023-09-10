@@ -1,10 +1,9 @@
-<div>
-  <ng-container *ngFor="let section of sections; let i = index">
-    <div class="section-button"
-    routerLinkActive="section-button--active"
-    [routerLink]="'/dashboard/lists/' + section.value">
-      <div class="section-button_icon">
-        <mat-icon>{{section.icon}}</mat-icon>
+<div class="wrap">
+  <ng-container *ngFor="let color of colors; let i = index">
+    <div [ngClass]="activeIndexColor === i ? 'choose choose--active' : 'choose'"
+    (click)="changeColor(i)">
+      <div class="choose_icon">
+        <mat-icon [ngStyle]="{color: color.color}">color_lens</mat-icon>
       </div>
     </div>
   </ng-container>

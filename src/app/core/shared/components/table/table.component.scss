@@ -4,7 +4,7 @@
 }
 
 .title-icon{
-  color: var(--color-base);
+  color: var(--color-2);
   margin-top: 10px;
   font-size: 80px;
   width: 80px;
@@ -33,7 +33,7 @@
   border-radius: 2px;
   margin: 8px;
   margin-top: 30px;
-  background-color: var(--color-background);
+  background-color: var(--color-4);
   box-shadow: var(--shadow);
 
   &--alert{
@@ -52,7 +52,7 @@
     width: 100%;
 
     p {
-      color: var(--color-base-light);
+      color: var(--color-3);
       font-size: var(--font-title);
     }
 

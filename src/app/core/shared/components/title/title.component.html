@@ -1,7 +1,7 @@
 <div class="title-wrap">
   <div class="title">
     <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
-    <p *ngIf="title">{{ title }}</p>
+    <p *ngIf="title">{{ title.charAt(0).toUpperCase() + title.slice(1) }}</p>
   </div>
   <ng-content></ng-content>
 </div>

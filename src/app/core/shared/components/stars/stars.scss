@@ -2,14 +2,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  background-color: var(--color-background-basic);
+  background-color: var(--color-4);
   margin-bottom: 16px;
   border-radius: 8px;
-  color: var(--color-base-light);
+  color: var(--color-3);
   font-size: var(--font-subtitle);
 
   mat-icon {
-    color: var(--color-base-light);
+    color: var(--color-3);
   }
 
 }
