@@ -8,6 +8,7 @@ import { Section } from '../models/sections.models';
 export class MenuService {
 
   private currentIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  
   sections: Section[] = [
     { title: 'persons', value: 'persons', icon: 'person' },
     { title: 'events', value: 'events', icon: 'cake' },

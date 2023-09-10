@@ -136,11 +136,11 @@
     &_wide{
       margin: 0;
       width: 100%;
-      height: calc(100% - 180px - 180px - 22px - 22px);
+      height: calc(100% - 180px - 180px - 22px - 22px - 12px);
     }
 
     &_bills {
-      height: 382px;
+      height: calc(100% - 180px - 22px - 12px);
     }
 
     &_links {

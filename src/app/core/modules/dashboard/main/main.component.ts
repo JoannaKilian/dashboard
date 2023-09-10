@@ -37,7 +37,7 @@ export class MainComponent implements OnInit {
   }
 
   goToPage(value: string,) {
-    this.menuService.setCurrentIndex(2);
+    this.menuService.setCurrentIndex(1);
     this.router.navigate([`/dashboard/lists/${value}`]);
   }
 

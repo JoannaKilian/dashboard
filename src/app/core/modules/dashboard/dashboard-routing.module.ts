@@ -8,7 +8,7 @@ const routes: Routes = [
     path: "", component: BaseComponent, children: [
       {path: "", pathMatch: "full", redirectTo: "main"},
       {path: "main", loadChildren: () => import("./main/main.module").then(x => x.MainModule)},
-      // {path: "favourite", loadChildren: () => import("./favourite/favourite.module").then(x => x.FavouriteModule)},
+      {path: "settings", loadChildren: () => import("./custom/settings.module").then(x => x.SettingsModule)},
       {path: "lists", loadChildren: () => import("./lists/lists.module").then(x => x.ListsModule)},
     ]
   }

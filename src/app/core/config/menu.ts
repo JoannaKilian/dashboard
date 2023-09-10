@@ -6,15 +6,15 @@ export const MENU: Menu[] = [
     icon: 'home',
     path: 'main',
   },
-  // {
-  //   name: 'Favourite',
-  //   icon: 'star',
-  //   path: 'favourite',
-  // },
   {
     name: 'Lists',
     icon: 'insert_chart',
     path: 'lists',
-  }
+  },
+  {
+    name: 'Settings',
+    icon: 'settings',
+    path: 'settings',
+  },
 ];
 
