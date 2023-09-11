@@ -4,4 +4,5 @@ export interface Section {
   title: EntityCategory;
   value: string;
   icon: string;
+  visible: boolean;
 }

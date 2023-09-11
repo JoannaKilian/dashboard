@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Section } from 'src/app/core/models/sections.models';
 import { MenuService } from 'src/app/core/services/menu.service';
 
@@ -12,7 +12,7 @@ import { MenuService } from 'src/app/core/services/menu.service';
 export class ListsComponent implements OnInit, OnDestroy {
 
   selectedTab: string;
-  sections: Section[];
+  sections$: Observable<Section[]>;
   subscription: Subscription = new Subscription();
 
   constructor(
@@ -21,7 +21,8 @@ export class ListsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.sections = this.menuService.getSections();
+    this.menuService.getSections();
+    this.sections$ = this.menuService.sections$;
   }
 
   getTabIndex(selectedTab: string): number {

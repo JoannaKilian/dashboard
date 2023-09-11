@@ -1,42 +1,99 @@
-.wrap {
-    display: flex;
-    align-content: flex-start;
-    gap: 30px;
+.color,
+.tabs {
+    padding-top: 20px;
+    background-color: var(--color-1);
+    border-radius: 4px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 
-    .choose {
-        position: relative;
-        background-color: var(--color-grey);
-        width: 150px;
-        height: 150px;
-        box-shadow: var(--shadow);
-        border-radius: 4px;
-        cursor: pointer;
+    .title {
+        color: var(--color-text-light);
+        font-size: var(--font-title);
+        text-transform: uppercase;
+        margin-left: 20px;
+    }
 
-        &--active {
-            background-color: var(--color-1);
-        }
+    .wrap {
+        display: flex;
+        align-content: flex-start;
+        gap: 30px;
+        margin-left: 20px;
+        background-color: var(--color-1);
 
-        &:hover {
+        .choose {
+            position: relative;
+            background-color: var(--color-grey);
+            width: 150px;
+            height: 150px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            cursor: pointer;
 
-            box-shadow: 2px 4px 10px 0px #000;
-        }
+            &--active {
+                background-color: var(--color-1);
+            }
 
-        &:active {
-            box-shadow: inset 2px 4px 10px 0px #000;
-        }
+            &:hover {
 
-        &_icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+                box-shadow: 2px 4px 10px 0px #000;
+            }
 
-            .mat-icon {
-                color: var(--color-text-light);
-                height: 60px;
-                width: 60px;
-                font-size: 60px;
+            &:active {
+                box-shadow: inset 2px 4px 10px 0px #000;
+            }
+
+            &_icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                .mat-icon {
+                    color: var(--color-text-light);
+                    height: 60px;
+                    width: 60px;
+                    font-size: 60px;
+                }
             }
         }
+    }
+}
+
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    padding: 5px;
+    background-color: var(--color-grey);
+
+    &--active {
+        background-color: var(--color-2);
+        color: var(--color-text);
+
+        .section_description {
+            color: var(--color-text-light)
+        }
+
+        .section_icon {
+            color: var(--color-text-light)
+        }
+    }
+
+    &_description {
+        color: var(--color-text);
+        font-size: var(--font-subtitle);
+        margin: 0;
+        margin-left: 20px;
+        width: 200px;
+    }
+
+    &_icon {
+        color: var(--color-text);
+        height: 60px;
+        width: 80px;
+        font-size: 50px;
     }
 }

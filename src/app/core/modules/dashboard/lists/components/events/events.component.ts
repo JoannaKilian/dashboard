@@ -47,7 +47,10 @@ export class EventsComponent implements OnInit, OnDestroy  {
   }
 
   getSectionInfo(index: number){
-    this.sections = this.menuService.getSections();
+    this.menuService.getSections();
+    this.menuService.sections$.subscribe(data => {
+      this.sections = data;
+    })
     this.title = this.sections[index].title;
     const foundedSection = this.sections.find(section => section.title === this.title);
     if(foundedSection){

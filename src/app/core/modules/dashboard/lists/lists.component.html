@@ -1,12 +1,14 @@
 <div class="nav">
-  <ng-container *ngFor="let section of sections; let i = index">
-    <div class="section-button"
-    routerLinkActive="section-button--active"
-    [routerLink]="'/dashboard/lists/' + section.value">
-      <div class="section-button_icon">
-        <mat-icon>{{section.icon}}</mat-icon>
+  <ng-container *ngIf="sections$ | async as sections">
+    <ng-container *ngFor="let section of sections; let i = index">
+      <div class="section-button"
+      routerLinkActive="section-button--active"
+      [routerLink]="'/dashboard/lists/' + section.value">
+        <div class="section-button_icon">
+          <mat-icon>{{section.icon}}</mat-icon>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </ng-container>
 </div>
 <router-outlet></router-outlet>

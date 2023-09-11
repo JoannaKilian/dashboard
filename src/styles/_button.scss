@@ -30,4 +30,8 @@
     align-items: center;
     justify-content: space-between !important;
     flex-wrap: nowrap !important;
+
+    &--left {
+        justify-content: flex-start !important;
+    }
 }
