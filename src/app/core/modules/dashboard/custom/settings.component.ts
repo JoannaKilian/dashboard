@@ -12,7 +12,7 @@ import { MenuService } from 'src/app/core/services/menu.service';
 export class SettingsComponent {
 
   activeIndexColor: number = 1;
-  sections: Section[];
+  sections$: Observable<Section[]>;
   color$: Observable<number>;
 
   colors = [
@@ -30,19 +30,26 @@ export class SettingsComponent {
   }
 
   ngOnInit() {
+    this.menuService.setCurrentIndex(2);
     this.colorService.setColor();
     this.colorService.color$.subscribe(data => {
       this.activeIndexColor = data
     })
     this.menuService.getSections();
-    this.menuService.sections$.subscribe(data => {
-      this.sections = data;
-    })
+    this.sections$ = this.menuService.sections$;
   }
 
   changeColor(i: number) {
     this.activeIndexColor = i;
     this.colorService.changeColor(i);
+  }
 
+  updateSections(index: number, isVisibly: boolean){
+    console.log(isVisibly);
+    this.menuService.updateSections(index, isVisibly);
+  }
+
+  defaultSection(){
+    this.menuService.defautl()
   }
 }

@@ -20,7 +20,7 @@ import { StoreRootModule } from '@ngrx/store';
   styleUrls: ['./events.component.scss'],
   providers: [AlertService]
 })
-export class EventsComponent implements OnInit, OnDestroy  {
+export class EventsComponent implements OnInit, OnDestroy {
   data$: Observable<CalendarEvent[]>;
   alerts$: Observable<Alert[]>;
 
@@ -30,7 +30,7 @@ export class EventsComponent implements OnInit, OnDestroy  {
   headers: string[] = ['name', 'category'];
   subscription: Subscription = new Subscription();
 
-  
+
   constructor(
     public dialog: MatDialog,
     private menuService: MenuService,
@@ -46,14 +46,12 @@ export class EventsComponent implements OnInit, OnDestroy  {
     this.alerts$ = this.alertService.categoryAlerts$
   }
 
-  getSectionInfo(index: number){
+  getSectionInfo(index: number) {
     this.menuService.getSections();
-    this.menuService.sections$.subscribe(data => {
-      this.sections = data;
-    })
+    this.sections = this.menuService.takeSections();
     this.title = this.sections[index].title;
     const foundedSection = this.sections.find(section => section.title === this.title);
-    if(foundedSection){
+    if (foundedSection) {
       this.icon = foundedSection.icon;
     }
   }

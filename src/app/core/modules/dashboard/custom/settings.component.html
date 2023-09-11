@@ -9,21 +9,23 @@
       </div>
     </ng-container>
   </div>
-  <div class="button-container button-container--left">
-    <button class="appButton appButton--cancel" (click)="changeColor(1)">Back to default</button>
-  </div>
+  <p class="default" (click)="changeColor(1)">Back to default</p>
 </div>
 
 <div class="tabs">
   <p class="title">Visible sections</p>
-  <div style="padding: 20px;">
-    <div *ngFor="let section of sections; let i = index">
-      <div [ngClass]="section.visible ? 'section section--active' : 'section'">
-        <mat-icon class="section_icon">{{section.icon}}</mat-icon>
-        <mat-slide-toggle [(ngModel)]="section.visible" [disabled]="section.value === 'persons' || section.value === 'events'">
-          <p class="section_description">Show {{section.title}} section</p>
-        </mat-slide-toggle>
+  <div style="padding: 20px; padding-bottom: 0;">
+    <ng-container *ngIf="sections$ | async as sections">
+      <div *ngFor="let section of sections; let i = index">
+        <div [ngClass]="section.visible ? 'section section--active' : 'section'">
+          <mat-icon class="section_icon">{{section.icon}}</mat-icon>
+          <mat-slide-toggle [(ngModel)]="section.visible" (click)="updateSections(i, section.visible)"
+            [disabled]="section.value === 'persons' || section.value === 'events'">
+            <p class="section_description">Show "{{section.title}}" section</p>
+          </mat-slide-toggle>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </div>
+  <p class="default" (click)="defaultSection()">Back to default</p>
 </div>

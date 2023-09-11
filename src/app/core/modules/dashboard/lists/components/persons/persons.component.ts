@@ -43,14 +43,12 @@ export class PersonsComponent implements OnInit, OnDestroy {
     this.alerts$ = this.alertService.categoryAlerts$
   }
 
-    getSectionInfo(index: number){
-      this.menuService.getSections();
-      this.menuService.sections$.subscribe(data => {
-        this.sections = data;
-      })
+  getSectionInfo(index: number) {
+    this.menuService.getSections();
+    this.sections = this.menuService.takeSections();
     this.title = this.sections[index].title;
     const foundedSection = this.sections.find(section => section.title === this.title);
-    if(foundedSection){
+    if (foundedSection) {
       this.icon = foundedSection.icon;
     }
   }

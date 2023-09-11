@@ -13,7 +13,7 @@ import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/
 export class StickersComponent implements OnInit, OnDestroy {
 
   @Output() openStickersEvent = new EventEmitter<boolean>();
-  open: boolean = false;
+  open: boolean = true;
 
   notes: Note[];
   subscription: Subscription = new Subscription();
@@ -38,14 +38,17 @@ export class StickersComponent implements OnInit, OnDestroy {
         .subscribe((note) => {
           this.dataService.update(note);
         })
-    )
+    );
     this.subscription.add(
       this.deleteEmptyNoteSubject
         .pipe(debounceTime(3000))
         .subscribe((note) => {
           this.onDeleteNote(note);
         })
-    )
+    );
+    setTimeout(()=>{
+this.open = false;
+    }, 2000)
   }
 
   onDeleteNote(item: Note) {

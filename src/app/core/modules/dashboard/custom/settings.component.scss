@@ -1,16 +1,28 @@
 .color,
 .tabs {
     padding-top: 20px;
-    background-color: var(--color-1);
     border-radius: 4px;
     margin-right: 20px;
     margin-bottom: 20px;
+    box-shadow: var(--shadow);
 
-    .title {
-        color: var(--color-text-light);
+    .title,
+    .default {
+        color: var(--color-text);
         font-size: var(--font-title);
         text-transform: uppercase;
         margin-left: 20px;
+    }
+
+    .default {
+        font-size: var(--font-medium);
+        text-decoration: underline;
+        margin: 20px;
+        cursor: pointer;
+
+        &:hover {
+            font-weight: bold;
+        }
     }
 
     .wrap {
@@ -18,7 +30,6 @@
         align-content: flex-start;
         gap: 30px;
         margin-left: 20px;
-        background-color: var(--color-1);
 
         .choose {
             position: relative;
@@ -62,7 +73,6 @@
 .section {
     display: flex;
     align-items: center;
-    justify-content: center;
     margin-bottom: 10px;
     box-shadow: var(--shadow);
     border-radius: 4px;
@@ -70,7 +80,7 @@
     background-color: var(--color-grey);
 
     &--active {
-        background-color: var(--color-2);
+        background-color: var(--color-1);
         color: var(--color-text);
 
         .section_description {

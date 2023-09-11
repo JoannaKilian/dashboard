@@ -21,6 +21,7 @@ export class ListsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.menuService.setCurrentIndex(1);
     this.menuService.getSections();
     this.sections$ = this.menuService.sections$;
   }
