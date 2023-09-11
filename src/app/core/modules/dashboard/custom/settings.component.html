@@ -14,7 +14,7 @@
 
 <div class="tabs">
   <p class="title">Visible sections</p>
-  <div style="padding: 20px; padding-bottom: 0;">
+  <div style="padding-left: 20px;">
     <ng-container *ngIf="sections$ | async as sections">
       <div *ngFor="let section of sections; let i = index">
         <div [ngClass]="section.visible ? 'section section--active' : 'section'">

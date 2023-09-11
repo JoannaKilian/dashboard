@@ -21,7 +21,6 @@ export class MenuService {
     { title: 'cars', value: 'cars', icon: 'directions_car', visible: true },
     { title: 'pets', value: 'pets', icon: 'pets', visible: true },
   ];
-  defaultSections: Section[] = JSON.parse(JSON.stringify(this.sections));
 
   private sectionsSubject: BehaviorSubject<Section[]> = new BehaviorSubject<Section[]>(this.sections);
   public sections$: Observable<Section[]> = this.sectionsSubject.asObservable();
@@ -80,8 +79,10 @@ export class MenuService {
   }
 
   defautl() {
-    console.log(this.defaultSections)
-    this.sectionsSubject.next(this.defaultSections);
-    this.sections = JSON.parse(JSON.stringify(this.defaultSections));
+    this.sections.forEach(section => {
+      section.visible = true;
+    })
+    this.sectionsSubject.next(this.sections);
+    this.http.put<Section[]>(this.url, this.sections).subscribe();
   }
 }
