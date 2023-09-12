@@ -1,42 +1,48 @@
-.nav{
-    display: flex;
-    align-content: flex-start;
-    gap: 30px;
+.nav {
+  display: flex;
+  align-content: flex-start;
+  gap: 30px;
 
-    .section-button {
-        position: relative;
-        background-color: var(--color-grey);
-        width: 150px;
-        height: 150px;
-        box-shadow: var(--shadow);
-        border-radius: 4px;
-        cursor: pointer;
+  @media (orientation: portrait) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
 
-        &--active{
-            background-color: var(--color-1);
-        }
-    
-        &:hover {
-    
-          box-shadow: 2px 4px 10px 0px #000;
-        }
-    
-        &:active {
-          box-shadow: inset 2px 4px 10px 0px #000;
-        }
-    
-        &_icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-      
-            .mat-icon {
-              color: var(--color-text-light);
-              height: 60px;
-              width: 60px;
-              font-size: 60px;
-            }
-          }
+  .section-button {
+    position: relative;
+    background-color: var(--color-grey);
+    width: 150px;
+    height: 150px;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    cursor: pointer;
+
+    &--active {
+      background-color: var(--color-1);
+    }
+
+    &:hover {
+
+      box-shadow: 2px 4px 10px 0px #000;
+    }
+
+    &:active {
+      box-shadow: inset 2px 4px 10px 0px #000;
+    }
+
+    &_icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      .mat-icon {
+        color: var(--color-text-light);
+        height: 60px;
+        width: 60px;
+        font-size: 60px;
       }
+    }
+  }
 }

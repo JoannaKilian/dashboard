@@ -1,4 +1,8 @@
 .header {
     display: flex;
     align-items: center;
+
+    @media (orientation: portrait) {
+        flex-wrap: wrap;
+      }
 }

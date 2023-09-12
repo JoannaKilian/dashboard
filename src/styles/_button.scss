@@ -35,3 +35,10 @@
         justify-content: flex-start !important;
     }
 }
+
+
+@media (orientation: portrait) {
+    .mat-mdc-dialog-actions .mat-mdc-button-base+.mat-mdc-button-base {
+        margin-left: 20px !important;
+    }
+  }

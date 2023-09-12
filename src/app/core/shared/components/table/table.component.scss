@@ -1,6 +1,11 @@
 .wrap {
   display: flex;
-  width: 100%;
+  max-width: 100%;
+
+  @media (orientation: portrait) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 }
 
 .title-icon{
@@ -16,6 +21,11 @@
   margin-right: 16px;
   padding-top: 30px;
   border-radius: 8px;
+
+  @media (orientation: portrait) {
+    width: 90vw;
+    overflow: scroll;
+  }
 
   .element-detail {
     overflow: hidden;
