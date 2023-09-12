@@ -116,6 +116,12 @@ Apache-2.0
 @firebase/component
 Apache-2.0
 
+@firebase/database
+Apache-2.0
+
+@firebase/database-compat
+Apache-2.0
+
 @firebase/installations
 Apache-2.0
 
@@ -196,6 +202,8 @@ firebase/auth
 firebase/compat/app
 
 firebase/compat/auth
+
+firebase/compat/database
 
 firebase/messaging
 
