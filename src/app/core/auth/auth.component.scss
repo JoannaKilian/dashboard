@@ -1,4 +1,5 @@
 .wrap {
+    min-width: 360px;
     position: absolute;
     top: 0;
     left: 0;
@@ -6,6 +7,7 @@
     bottom: 0;
     background-image: url(../../../assets/todos.jpg);
     background-position: top;
+    background-size: cover;
 
     .auth {
         position: absolute;
@@ -13,35 +15,51 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 60%;
-        min-height: 650px;
+        min-height: 630px;
         background-color: var(--color-1);
         box-shadow: var(--shadow);
         border-radius: 4px;
 
-        &_icons .icon {
-            position: absolute;
-            top: 65%;
-            left: 78%;
-            transform: rotate(345deg);
+        @media (orientation: portrait){
+            width: 95%;
+            height: 100%;
+            position: static;
+            top: 0;
+            left: 0;
+            transform: none;
+            margin: 0 auto;
+        }
 
-            mat-icon {
-                width: 130px;
-                height: 130px;
-                font-size: 130px;
-                color: rgba(255, 255, 255, 0.02);
-                z-index: 1;
-            }
+        &_icons .icon{
+            display: none;
+        }
 
-            &:first-child {
-                top: 78%;
-                left: 60%;
-                transform: rotate(10deg);
-            }
-
-            &:last-of-type {
-                top: 35%;
-                left: 83%;
-                transform: rotate(40deg);
+        @media (orientation: landscape){
+            &_icons .icon {
+                position: absolute;
+                top: 65%;
+                left: 78%;
+                transform: rotate(345deg);
+    
+                mat-icon {
+                    width: 130px;
+                    height: 130px;
+                    font-size: 130px;
+                    color: rgba(255, 255, 255, 0.02);
+                    z-index: 1;
+                }
+    
+                &:first-child {
+                    top: 78%;
+                    left: 60%;
+                    transform: rotate(10deg);
+                }
+    
+                &:last-of-type {
+                    top: 35%;
+                    left: 83%;
+                    transform: rotate(40deg);
+                }
             }
         }
 
@@ -85,6 +103,9 @@
                 right: 28%;
                 color: var(--color-2);
                 cursor: pointer;
+                @media (orientation: portrait){
+                    right: 12%;
+                }
             }
         }
 
@@ -100,6 +121,10 @@
         input[type="email"] {
             width: 50%;
             padding: 5px;
+
+            @media (orientation: portrait){
+                width: 80%;
+            }
         }
 
         button {

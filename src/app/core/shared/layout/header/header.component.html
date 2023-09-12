@@ -1,9 +1,11 @@
 <div class="header">
-  <p><span *ngIf="displayName$ | async as name">{{ name }}, </span>Welcome in your dashboard</p>
+  <p *ngIf="displayName$ | async as name">Welcome {{ name }}</p>
   <div class="header_menu">
-    <mat-icon (click)="onOpenMenu()">reorder</mat-icon>
+    <mat-icon class="landscape-menu" (click)="onOpenMenu()">reorder</mat-icon>
+    <div class="portrait-menu">
+     <app-vartical-menu></app-vartical-menu>
+    </div>
     <div class="header_logout" (click)="logout()">
-      <p>Log out</p>
       <mat-icon>exit_to_app</mat-icon>
     </div>
   </div>

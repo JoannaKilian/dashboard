@@ -15,6 +15,10 @@
     font-size: var(--font-title);
     margin-top: 12px;
     text-transform: uppercase;
+
+    @media (orientation: portrait) {
+      font-size: var(--font-middle);
+    }
   }
 
   &_menu {
@@ -22,6 +26,13 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
+
+    @media (orientation: portrait) {
+      font-size: var(--font-middle);
+      .landscape-menu {
+        display: none;
+      }
+    }
 
     mat-icon {
       color: var(--color-text-light);
@@ -54,5 +65,15 @@
         color: var(--color-1);
       }
     }
+  }
+}
+
+.portrait-menu {
+  display: none;
+
+  @media (orientation: portrait) {
+    display: flex;
+    justify-content: end;
+    flex-grow: 1;
   }
 }

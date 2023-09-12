@@ -25,12 +25,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ProgressBarComponent } from './layout/progress-bar/progress-bar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { VarticalMenuComponent } from './layout/vertical-menu/vartical-menu.component';
 
 @NgModule({
   declarations: [
     BaseComponent,
     ComingSoonComponent,
     MenuComponent,
+    VarticalMenuComponent,
     TitleComponent,
     Stars,
     HeaderComponent,

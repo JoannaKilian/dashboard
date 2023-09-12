@@ -1,0 +1,9 @@
+<div class="menu">
+  <ng-container *ngFor="let menuItem of menu; let i = index">
+    <div (click)="changePage(i, menuItem.path)" class="container">
+      <div [ngClass]="currentPage === i ? 'container_box container_box--active' : 'container_box' ">
+        <mat-icon [ngClass]="currentPage  === i ? 'container_img' : 'container_img'">{{menuItem.icon}}</mat-icon>
+      </div>
+    </div>
+  </ng-container>
+</div>

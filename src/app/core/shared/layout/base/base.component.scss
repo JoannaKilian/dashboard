@@ -12,6 +12,11 @@
     position: relative;
     min-width: 191px;
     height: 100vh;
+
+    @media (orientation: portrait){
+      min-width: 0px;
+      display: none;
+  }
   }
 
   &_container {
