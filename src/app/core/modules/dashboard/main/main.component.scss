@@ -1,12 +1,22 @@
 .wrap {
   display: flex;
   position: relative;
-  height: 100%;
+  min-height: 100%;
   overflow: hidden;
+  min-width: 360px;
+
+  @media (orientation: portrait) {
+    height: auto;
+    flex-wrap: wrap;
+  }
 
   .sections {
     flex-grow: 1;
     display: flex;
+
+    @media (orientation: portrait) {
+      flex-wrap: wrap;
+    }
   }
 
   .main {
@@ -16,6 +26,12 @@
     justify-content: flex-end;
     gap: 22px;
     width: 50%;
+
+    @media (orientation: portrait) {
+      justify-content: center;
+      width: 100%;
+      margin: 22px;
+    }
 
     &_container {
       flex-grow: 1;
@@ -124,6 +140,14 @@
 
   }
 
+  .right-section {
+    width: 65%;
+
+    @media (orientation: portrait) {
+      width: 100%;
+    }
+  }
+
   .info {
     position: relative;
     background-color: var(--color-1);
@@ -132,14 +156,23 @@
     border-radius: 4px;
     margin: 0 22px 22px 22px;
 
-    &_wide{
+    &_wide {
       margin: 0;
       width: 100%;
       height: calc(100% - 180px - 180px - 22px - 22px - 12px);
+      @media (orientation: portrait) {
+        height: auto;
+        min-height: 240px;
+      }
     }
 
     &_bills {
       height: calc(100% - 180px - 22px - 12px);
+
+      @media (orientation: portrait) {
+        height: auto;
+        min-height: 240px;
+      }
     }
 
     &_links {
