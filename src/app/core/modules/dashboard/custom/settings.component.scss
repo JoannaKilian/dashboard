@@ -30,6 +30,11 @@
         gap: 30px;
         margin-left: 20px;
 
+        @media (orientation: portrait) {
+            flex-wrap: wrap;
+            gap: 10px;
+          }
+
         .choose {
             position: relative;
             background-color: var(--color-grey);
@@ -78,6 +83,10 @@
     padding: 5px;
     background-color: var(--color-grey);
 
+    @media (orientation: portrait) {
+        flex-wrap: wrap;
+      }
+
     &--active {
         background-color: var(--color-1);
         color: var(--color-text);
@@ -102,7 +111,7 @@
     &_icon {
         color: var(--color-text);
         height: 60px;
-        width: 80px;
+        width: 60px;
         font-size: 50px;
     }
 }
