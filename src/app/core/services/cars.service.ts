@@ -84,7 +84,6 @@ export class CarService implements OnDestroy {
     }
 
     add(item: Car) {
-        console.log('this.url', this.url)
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
         this.subscription.add(this.http.put<Car[]>(this.url, clonedList)

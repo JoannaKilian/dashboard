@@ -25,7 +25,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription.add(this.menuService.getCurrentIndex().subscribe(index => {
-      console.log(index)
       this.currentPage = index;
     }));
   }

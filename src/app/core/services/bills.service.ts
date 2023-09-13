@@ -50,6 +50,7 @@ export class BillsService implements OnDestroy {
         private userService: UserService,
     ) {
         this.uid = userService.getUid();
+        console.log(this.uid);
         this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/bills/billsList.json`;
     };
 

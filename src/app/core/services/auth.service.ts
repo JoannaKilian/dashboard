@@ -32,7 +32,6 @@ export class AuthService {
     login(email: string, password: string) {
         this.fireAuth.signInWithEmailAndPassword(email, password).then((response) => {
             if (response && response.user) {
-                console.log(response.user?.uid, typeof(response.user?.uid))
                 this.userService.updateUser(response.user);
                 localStorage.setItem('uid', response.user?.uid ? response.user?.uid.toString() : '');
                 this.router.navigate(['/dashboard']);

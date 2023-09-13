@@ -45,7 +45,6 @@ export class SettingsComponent {
   }
 
   updateSections(index: number, isVisibly: boolean){
-    console.log(isVisibly);
     this.menuService.updateSections(index, isVisibly);
   }
 
