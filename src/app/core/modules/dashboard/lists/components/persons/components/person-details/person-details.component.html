@@ -6,7 +6,7 @@
     </div>
     <div>
         <p><span>Birthday</span>: {{details.dateOfBirth}}</p>
-        <p *ngIf="details.nameDay"><span>Wedding</span>: {{details.nameDay}}</p>
+        <p *ngIf="details.nameDay"><span>Name Day</span>: {{details.nameDay}}</p>
         <p *ngIf="details.socialSecurityNumber"><span>PESEL</span>: {{details.socialSecurityNumber}}</p>
         <p><span>ID card</span>: {{details.IDcard}}</p>
     </div>
@@ -16,6 +16,6 @@
     </div>
     <div class="progress-container">
         <app-progress [days]="birthdayDate" title="Birthday"></app-progress>
-        <app-progress *ngIf="details.nameDay" [days]="nameDay" title="Wedding"></app-progress>
+        <app-progress *ngIf="details.nameDay" [days]="nameDay" title="Name day"></app-progress>
     </div>
 </div>

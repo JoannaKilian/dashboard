@@ -33,6 +33,7 @@ export class LinksService implements OnDestroy {
                 'School',
                 'Entertiment',
                 'Forum',
+                'Work',
                 'Another'
             ], validations: [Validators.required]
         },
@@ -79,9 +80,9 @@ export class LinksService implements OnDestroy {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
         this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
-        .subscribe(() => {
-            this.dataList = clonedList;
-        }))
+            .subscribe(() => {
+                this.dataList = clonedList;
+            }))
     }
 
     update(updatedItem: Link) {
@@ -91,9 +92,9 @@ export class LinksService implements OnDestroy {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
             this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                }))
         }
     }
 
@@ -104,9 +105,9 @@ export class LinksService implements OnDestroy {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
             this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                }))
         }
     }
 
@@ -116,24 +117,26 @@ export class LinksService implements OnDestroy {
 
     getIcon(category: string): string {
         switch (category) {
-          case 'Social':
-            return 'alternate_email';
-          case 'Home':
-            return 'home';
-          case 'Music':
-            return 'music_note';
-          case 'School':
-            return 'school';
-          case 'Phone':
-            return 'phone';
-          case 'Forum':
-            return 'forum';
-          case 'Entertiment':
-            return 'casino';
-          default:
-            return 'link';
+            case 'Social':
+                return 'alternate_email';
+            case 'Home':
+                return 'home';
+            case 'Music':
+                return 'music_note';
+            case 'School':
+                return 'school';
+            case 'Phone':
+                return 'phone';
+            case 'Work':
+                return 'work';
+            case 'Forum':
+                return 'forum';
+            case 'Entertiment':
+                return 'casino';
+            default:
+                return 'link';
         }
-      }
+    }
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();

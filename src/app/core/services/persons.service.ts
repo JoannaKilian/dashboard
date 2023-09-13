@@ -32,7 +32,7 @@ export class PersonsService implements OnDestroy {
         },
         { type: FieldType.Date, label: 'Date Of Birth', name: 'dateOfBirth', validations: [Validators.required] },
         { type: FieldType.Date, label: 'Name Day', name: 'nameDay'},
-        { type: FieldType.Number, label: 'PESEL', name: 'socialSecurityNumber', validations: [Validators.required] },
+        { type: FieldType.Number, label: 'PESEL', name: 'socialSecurityNumber'},
         { type: FieldType.Text, label: 'ID card', name: 'IDcard' },
     ];
 

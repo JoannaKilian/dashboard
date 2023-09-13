@@ -28,14 +28,7 @@ export class CarService implements OnDestroy {
     private formFields: FormConfig[] = [
         {
             type: FieldType.Select, label: 'Brand', name: 'brand', options: [
-                'Toyota',
-                'Volkswagen',
-                'Ford',
-                'Honda',
-                'Chevrolet',
-                'Nissan',
-                'Hyundai',
-                'BMW'
+                'Audi', 'BMW', 'Chevrolet', 'Ford', 'Honda', 'Hyundai', 'Mercedes', 'Nissan', 'Toyota', 'Volkswagen'
             ], validations: [Validators.required]
         },
         { type: FieldType.Text, label: 'Model', name: 'model', validations: [Validators.required] },
@@ -53,7 +46,7 @@ export class CarService implements OnDestroy {
         },
         { type: FieldType.Date, label: 'Insurance Date', name: 'insuranceDate', validations: [Validators.required] },
         { type: FieldType.Date, label: 'Car Inspection', name: 'carInspection', validations: [Validators.required] },
-        { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity' },
+        { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity (L)' },
         { type: FieldType.Number, label: 'Engine Power', name: 'enginePower' },
     ];
 
