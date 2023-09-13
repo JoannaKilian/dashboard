@@ -19,7 +19,10 @@
     color: var(--color-text-light) !important;
     font-size: var(--font-title) !important;
     margin: 17px 0px 7px 0 !important;
-    width: 100%;
+
+    @media (orientation: portrait) {
+        width: 100%;
+      }
 }
 
 .mat-mdc-dialog-container .mdc-dialog__content {
