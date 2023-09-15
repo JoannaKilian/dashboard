@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -7,23 +7,19 @@ import { MatDialog } from "@angular/material/dialog";
 import { Car } from "../models/car.models";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
-import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class CarService implements OnDestroy {
+export class CarService {
 
     private dataList: Car[] = [];
     private dataListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
     public data$: Observable<Car[]> = this.dataListSubject.asObservable();
 
     private url: string;
-    uid: string | null;
-    subscription: Subscription = new Subscription();
 
     private formFields: FormConfig[] = [
         {
@@ -53,14 +49,12 @@ export class CarService implements OnDestroy {
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/cars/carsList.json`;
+        this.url = `/cars/carsList.json`;
     };
 
     getList() {
-        this.subscription.add(this.http.get<Car[]>(this.url)
+        this.http.get<Car[]>(this.url)
             .subscribe({
                 next: (response: Car[] | null) => {
                     const data = response !== null ? response : [];
@@ -76,7 +70,7 @@ export class CarService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
     addUniqueId(): string {
@@ -86,10 +80,10 @@ export class CarService implements OnDestroy {
     add(item: Car) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
+        this.http.put<Car[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
-            }))
+            })
     }
 
     update(updatedItem: Car) {
@@ -98,10 +92,10 @@ export class CarService implements OnDestroy {
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
+            this.http.put<Car[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
@@ -111,18 +105,14 @@ export class CarService implements OnDestroy {
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Car[]>(this.url, clonedList)
+            this.http.put<Car[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }

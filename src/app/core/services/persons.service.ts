@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -7,15 +7,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Person } from "../models/person.models";
-import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class PersonsService implements OnDestroy {
+export class PersonsService {
 
     private dataList: Person[] = [];
     private dataListSubject: BehaviorSubject<Person[]> = new BehaviorSubject<Person[]>([]);
@@ -31,26 +29,22 @@ export class PersonsService implements OnDestroy {
             ], validations: [Validators.required]
         },
         { type: FieldType.Date, label: 'Date Of Birth', name: 'dateOfBirth', validations: [Validators.required] },
-        { type: FieldType.Date, label: 'Name Day', name: 'nameDay'},
-        { type: FieldType.Number, label: 'PESEL', name: 'socialSecurityNumber'},
+        { type: FieldType.Date, label: 'Name Day', name: 'nameDay' },
+        { type: FieldType.Number, label: 'PESEL', name: 'socialSecurityNumber' },
         { type: FieldType.Text, label: 'ID card', name: 'IDcard' },
     ];
 
     private url: string;
-    uid: string | null;
-    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/persons/personsList.json`;
+        this.url = `/persons/personsList.json`;
     };
 
     getList() {
-        this.subscription.add(this.http.get<Person[]>(this.url)
+        this.http.get<Person[]>(this.url)
             .subscribe({
                 next: (response: Person[] | null) => {
                     const data = response !== null ? response : [];
@@ -66,7 +60,7 @@ export class PersonsService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
     addUniqueId(): string {
@@ -76,10 +70,10 @@ export class PersonsService implements OnDestroy {
     add(item: Person) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Person[]>(this.url, clonedList)
-        .subscribe(() => {
-            this.dataList = clonedList;
-        }))
+        this.http.put<Person[]>(this.url, clonedList)
+            .subscribe(() => {
+                this.dataList = clonedList;
+            })
     }
 
     update(updatedItem: Person) {
@@ -88,10 +82,10 @@ export class PersonsService implements OnDestroy {
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Person[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+            this.http.put<Person[]>(this.url, clonedList)
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                })
         }
     }
 
@@ -101,18 +95,14 @@ export class PersonsService implements OnDestroy {
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Person[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+            this.http.put<Person[]>(this.url, clonedList)
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                })
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }

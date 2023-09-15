@@ -33,7 +33,6 @@ export class AuthService {
         this.fireAuth.signInWithEmailAndPassword(email, password).then((response) => {
             if (response && response.user) {
                 this.userService.updateUser(response.user);
-                localStorage.setItem('uid', response.user?.uid ? response.user?.uid.toString() : '');
                 this.router.navigate(['/dashboard']);
             }
         }, err => {
@@ -94,7 +93,6 @@ export class AuthService {
             });
             dialogRef.afterClosed().subscribe((result) => {
                 if (result === 'submit') {
-                    localStorage.removeItem('uid');
                     this.router.navigate(['/login']);
                     this.goToLoginSubject.next(true);
                 }
@@ -142,7 +140,6 @@ export class AuthService {
         return this.fireAuth.signInWithPopup(new GoogleAuthProvider).then((response) => {
             if (response && response.user) {
                 this.userService.updateUser(response.user);
-                localStorage.setItem('uid', response.user?.uid ? response.user?.uid.toString() : '');
                 this.router.navigate(['/dashboard']);
             }
         }, err => {

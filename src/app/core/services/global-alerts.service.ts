@@ -1,11 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Alert } from "../models/alert.models";
-import { EntityAlertMap, EntityCategory } from "../models/category-list.models";
+import { EntityAlertMap } from "../models/category-list.models";
 import { BehaviorSubject, catchError, forkJoin, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { environment } from "src/environments/environment";
 import { UserService } from "./user.service";
 
 @Injectable({
@@ -13,8 +12,6 @@ import { UserService } from "./user.service";
 })
 
 export class GlobalAlertService {
-
-    private alertsUrl = `${environment.firebaseConfig.databaseURL}`;
 
     carsAlerts: Alert[] = [];
     private carsAlertsSubject = new BehaviorSubject<Alert[]>([]);
@@ -52,10 +49,10 @@ export class GlobalAlertService {
      }
 
     getGlobalAlerts() {
-        const persons$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/persons/personsAlerts.json`);
-        const events$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/events/eventsAlerts.json`);
-        const cars$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/cars/carsAlerts.json`);
-        const pets$ = this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/pets/petsAlerts.json`);
+        const persons$ = this.http.get<Alert[]>(`/persons/personsAlerts.json`);
+        const events$ = this.http.get<Alert[]>(`/events/eventsAlerts.json`);
+        const cars$ = this.http.get<Alert[]>(`/cars/carsAlerts.json`);
+        const pets$ = this.http.get<Alert[]>(`/pets/petsAlerts.json`);
       
         forkJoin([persons$, cars$, pets$, events$])
         .pipe(

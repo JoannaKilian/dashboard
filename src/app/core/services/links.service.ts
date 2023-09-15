@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -7,15 +7,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Link } from "../models/links.models";
-import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class LinksService implements OnDestroy {
+export class LinksService {
 
     private dataList: Link[] = [];
     private dataListSubject: BehaviorSubject<Link[]> = new BehaviorSubject<Link[]>([]);
@@ -40,20 +38,16 @@ export class LinksService implements OnDestroy {
     ];
 
     private url: string;
-    uid: string | null;
-    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/links/linksList.json`;
+        this.url = `/links/linksList.json`;
     };
 
     getList() {
-        this.subscription.add(this.http.get<Link[]>(this.url)
+        this.http.get<Link[]>(this.url)
             .subscribe({
                 next: (response: Link[] | null) => {
                     const data = response !== null ? response : [];
@@ -69,7 +63,7 @@ export class LinksService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
     addUniqueId(): string {
@@ -79,10 +73,10 @@ export class LinksService implements OnDestroy {
     add(item: Link) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
+        this.http.put<Link[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
-            }))
+            })
     }
 
     update(updatedItem: Link) {
@@ -91,10 +85,10 @@ export class LinksService implements OnDestroy {
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
+            this.http.put<Link[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
@@ -104,10 +98,10 @@ export class LinksService implements OnDestroy {
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Link[]>(this.url, clonedList)
+            this.http.put<Link[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
@@ -136,9 +130,5 @@ export class LinksService implements OnDestroy {
             default:
                 return 'link';
         }
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }

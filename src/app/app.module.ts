@@ -8,12 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthComponent } from './core/auth/auth.component';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat'
 import { environment } from 'src/environments/environment';
 import { ForgotPasswordComponent } from './core/auth/components/forgot-password/forgot-password.component';
 import { SharedModule } from './core/shared/shared.module';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AuthInterceptorService } from './core/services/auth-interceptor.service';
 
 
 
@@ -31,12 +32,12 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
     BrowserAnimationsModule,
     MatIconModule,
     FormsModule,
-    ReactiveFormsModule, 
-    HttpClientModule, 
+    ReactiveFormsModule,
+    HttpClientModule,
     SharedModule,
     StoreModule.forRoot({}, {}),
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

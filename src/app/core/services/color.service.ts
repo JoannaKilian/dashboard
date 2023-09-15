@@ -1,39 +1,31 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from "@angular/material/dialog";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
-import { Note } from "../models/note.models";
-import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class ColorService implements OnDestroy {
+export class ColorService {
 
     private color: number = 1;
     private colorSubject: BehaviorSubject<number> = new BehaviorSubject<number>(1);
     public color$: Observable<number> = this.colorSubject.asObservable();
 
     private url: string;
-    uid: string | null;
-    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/settings/color.json`;
+        this.url = `/settings/color.json`;
     };
 
     setColor() {
-        this.subscription.add(this.http.get<number>(this.url)
+        this.http.get<number>(this.url)
             .subscribe({
                 next: (response: number | null) => {
                     const data = response !== null ? response : 1;
@@ -50,10 +42,10 @@ export class ColorService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
-    getColor() : number{
+    getColor(): number {
         return this.color;
     }
 
@@ -91,13 +83,9 @@ export class ColorService implements OnDestroy {
                 root.style.setProperty('--color-background', '#444444');
                 break;
         }
-        this.subscription.add(this.http.put<number>(this.url, i)
-        .subscribe(() => {
-            this.color = i;
-        }))
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.http.put<number>(this.url, i)
+            .subscribe(() => {
+                this.color = i;
+            })
     }
 }

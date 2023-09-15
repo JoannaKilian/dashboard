@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -7,15 +7,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Pet } from "../models/pet.models";
-import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class PetsService implements OnDestroy {
+export class PetsService {
 
     private dataList: Pet[] = [];
     private dataListSubject: BehaviorSubject<Pet[]> = new BehaviorSubject<Pet[]>([]);
@@ -51,20 +49,16 @@ export class PetsService implements OnDestroy {
     ];
 
     private url: string;
-    uid: string | null;
-    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/pets/petsList.json`;
+        this.url = `/pets/petsList.json`;
     };
 
     getList() {
-        this.subscription.add(this.http.get<Pet[]>(this.url)
+        this.http.get<Pet[]>(this.url)
             .subscribe({
                 next: (response: Pet[] | null) => {
                     const data = response !== null ? response : [];
@@ -80,7 +74,7 @@ export class PetsService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
     addUniqueId(): string {
@@ -90,10 +84,10 @@ export class PetsService implements OnDestroy {
     add(item: Pet) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Pet[]>(this.url, clonedList)
+        this.http.put<Pet[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
-            }))
+            })
     }
 
     update(updatedItem: Pet) {
@@ -102,10 +96,10 @@ export class PetsService implements OnDestroy {
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Pet[]>(this.url, clonedList)
+            this.http.put<Pet[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
@@ -115,10 +109,10 @@ export class PetsService implements OnDestroy {
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Pet[]>(this.url, clonedList)
+            this.http.put<Pet[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
@@ -155,9 +149,5 @@ export class PetsService implements OnDestroy {
             default:
                 return -1;
         }
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }

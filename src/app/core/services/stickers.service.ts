@@ -1,19 +1,17 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from "@angular/material/dialog";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Note } from "../models/note.models";
-import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class StickersService implements OnDestroy {
+export class StickersService {
 
     private dataList: Note[] = [];
     private dataListSubject: BehaviorSubject<Note[]> = new BehaviorSubject<Note[]>([]);
@@ -21,20 +19,16 @@ export class StickersService implements OnDestroy {
 
 
     private url: string;
-    uid: string | null;
-    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/stickers.json`;
+        this.url = `/stickers.json`;
     };
 
     getList() {
-        this.subscription.add(this.http.get<Note[]>(this.url)
+        this.http.get<Note[]>(this.url)
             .subscribe({
                 next: (response: Note[] | null) => {
                     const data = response !== null ? response : [];
@@ -50,7 +44,7 @@ export class StickersService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
     add() {
@@ -65,10 +59,10 @@ export class StickersService implements OnDestroy {
         };
         const clonedList = [...this.dataList, note];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Note[]>(this.url, clonedList)
+        this.http.put<Note[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
-            }))
+            })
     }
 
     update(updatedItem: Note) {
@@ -77,10 +71,10 @@ export class StickersService implements OnDestroy {
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Note[]>(this.url, clonedList)
+            this.http.put<Note[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
-            }))
+            })
         }
     }
 
@@ -100,13 +94,9 @@ export class StickersService implements OnDestroy {
             clonedList.splice(index, 1);
         })
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Note[]>(this.url, clonedList)
+        this.http.put<Note[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
-            }))
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+            })
     }
 }

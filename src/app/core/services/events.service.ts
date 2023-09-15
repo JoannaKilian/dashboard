@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -7,15 +7,13 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { CalendarEvent } from "../models/event.models";
-import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class EventsService implements OnDestroy {
+export class EventsService {
 
     private dataList: CalendarEvent[] = [];
     private dataListSubject: BehaviorSubject<CalendarEvent[]> = new BehaviorSubject<CalendarEvent[]>([]);
@@ -24,10 +22,10 @@ export class EventsService implements OnDestroy {
     private formFields: FormConfig[] = [
         {
             type: FieldType.Select, label: 'Category', name: 'category', options: [
-                'Holidays', 
-                'Occasions', 
-                'Entertainment', 
-                'Education', 
+                'Holidays',
+                'Occasions',
+                'Entertainment',
+                'Education',
                 'Work'
             ], validations: [Validators.required]
         },
@@ -36,29 +34,24 @@ export class EventsService implements OnDestroy {
         { type: FieldType.Textarea, label: 'Description', name: 'description' },
         {
             type: FieldType.Select, label: 'Importance', name: 'importance', options: [
-                'Low', 
-                'Medium', 
+                'Low',
+                'Medium',
                 'High',
             ], validations: [Validators.required]
         },
     ];
 
     private url: string;
-    uid: string | null;
-
-    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/events/eventsList.json`;
+        this.url = `/events/eventsList.json`;
     };
 
     getList() {
-        this.subscription.add(this.http.get<CalendarEvent[]>(this.url)
+        this.http.get<CalendarEvent[]>(this.url)
             .subscribe({
                 next: (response: CalendarEvent[] | null) => {
                     const data = response !== null ? response : [];
@@ -74,7 +67,7 @@ export class EventsService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
     addUniqueId(): string {
@@ -84,10 +77,10 @@ export class EventsService implements OnDestroy {
     add(item: CalendarEvent) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<CalendarEvent[]>(this.url, clonedList)
-        .subscribe(() => {
-            this.dataList = clonedList;
-        }))
+        this.http.put<CalendarEvent[]>(this.url, clonedList)
+            .subscribe(() => {
+                this.dataList = clonedList;
+            })
     }
 
     update(updatedItem: CalendarEvent) {
@@ -96,10 +89,10 @@ export class EventsService implements OnDestroy {
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<CalendarEvent[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+            this.http.put<CalendarEvent[]>(this.url, clonedList)
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                })
         }
     }
 
@@ -109,18 +102,14 @@ export class EventsService implements OnDestroy {
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<CalendarEvent[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            }))
+            this.http.put<CalendarEvent[]>(this.url, clonedList)
+                .subscribe(() => {
+                    this.dataList = clonedList;
+                })
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }

@@ -1,5 +1,5 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -8,14 +8,13 @@ import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Bill } from "../models/bills.models";
 import { UserService } from "./user.service";
-import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class BillsService implements OnDestroy {
+export class BillsService {
 
     private dataList: Bill[] = [];
     private dataListSubject: BehaviorSubject<Bill[]> = new BehaviorSubject<Bill[]>([]);
@@ -40,22 +39,19 @@ export class BillsService implements OnDestroy {
     ];
 
     private url: string;
-    uid: string | null;
-
-    subscription: Subscription = new Subscription();
 
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
         private userService: UserService,
     ) {
-        this.uid = userService.getUid();
-        console.log(this.uid);
-        this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/bills/billsList.json`;
+        this.url = `/bills/billsList.json`;
     };
 
     getList() {
-        this.subscription.add(this.http.get<Bill[]>(this.url)
+        this.userService.user
+         
+        this.http.get<Bill[]>(this.url)
             .subscribe({
                 next: (response: Bill[] | null) => {
                     const data = response !== null ? response : [];
@@ -71,7 +67,7 @@ export class BillsService implements OnDestroy {
                         }
                     });
                 }
-            }))
+            })
     }
 
     addUniqueId(): string {
@@ -81,10 +77,10 @@ export class BillsService implements OnDestroy {
     add(item: Bill) {
         const clonedList = [...this.dataList, item];
         this.dataListSubject.next(clonedList);
-        this.subscription.add(this.http.put<Bill[]>(this.url, clonedList)
+       this.http.put<Bill[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
-            }))
+            })
     }
 
     update(updatedItem: Bill) {
@@ -93,10 +89,10 @@ export class BillsService implements OnDestroy {
         if (index !== -1) {
             clonedList[index] = updatedItem;
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Bill[]>(this.url, clonedList)
+            this.http.put<Bill[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
@@ -106,19 +102,15 @@ export class BillsService implements OnDestroy {
         if (index !== -1) {
             clonedList.splice(index, 1);
             this.dataListSubject.next(clonedList);
-            this.subscription.add(this.http.put<Bill[]>(this.url, clonedList)
+            this.http.put<Bill[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
-                }))
+                })
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
-    }
-
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 
     getPaymentIntervalDays(paymentInterval: string): number {

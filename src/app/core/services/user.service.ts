@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFireDatabase } from "@angular/fire/compat/database";
-import { Observable, map } from "rxjs";
+import { BehaviorSubject, Observable, map } from "rxjs";
 import { User } from "../models/user.model";
 
 @Injectable({
@@ -10,10 +10,30 @@ import { User } from "../models/user.model";
 
 export class UserService {
 
+    user = new BehaviorSubject<User | null>(null);
+    
+    token$: Observable<string | null>;
+
     constructor(
         private fireAuth: AngularFireAuth,
         private db: AngularFireDatabase
-    ) { }
+    ) {
+        this.fireAuth.authState.subscribe((user) => {
+            if (user) {
+                user.getIdToken(true).then(idToken => {
+                    const userData = new User(user.uid, user.email, user.displayName, idToken)
+                    this.user.next(userData);
+                    console.log('userData', userData);
+                    localStorage.setItem('uid', user?.uid.toString());
+                });
+            } else {
+                this.user.next(null);
+                console.log('nie zalogowany', user);
+                localStorage.removeItem('uid');
+            }
+        }
+        );
+    }
 
     authState$: Observable<firebase.default.User | null> = this.fireAuth.authState;
     displayName$: Observable<string | null> = this.authState$.pipe(
@@ -24,7 +44,12 @@ export class UserService {
 
     getUid(): string | null {
         return localStorage.getItem('uid');
-      }
+    }
+
+    getToken(): Observable<string | null> {
+        return this.fireAuth.idToken;
+    }
+
 
     updateUser(user: firebase.default.User): void {
         if (user.displayName && user.email) {

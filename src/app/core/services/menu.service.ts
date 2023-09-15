@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Section } from '../models/sections.models';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { UserService } from './user.service';
-import { environment } from 'src/environments/environment';
 import { InfoDialogComponent } from '../shared/components/info-dialog/info-dialog/info-dialog.component';
-import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -26,16 +23,13 @@ export class MenuService {
   public sections$: Observable<Section[]> = this.sectionsSubject.asObservable();
 
   private url: string;
-  uid: string | null;
-  subscription: Subscription = new Subscription();
 
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
-    private userService: UserService,
+
   ) {
-    this.uid = userService.getUid();
-    this.url = `${environment.firebaseConfig.databaseURL}/users/${this.uid}/settings/sections.json`;
+    this.url = `/settings/sections.json`;
   };
 
   getCurrentIndex() {
@@ -43,7 +37,7 @@ export class MenuService {
   }
 
   getSections() {
-    this.subscription.add(this.http.get<Section[]>(this.url)
+    this.http.get<Section[]>(this.url)
       .subscribe({
         next: (response: Section[] | null) => {
           const data = response !== null ? response : this.sections;
@@ -59,7 +53,7 @@ export class MenuService {
             }
           });
         }
-      }))
+      })
   }
 
   takeSections() {
@@ -83,6 +77,6 @@ export class MenuService {
       section.visible = true;
     })
     this.sectionsSubject.next(this.sections);
-    this.http.put<Section[]>(this.url, this.sections).subscribe();
+    this.http.put<Section[]>(this.url, this.sections);
   }
 }
