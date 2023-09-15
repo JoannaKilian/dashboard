@@ -62,7 +62,7 @@ export class EventsService {
                     this.dialog.open(InfoDialogComponent, {
                         data: {
                             title: 'Error',
-                            description: 'Error while fetching data',
+                            description: 'Error while fetching events data',
                             type: 'error'
                         }
                     });

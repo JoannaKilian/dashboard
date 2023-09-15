@@ -1,7 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { StateObservable } from '@ngrx/store';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { InfoDialogComponent } from '../../components/info-dialog/info-dialog/info-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +18,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    public dialog: MatDialog
   ) {
   }
 
@@ -31,8 +34,17 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.auth.signout();
+    const dialogRef = this.dialog.open(InfoDialogComponent, {
+      data: {
+        title: 'Confirm Leaving Dashboard',
+        description: 'Are you sure you want to leave your dashboard?',
+        type: 'submit'
+      }
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'submit') {
+        this.auth.signout();
+      }
+    });
   }
-
-
 }

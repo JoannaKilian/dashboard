@@ -5,7 +5,6 @@ import { BehaviorSubject, catchError, forkJoin, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { UserService } from "./user.service";
 
 @Injectable({
     providedIn: "root"
@@ -38,15 +37,10 @@ export class GlobalAlertService {
     private allAlertsSubject = new BehaviorSubject<EntityAlertMap>(this.allAlerts);
     allAlerts$ = this.allAlertsSubject.asObservable();
 
-    uid: string | null;
-
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
-        private userService: UserService,
-    ) {
-        this.uid = userService.getUid();
-     }
+    ) { }
 
     getGlobalAlerts() {
         const persons$ = this.http.get<Alert[]>(`/persons/personsAlerts.json`);

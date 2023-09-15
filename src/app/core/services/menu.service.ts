@@ -48,7 +48,7 @@ export class MenuService {
           this.dialog.open(InfoDialogComponent, {
             data: {
               title: 'Error',
-              description: 'Error while fetching sections',
+              description: 'Error while fetching sections data',
               type: 'error'
             }
           });

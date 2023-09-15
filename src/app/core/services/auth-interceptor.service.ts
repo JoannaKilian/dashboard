@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment';
 export class AuthInterceptorService implements HttpInterceptor {
     constructor(private userService: UserService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('req',req);
         return this.userService.user
             .pipe(
                 filter(user => user !== null),

@@ -1,35 +1,27 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Alert } from '../models/alert.models';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { EntityCategory } from '../models/category-list.models';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../shared/components/info-dialog/info-dialog/info-dialog.component';
-import { environment } from 'src/environments/environment';
-import { UserService } from './user.service';
 
 @Injectable()
 
-export class AlertService implements OnDestroy {
+export class AlertService {
 
   private alerts: Alert[] = [];
   private alertsListSubject: BehaviorSubject<Alert[]> = new BehaviorSubject<Alert[]>([]);
   categoryAlerts$: Observable<Alert[]> = this.alertsListSubject.asObservable();
 
-  private alertsUrl = `${environment.firebaseConfig.databaseURL}`;
-  uid: string | null;
-  subscription: Subscription = new Subscription();
-
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
-    private userService: UserService,
-  ) { 
-    this.uid = userService.getUid();
+  ) {
   }
 
   getAlerts(categoryName: EntityCategory) {
-    this.subscription.add(this.http.get<Alert[]>(`${this.alertsUrl}/users/${this.uid}/${categoryName}/${categoryName}Alerts.json`)
+    this.http.get<Alert[]>(`/${categoryName}/${categoryName}Alerts.json`)
       .subscribe({
         next: (response: Alert[] | null) => {
           const data = response !== null ? response : [];
@@ -45,7 +37,7 @@ export class AlertService implements OnDestroy {
             }
           });
         }
-      }))
+      })
   }
 
   addAlert(
@@ -55,7 +47,6 @@ export class AlertService implements OnDestroy {
     subtitle: string,
     deadline: number,
     name: string) {
-
 
     const alertMessage: Alert = {
       name,
@@ -70,21 +61,21 @@ export class AlertService implements OnDestroy {
 
     const originalAlerts = [...this.alerts];
 
-    this.subscription.add(this.http.put<Alert[]>(`${this.alertsUrl}/users/${this.uid}/${categoryName}/${categoryName}Alerts.json`, updatedAlerts)
-    .subscribe({
-      next: () => console.log('Alerts updated on server'),
-      error: () => {
-        this.dialog.open(InfoDialogComponent, {
-          data: {
-            title: 'Error',
-            description: `Error while adding alert dla: ${name} - ${title} ${subtitle}`,
-            type: 'error'
-          }
-        });
-        this.alerts = originalAlerts;
-        this.alertsListSubject.next(originalAlerts);
-      }
-    }))
+    this.http.put<Alert[]>(`/${categoryName}/${categoryName}Alerts.json`, updatedAlerts)
+      .subscribe({
+        next: () => console.log('Alerts updated on server'),
+        error: () => {
+          this.dialog.open(InfoDialogComponent, {
+            data: {
+              title: 'Error',
+              description: `Error while adding alert dla: ${name} - ${title} ${subtitle}`,
+              type: 'error'
+            }
+          });
+          this.alerts = originalAlerts;
+          this.alertsListSubject.next(originalAlerts);
+        }
+      })
   }
 
   updateAlert(
@@ -111,22 +102,22 @@ export class AlertService implements OnDestroy {
       this.alertsListSubject.next(copiedAlerts);
       const originalAlerts = [...this.alerts];
 
-      this.subscription.add(this.http.put<Alert[]>(`${this.alertsUrl}/users/${this.uid}/${categoryName}/${categoryName}Alerts.json`, copiedAlerts)
-      .subscribe({
-        next: () => console.log('Alerts update on server'),
-        error: () => {
-          this.dialog.open(InfoDialogComponent, {
-            data: {
-              title: 'Error',
-              description: 'Error while update alerts',
-              type: 'error'
-            }
-          });
-          this.alerts = originalAlerts;
-          this.alertsListSubject.next(originalAlerts);
+      this.http.put<Alert[]>(`/${categoryName}/${categoryName}Alerts.json`, copiedAlerts)
+        .subscribe({
+          next: () => console.log('Alerts update on server'),
+          error: () => {
+            this.dialog.open(InfoDialogComponent, {
+              data: {
+                title: 'Error',
+                description: 'Error while update alerts',
+                type: 'error'
+              }
+            });
+            this.alerts = originalAlerts;
+            this.alertsListSubject.next(originalAlerts);
+          }
         }
-      }
-      ))
+        )
     } else this.addAlert(categoryName, parentId, title, subtitle, deadline, name)
   }
 
@@ -148,22 +139,22 @@ export class AlertService implements OnDestroy {
 
     const originalAlerts = [...this.alerts];
 
-    this.subscription.add(this.http.put<Alert[]>(`${this.alertsUrl}/users/${this.uid}/${categoryName}/${categoryName}Alerts.json`, newArray)
-    .subscribe({
-      next: () => console.log('Alerts delete on server'),
-      error: () => {
-        this.dialog.open(InfoDialogComponent, {
-          data: {
-            title: 'Error',
-            description: 'Error while delete alerts',
-            type: 'error'
-          }
-        });
-        this.alerts = originalAlerts;
-        this.alertsListSubject.next(originalAlerts);
+    this.http.put<Alert[]>(`/${categoryName}/${categoryName}Alerts.json`, newArray)
+      .subscribe({
+        next: () => console.log('Alerts delete on server'),
+        error: () => {
+          this.dialog.open(InfoDialogComponent, {
+            data: {
+              title: 'Error',
+              description: 'Error while delete alerts',
+              type: 'error'
+            }
+          });
+          this.alerts = originalAlerts;
+          this.alertsListSubject.next(originalAlerts);
+        }
       }
-    }
-    ))
+      )
   }
 
 
@@ -182,25 +173,21 @@ export class AlertService implements OnDestroy {
     this.alertsListSubject.next(copiedAlerts);
     const originalAlerts = [...this.alerts];
 
-    this.subscription.add(this.http.put<Alert[]>(`${this.alertsUrl}/users/${this.uid}/${categoryName}/${categoryName}Alerts.json`, copiedAlerts)
-    .subscribe({
-      next: () => console.log('Alert delete on server'),
-      error: () => {
-        this.dialog.open(InfoDialogComponent, {
-          data: {
-            title: 'Error',
-            description: 'Error while delete alert',
-            type: 'error'
-          }
-        });
-        this.alerts = originalAlerts;
-        this.alertsListSubject.next(originalAlerts);
+    this.http.put<Alert[]>(`/${categoryName}/${categoryName}Alerts.json`, copiedAlerts)
+      .subscribe({
+        next: () => console.log('Alert delete on server'),
+        error: () => {
+          this.dialog.open(InfoDialogComponent, {
+            data: {
+              title: 'Error',
+              description: 'Error while delete alert',
+              type: 'error'
+            }
+          });
+          this.alerts = originalAlerts;
+          this.alertsListSubject.next(originalAlerts);
+        }
       }
-    }
-    ))
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+      )
   }
 }

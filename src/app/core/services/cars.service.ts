@@ -65,7 +65,7 @@ export class CarService {
                     this.dialog.open(InfoDialogComponent, {
                         data: {
                             title: 'Error',
-                            description: 'Error while fetching data',
+                            description: 'Error while fetching car data',
                             type: 'error'
                         }
                     });

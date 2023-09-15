@@ -23,13 +23,9 @@ export class UserService {
                 user.getIdToken(true).then(idToken => {
                     const userData = new User(user.uid, user.email, user.displayName, idToken)
                     this.user.next(userData);
-                    console.log('userData', userData);
-                    localStorage.setItem('uid', user?.uid.toString());
                 });
             } else {
                 this.user.next(null);
-                console.log('nie zalogowany', user);
-                localStorage.removeItem('uid');
             }
         }
         );
@@ -41,10 +37,6 @@ export class UserService {
             return !user ? null : user.displayName
         })
     );
-
-    getUid(): string | null {
-        return localStorage.getItem('uid');
-    }
 
     getToken(): Observable<string | null> {
         return this.fireAuth.idToken;

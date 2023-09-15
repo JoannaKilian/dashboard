@@ -58,7 +58,7 @@ export class LinksService {
                     this.dialog.open(InfoDialogComponent, {
                         data: {
                             title: 'Error',
-                            description: 'Error while fetching data',
+                            description: 'Error while fetching links data',
                             type: 'error'
                         }
                     });

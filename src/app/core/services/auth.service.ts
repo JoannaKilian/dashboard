@@ -84,19 +84,8 @@ export class AuthService {
 
     signout() {
         this.fireAuth.signOut().then(() => {
-            const dialogRef = this.dialog.open(InfoDialogComponent, {
-                data: {
-                    title: 'Confirm Leaving Dashboard',
-                    description: 'Are you sure you want to leave your dashboard?',
-                    type: 'submit'
-                }
-            });
-            dialogRef.afterClosed().subscribe((result) => {
-                if (result === 'submit') {
-                    this.router.navigate(['/login']);
-                    this.goToLoginSubject.next(true);
-                }
-            });
+            this.router.navigate(['/login']);
+            this.goToLoginSubject.next(true);
         }, err => {
             const dialogRef = this.dialog.open(InfoDialogComponent, {
                 data: {

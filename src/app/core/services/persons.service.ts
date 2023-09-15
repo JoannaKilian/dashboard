@@ -55,7 +55,7 @@ export class PersonsService {
                     this.dialog.open(InfoDialogComponent, {
                         data: {
                             title: 'Error',
-                            description: 'Error while fetching data',
+                            description: 'Error while fetching persons data',
                             type: 'error'
                         }
                     });

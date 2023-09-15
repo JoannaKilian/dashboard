@@ -69,7 +69,7 @@ export class PetsService {
                     this.dialog.open(InfoDialogComponent, {
                         data: {
                             title: 'Error',
-                            description: 'Error while fetching data',
+                            description: 'Error while fetching pets data',
                             type: 'error'
                         }
                     });
