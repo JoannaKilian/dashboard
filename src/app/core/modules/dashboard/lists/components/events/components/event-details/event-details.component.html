@@ -3,6 +3,7 @@
         <p><span>Title</span>: {{details.name}}</p>
         <p><span>Category</span>: {{details.category}}</p>
         <p><span>Date</span>: {{details.date}}</p>
+        <p *ngIf="details.time"><span>Time</span>: {{details.time}}</p>
         <p *ngIf="details.description"><span>Description</span>: {{details.description}}</p>
     </div>
     <div style="flex-grow: 1; display: flex; justify-content: flex-end;">

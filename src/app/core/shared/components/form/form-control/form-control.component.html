@@ -11,7 +11,10 @@
           <option *ngFor="let option of field.options" [value]="option">{{ option }}</option>
         </select>
         <input *ngSwitchCase="'number'" [formControlName]="field.name" type="number" />
-        <input *ngSwitchCase="'date'" [formControlName]="field.name" type="date" /></div>
+        <input *ngSwitchCase="'date'" [formControlName]="field.name" type="date" />
+        <input *ngSwitchCase="'time'" [formControlName]="field.name" type="time" />
+      </div>
+        
       <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched"
       class="error-message">
       <div *ngIf="form.get(field.name)?.hasError('required')">

@@ -22,6 +22,7 @@ export class EventsService {
     private formFields: FormConfig[] = [
         {
             type: FieldType.Select, label: 'Category', name: 'category', options: [
+                'Visit',
                 'Holidays',
                 'Occasions',
                 'Entertainment',
@@ -31,6 +32,7 @@ export class EventsService {
         },
         { type: FieldType.Text, label: 'Title', name: 'name', validations: [Validators.required] },
         { type: FieldType.Date, label: 'Date', name: 'date', validations: [Validators.required] },
+        { type: FieldType.Time, label: 'Time', name: 'time' },
         { type: FieldType.Textarea, label: 'Description', name: 'description' },
         {
             type: FieldType.Select, label: 'Importance', name: 'importance', options: [

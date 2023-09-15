@@ -3,6 +3,7 @@ export interface CalendarEvent {
     name: string,
     category: string,
     date: string,
+    time?: string,
     importance: string;
     description?: string,
 }
