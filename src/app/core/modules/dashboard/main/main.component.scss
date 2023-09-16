@@ -43,6 +43,10 @@
       border-radius: 4px;
       cursor: pointer;
 
+      @media (orientation: portrait) {
+        height: 85px;
+      }
+
       &:hover {
 
         box-shadow: 2px 4px 10px 0px #000;
@@ -61,6 +65,10 @@
       position: absolute;
       bottom: 10px;
       left: 14px;
+
+      @media (orientation: portrait) {
+        left: 80px;
+      }
 
       p {
         color: var(--color-text-light);

@@ -26,7 +26,7 @@ export class CarsComponent implements OnInit, OnDestroy {
   title: EntityCategory;
   icon: string;
   sections: Section[];
-  headers: string[] = ['brand', 'model', 'productionYear'];
+  headers: string[] = ['brand', 'model'];
   subscription: Subscription = new Subscription();
 
   constructor(
