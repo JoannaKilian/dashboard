@@ -44,7 +44,7 @@ export class CarService {
         },
         { type: FieldType.Date, label: 'Insurance Date', name: 'insuranceDate', validations: [Validators.required] },
         { type: FieldType.Date, label: 'Car Inspection', name: 'carInspection', validations: [Validators.required] },
-        { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity (L)' },
+        { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity' },
     ];
 
     constructor(
