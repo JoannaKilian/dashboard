@@ -22,6 +22,7 @@ export class EventsService {
     private formFields: FormConfig[] = [
         {
             type: FieldType.Select, label: 'Category', name: 'category', options: [
+                'Deadline',
                 'Visit',
                 'Holidays',
                 'Occasions',

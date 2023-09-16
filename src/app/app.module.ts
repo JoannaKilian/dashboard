@@ -15,6 +15,7 @@ import { ForgotPasswordComponent } from './core/auth/components/forgot-password/
 import { SharedModule } from './core/shared/shared.module';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AuthInterceptorService } from './core/services/auth-interceptor.service';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 
@@ -37,7 +38,10 @@ import { AuthInterceptorService } from './core/services/auth-interceptor.service
     SharedModule,
     StoreModule.forRoot({}, {}),
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
