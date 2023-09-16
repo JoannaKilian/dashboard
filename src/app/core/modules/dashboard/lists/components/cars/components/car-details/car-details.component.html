@@ -2,13 +2,13 @@
     <div>
         <p><span>Brand</span>: {{details.brand}}</p>
         <p><span>Model</span>: {{details.model}}</p>
+        <p *ngIf="details.registrationNumber"><span>Engine Power</span>: {{details.registrationNumber}}</p>
         <p><span>Production Year</span>: {{details.productionYear}}</p>
     </div>
     <div>
         <p><span>Insurance Date</span>: {{details.insuranceDate}}</p>
         <p><span>Car Inspection</span>: {{details.carInspection}}</p>
         <p *ngIf="details.engineCapacity"><span>Engine Capacity</span>: {{details.engineCapacity}}</p>
-        <p *ngIf="details.enginePower"><span>Engine Power</span>: {{details.enginePower}}</p>
     </div>
     <div class="car">
         <mat-icon [ngStyle]="{'color': details.color}">directions_car</mat-icon>

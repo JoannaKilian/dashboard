@@ -7,5 +7,5 @@ export interface Car {
   insuranceDate: string,
   carInspection: string;
   engineCapacity?: number,
-  enginePower?: number,
+  registrationNumber?: number,
 }

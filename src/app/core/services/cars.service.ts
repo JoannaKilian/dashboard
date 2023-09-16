@@ -24,10 +24,11 @@ export class CarService {
     private formFields: FormConfig[] = [
         {
             type: FieldType.Select, label: 'Brand', name: 'brand', options: [
-                'Audi', 'BMW', 'Chevrolet', 'Ford', 'Honda', 'Hyundai', 'Mercedes', 'Nissan', 'Toyota', 'Volkswagen', 'Fiat', 'Renault'
+                'Audi', 'BMW', 'Chevrolet', 'Ford', 'Honda', 'Hyundai', 'Mercedes', 'Nissan', 'Toyota', 'Volkswagen', 'Fiat', 'Renault', 'Citroen', 'Suzuki', 'Inny'
             ], validations: [Validators.required]
         },
         { type: FieldType.Text, label: 'Model', name: 'model', validations: [Validators.required] },
+        { type: FieldType.Number, label: 'Registration number', name: 'registrationNumber' },
         { type: FieldType.Number, label: 'Production Year', name: 'productionYear', validations: [Validators.required] },
         {
             type: FieldType.Select, label: 'Color', name: 'color', options: [
@@ -44,7 +45,6 @@ export class CarService {
         { type: FieldType.Date, label: 'Insurance Date', name: 'insuranceDate', validations: [Validators.required] },
         { type: FieldType.Date, label: 'Car Inspection', name: 'carInspection', validations: [Validators.required] },
         { type: FieldType.Number, label: 'Engine Capacity', name: 'engineCapacity (L)' },
-        { type: FieldType.Number, label: 'Engine Power', name: 'enginePower' },
     ];
 
     constructor(
