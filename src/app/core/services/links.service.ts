@@ -32,6 +32,7 @@ export class LinksService {
                 'Entertiment',
                 'Forum',
                 'Work',
+                'Shop',
                 'Another'
             ], validations: [Validators.required]
         },
@@ -123,6 +124,8 @@ export class LinksService {
                 return 'phone';
             case 'Work':
                 return 'work';
+            case 'Shop':
+                return 'shopping_cart';
             case 'Forum':
                 return 'forum';
             case 'Entertiment':
