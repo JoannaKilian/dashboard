@@ -70,8 +70,7 @@ export class BillsComponent implements OnInit, OnDestroy {
   }
 
   onPaidHandler(bill: Bill) {
-    const frequency: number = this.dataService.getPaymentIntervalDays(bill.frequency)
-    const newDate = this.timeAlertService.addIntervalToDate(bill.date, frequency);
+    const newDate = this.timeAlertService.addIntervalToDate(bill.date, bill.frequency);
     const updatedBill: Bill = {
       ...bill,
       date: newDate,
@@ -80,7 +79,7 @@ export class BillsComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       data: {
         title: `Are you sure you paid ${bill.name}?`,
-        description: `Extend the deadline by ${frequency} days.`,
+        description: `${bill.frequency} extend deadline.`,
         type: 'submit'
       }
     });

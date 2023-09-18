@@ -38,12 +38,29 @@ export class TimeAlertService {
     } else return 0;
   }
 
-  addIntervalToDate(date: string, interval: number): string {
-    const miliInterval = interval * 1000 * 3600 * 24
+  addIntervalToDate(date: string, interval: string): string {
     const startDate = new Date(date);
-    const newDate = new Date(startDate.getTime() + miliInterval);
-    const formattedDate = newDate.toISOString().slice(0, 10);
+    switch (interval) {
+      case 'Monthly':
+        startDate.setMonth(startDate.getMonth() + 1);
+        break;
+      case 'Every 2 Months':
+        startDate.setMonth(startDate.getMonth() + 2);
+        break;
+      case 'Quarterly':
+        startDate.setMonth(startDate.getMonth() + 3);
+        break;
+      case 'Semi-Annually':
+        startDate.setMonth(startDate.getMonth() + 6);
+        break;
+      case 'Annually':
+        startDate.setFullYear(startDate.getFullYear() + 1);
+        break;
+      default:
+        break;
+    }
 
+    const formattedDate = startDate.toISOString().slice(0, 10);
     return formattedDate;
   }
 }
