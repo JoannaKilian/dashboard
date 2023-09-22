@@ -7,6 +7,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { Person } from "../models/person.models";
+import { EntityCategory } from "../models/category-list.models";
+import { TimeAlertService } from "./time-alert.service";
+import { AlertsService } from "./alerts.service";
 
 
 @Injectable({
@@ -18,6 +21,7 @@ export class PersonsService {
     private dataList: Person[] = [];
     private dataListSubject: BehaviorSubject<Person[]> = new BehaviorSubject<Person[]>([]);
     public data$: Observable<Person[]> = this.dataListSubject.asObservable();
+    title: EntityCategory = "persons"
 
     private formFields: FormConfig[] = [
         { type: FieldType.Text, label: 'Name', name: 'name', validations: [Validators.required] },
@@ -39,6 +43,8 @@ export class PersonsService {
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
+        private timeAlertService: TimeAlertService,
+        private alertsService: AlertsService
     ) {
         this.url = `/persons/personsList.json`;
     };
@@ -50,6 +56,7 @@ export class PersonsService {
                     const data = response !== null ? response : [];
                     this.dataList = data;
                     this.dataListSubject.next(data);
+                    this.addAlerts(data);
                 },
                 error: () => {
                     this.dialog.open(InfoDialogComponent, {
@@ -73,6 +80,7 @@ export class PersonsService {
         this.http.put<Person[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
+                this.addAlerts([item]);
             })
     }
 
@@ -85,6 +93,8 @@ export class PersonsService {
             this.http.put<Person[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
+                    this.alertsService.deleteAlert(this.title, updatedItem.id)
+                    this.addAlerts([updatedItem]);
                 })
         }
     }
@@ -98,11 +108,29 @@ export class PersonsService {
             this.http.put<Person[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
+                    this.alertsService.deleteAlert(this.title, item.id)
                 })
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
+    }
+
+    addAlerts(data: Person[]) {
+        data.map(item => {
+            const birthdayDate = this.timeAlertService.getDaysToAnniversary(item.dateOfBirth);
+            this.checkTimeAlert(birthdayDate, 'Birthday', item);
+            if (item.nameDay) {
+                const nameDayDate = this.timeAlertService.getDaysToAnniversary(item.nameDay);
+                this.checkTimeAlert(nameDayDate, 'Name Day', item);
+            }
+        })
+    }
+
+    checkTimeAlert(expirationDate: number, eventName: string, item: Person): void {
+        if (expirationDate <= 30) {
+            this.alertsService.addAlert(this.title, item.id, item.name, item.surname, expirationDate, eventName);
+        }
     }
 }

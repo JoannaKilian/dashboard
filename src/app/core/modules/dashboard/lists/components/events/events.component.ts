@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
-import { AlertService } from 'src/app/core/services/alert.service';
 import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
 import { EntityCategory, SectionNumber } from 'src/app/core/models/category-list.models';
@@ -12,13 +11,11 @@ import { CalendarEvent } from 'src/app/core/models/event.models';
 import { AddEventDialogComponent } from './components/add-event-dialog/add-event-dialog.component';
 import { UpdateEventDialogComponent } from './components/update-event-dialog/update-event-dialog.component';
 import { EventsService } from 'src/app/core/services/events.service';
-import { StoreRootModule } from '@ngrx/store';
 
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
-  providers: [AlertService]
 })
 export class EventsComponent implements OnInit, OnDestroy {
   data$: Observable<CalendarEvent[]>;
@@ -35,15 +32,12 @@ export class EventsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private menuService: MenuService,
     private dataService: EventsService,
-    private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
     this.getSectionInfo(SectionNumber.Events);
-    this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;
-    this.alerts$ = this.alertService.categoryAlerts$
   }
 
   getSectionInfo(index: number) {
@@ -60,7 +54,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     this.dialog.open(AddEventDialogComponent, {
       width: '500px',
       data: {
-        alertService: this.alertService,
         title: this.title,
       }
     });
@@ -72,7 +65,6 @@ export class EventsComponent implements OnInit, OnDestroy {
       data: {
         title: this.title,
         event: event,
-        alertService: this.alertService
       }
     });
   }
@@ -87,7 +79,6 @@ export class EventsComponent implements OnInit, OnDestroy {
     });
     this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
       if (result === 'submit') {
-        this.alertService.deleteAlert(this.title, item.id);
         this.dataService.delete(item);
       }
     }))

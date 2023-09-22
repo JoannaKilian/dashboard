@@ -144,7 +144,7 @@ export class PetsService {
 
     checkTimeAlert(expirationDate: number, eventName: string, item: Pet): void {
         if (expirationDate <= 30) {
-            this.alertsService.addAlert("pets", item.id, item.species, item.name, expirationDate, eventName);
+            this.alertsService.addAlert(this.title, item.id, item.species, item.name, expirationDate, eventName);
         }
     }
 

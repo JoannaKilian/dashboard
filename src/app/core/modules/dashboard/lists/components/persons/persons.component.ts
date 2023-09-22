@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdatePersonDialogComponent } from './components/update-person-dialog/update-person-dialog.component';
 import { Observable, Subscription } from 'rxjs';
-import { AlertService } from 'src/app/core/services/alert.service';
-import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
 import { EntityCategory, SectionNumber } from 'src/app/core/models/category-list.models';
 import { Person } from 'src/app/core/models/person.models';
@@ -16,11 +14,9 @@ import { MenuService } from 'src/app/core/services/menu.service';
   selector: 'app-persons',
   templateUrl: './persons.component.html',
   styleUrls: ['./persons.component.scss'],
-  providers: [AlertService]
 })
 export class PersonsComponent implements OnInit, OnDestroy {
   data$: Observable<Person[]>;
-  alerts$: Observable<Alert[]>;
 
   title: EntityCategory;
   icon: string;
@@ -32,15 +28,12 @@ export class PersonsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private menuService: MenuService,
     private dataService: PersonsService,
-    private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
     this.getSectionInfo(SectionNumber.Persons);
-    this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;
-    this.alerts$ = this.alertService.categoryAlerts$
   }
 
   getSectionInfo(index: number) {
@@ -57,7 +50,6 @@ export class PersonsComponent implements OnInit, OnDestroy {
     this.dialog.open(AddPersonDialogComponent, {
       width: '500px',
       data: {
-        alertService: this.alertService,
         title: this.title,
       }
     });
@@ -69,7 +61,6 @@ export class PersonsComponent implements OnInit, OnDestroy {
       data: {
         title: this.title,
         person: person,
-        alertService: this.alertService
       }
     });
   }
@@ -84,7 +75,6 @@ export class PersonsComponent implements OnInit, OnDestroy {
     });
     this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
       if (result === 'submit') {
-        this.alertService.deleteAlert(this.title, item.id);
         this.dataService.delete(item);
       }
     }))

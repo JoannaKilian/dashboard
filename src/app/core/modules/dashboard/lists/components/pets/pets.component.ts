@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
-import { AlertService } from 'src/app/core/services/alert.service';
-import { Alert } from 'src/app/core/models/alert.models';
 import { InfoDialogComponent } from 'src/app/core/shared/components/info-dialog/info-dialog/info-dialog.component';
 import { EntityCategory, SectionNumber } from 'src/app/core/models/category-list.models';
 import { Pet } from 'src/app/core/models/pet.models';
@@ -18,12 +16,10 @@ import { Section } from 'src/app/core/models/sections.models';
   selector: 'app-pets',
   templateUrl: './pets.component.html',
   styleUrls: ['./pets.component.scss'],
-  providers: [AlertService]
 })
 export class PetsComponent implements OnInit, OnDestroy {
 
   data$: Observable<Pet[]>;
-  alerts$: Observable<Alert[]>;
 
   title: EntityCategory;
   icon: string;
@@ -35,15 +31,12 @@ export class PetsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private menuService: MenuService,
     private dataService: PetsService,
-    private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
     this.getSectionInfo(SectionNumber.Pets);
-    this.alertService.getAlerts(this.title);
     this.dataService.getList();
     this.data$ = this.dataService.data$;
-    this.alerts$ = this.alertService.categoryAlerts$
   }
 
   getSectionInfo(index: number) {
@@ -60,7 +53,6 @@ export class PetsComponent implements OnInit, OnDestroy {
     this.dialog.open(AddPetDialogComponent, {
       width: '500px',
       data: {
-        alertService: this.alertService,
         title: this.title,
       }
     });
@@ -72,7 +64,6 @@ export class PetsComponent implements OnInit, OnDestroy {
       data: {
         title: this.title,
         pet: pet,
-        alertService: this.alertService
       }
     });
   }
@@ -88,7 +79,6 @@ export class PetsComponent implements OnInit, OnDestroy {
     });
     this.subscription.add(dialogRef.afterClosed().subscribe((result) => {
       if (result === 'submit') {
-        this.alertService.deleteAlert(this.title, item.id);
         this.dataService.delete(item);
       }
     }))

@@ -7,6 +7,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 import { CalendarEvent } from "../models/event.models";
+import { EntityCategory } from "../models/category-list.models";
+import { TimeAlertService } from "./time-alert.service";
+import { AlertsService } from "./alerts.service";
 
 
 @Injectable({
@@ -18,6 +21,7 @@ export class EventsService {
     private dataList: CalendarEvent[] = [];
     private dataListSubject: BehaviorSubject<CalendarEvent[]> = new BehaviorSubject<CalendarEvent[]>([]);
     public data$: Observable<CalendarEvent[]> = this.dataListSubject.asObservable();
+    title: EntityCategory = "events"
 
     private formFields: FormConfig[] = [
         {
@@ -49,6 +53,8 @@ export class EventsService {
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
+        private timeAlertService: TimeAlertService,
+        private alertsService: AlertsService
     ) {
         this.url = `/events/eventsList.json`;
     };
@@ -60,6 +66,7 @@ export class EventsService {
                     const data = response !== null ? response : [];
                     this.dataList = data;
                     this.dataListSubject.next(data);
+                    this.addAlerts(data);
                 },
                 error: () => {
                     this.dialog.open(InfoDialogComponent, {
@@ -83,6 +90,7 @@ export class EventsService {
         this.http.put<CalendarEvent[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
+                this.addAlerts([item]);
             })
     }
 
@@ -95,6 +103,8 @@ export class EventsService {
             this.http.put<CalendarEvent[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
+                    this.alertsService.deleteAlert(this.title, updatedItem.id)
+                    this.addAlerts([updatedItem]);
                 })
         }
     }
@@ -108,11 +118,25 @@ export class EventsService {
             this.http.put<CalendarEvent[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
+                    this.alertsService.deleteAlert(this.title, item.id)
                 })
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
+    }
+
+    addAlerts(data: CalendarEvent[]) {
+        data.map(item => {
+                const date = this.timeAlertService.getCountEndTime(item.date);
+                this.checkTimeAlert(date, 'Event Date', item);
+        })
+    }
+
+    checkTimeAlert(expirationDate: number, eventName: string, item: CalendarEvent): void {
+        if (expirationDate <= 30) {
+            this.alertsService.addAlert(this.title, item.id, item.category, item.name, expirationDate, eventName);
+        }
     }
 }

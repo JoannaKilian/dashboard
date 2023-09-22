@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs';
 import { Alert } from 'src/app/core/models/alert.models';
 import { EntityAlertMap } from 'src/app/core/models/category-list.models';
-import { GlobalAlertService } from 'src/app/core/services/global-alerts.service';
+import { AlertsService } from 'src/app/core/services/alerts.service';
 
 @Component({
   selector: 'app-upcoming-dates',
@@ -15,12 +15,11 @@ export class UpcomingDatesComponent implements OnInit {
   loading: boolean = true;
 
   constructor(
-    private globalAlertService: GlobalAlertService,
+    private alertsService: AlertsService
     ) {}
 
   ngOnInit(): void {
-    this.globalAlertService.getGlobalAlerts();
-    this.globalAlertService.allAlerts$.pipe(
+    this.alertsService.allAlerts$.pipe(
       switchMap((response: EntityAlertMap) => {
         const data = response !== null ? response : {
           "persons": [],
@@ -30,7 +29,7 @@ export class UpcomingDatesComponent implements OnInit {
         };
         this.alerts = this.combineAlerts(data);
         this.loading = false;
-        return this.globalAlertService.allAlerts$;
+        return this.alertsService.allAlerts$;
       })
     ).subscribe();
   }
