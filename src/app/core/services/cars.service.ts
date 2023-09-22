@@ -7,6 +7,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { Car } from "../models/car.models";
 import { FieldType, FormConfig } from "../models/form-config.models";
 import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
+import { EntityCategory } from "../models/category-list.models";
+import { AlertsService } from "./alerts.service";
+import { TimeAlertService } from "./time-alert.service";
 
 
 @Injectable({
@@ -18,6 +21,7 @@ export class CarService {
     private dataList: Car[] = [];
     private dataListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
     public data$: Observable<Car[]> = this.dataListSubject.asObservable();
+    title: EntityCategory = "cars"
 
     private url: string;
 
@@ -50,6 +54,8 @@ export class CarService {
     constructor(
         private http: HttpClient,
         public dialog: MatDialog,
+        private alertsService: AlertsService,
+        private timeAlertService: TimeAlertService,
     ) {
         this.url = `/cars/carsList.json`;
     };
@@ -60,6 +66,7 @@ export class CarService {
                 next: (response: Car[] | null) => {
                     const data = response !== null ? response : [];
                     this.dataList = data;
+                    this.addAlerts(data);
                     this.dataListSubject.next(data);
                 },
                 error: () => {
@@ -84,6 +91,7 @@ export class CarService {
         this.http.put<Car[]>(this.url, clonedList)
             .subscribe(() => {
                 this.dataList = clonedList;
+                this.addAlerts([item]);
             })
     }
 
@@ -96,6 +104,8 @@ export class CarService {
             this.http.put<Car[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
+                    this.alertsService.deleteAlert(this.title, updatedItem.id)
+                    this.addAlerts([updatedItem]);
                 })
         }
     }
@@ -109,11 +119,27 @@ export class CarService {
             this.http.put<Car[]>(this.url, clonedList)
                 .subscribe(() => {
                     this.dataList = clonedList;
+                    this.alertsService.deleteAlert(this.title, item.id)
                 })
         }
     }
 
     getFormFields() {
         return this.formFields.slice()
+    }
+
+    addAlerts(data: Car[]) {
+        data.map(item => {
+            const insuranceDate = this.timeAlertService.getCountEndTime(item.insuranceDate);
+            this.checkTimeAlert(insuranceDate, 'Insurance', item);
+                const inspectionDate = this.timeAlertService.getCountEndTime(item.carInspection);
+                this.checkTimeAlert(inspectionDate, 'Inspection', item);
+        })
+    }
+
+    checkTimeAlert(expirationDate: number, eventName: string, item: Car): void {
+        if (expirationDate <= 30) {
+            this.alertsService.addAlert("pets", item.id, item.brand, item.model, expirationDate, eventName);
+        }
     }
 }

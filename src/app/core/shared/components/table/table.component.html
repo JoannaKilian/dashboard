@@ -69,11 +69,11 @@
     </div>
     <ng-container *ngIf="alerts$ | async">
       <ng-container *ngIf="(alerts$ | async) as alerts">
-        <div *ngIf="alerts.length > 0" class="summary summary--alert">
+        <div *ngIf="alerts[title].length > 0" class="summary summary--alert">
           <div class="summary_container">
             <div class="summary_description summary_description--alert">
-              <p>Alert: <span>{{ alerts.length }}</span></p>
-              <ul *ngFor="let alert of alerts; let i=index">
+              <p>Alert: <span>{{ alerts[title].length }}</span></p>
+              <ul *ngFor="let alert of alerts[title]; let i=index">
                 <li><span>{{i + 1}}. </span>{{alert.message}}</li>
               </ul>
             </div>

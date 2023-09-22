@@ -4,8 +4,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { Alert } from 'src/app/core/models/alert.models';
-import { EntityCategory } from 'src/app/core/models/category-list.models';
+import { EntityAlertMap, EntityCategory } from 'src/app/core/models/category-list.models';
 import { Observable, Subscription } from 'rxjs';
+import { AlertsService } from 'src/app/core/services/alerts.service';
 
 @Component({
   selector: 'app-table',
@@ -25,7 +26,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   @Input() columnsToDisplay: string[];
   @Input() title: EntityCategory;
   @Input() icon: string;
-  @Input() alerts$: Observable<Alert[]>;
 
   @Output() addEvent = new EventEmitter;
   @Output() editEvent = new EventEmitter<any>;
@@ -43,11 +43,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   columnsToDisplayWithExpand: string[];
   totalCount: number;
   loading: boolean = true;
+  alerts$: Observable<EntityAlertMap>;
 
   subscription: Subscription = new Subscription();
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private alertsService: AlertsService
   ) { }
 
   ngOnInit(): void {
@@ -57,6 +59,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.totalCount = this.dataTable.length;
       this.loading = false;
+      this.alerts$ = this.alertsService.allAlerts$
     }));
   }
 
