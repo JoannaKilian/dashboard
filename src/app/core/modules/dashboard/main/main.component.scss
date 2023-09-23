@@ -8,7 +8,6 @@
   @media (orientation: portrait) {
     height: auto;
     flex-wrap: wrap;
-    // overflow: auto;
   }
 
   .sections {
@@ -39,7 +38,7 @@
       position: relative;
       background-color: var(--color-2);
       width: 47%;
-      height: 180px;
+      height: 130px;
       box-shadow: var(--shadow);
       border-radius: 4px;
       cursor: pointer;
@@ -168,7 +167,7 @@
     &_wide {
       margin: 0;
       width: 100%;
-      height: calc(100% - 180px - 180px - 22px - 22px - 12px);
+      height: calc(100% - 130px - 130px - 22px - 22px - 12px);
       @media (orientation: portrait) {
         height: auto;
         min-height: 240px;
