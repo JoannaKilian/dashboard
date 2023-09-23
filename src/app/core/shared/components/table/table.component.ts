@@ -6,6 +6,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { EntityAlertMap, EntityCategory } from 'src/app/core/models/category-list.models';
 import { Observable, Subscription, map } from 'rxjs';
 import { AlertsService } from 'src/app/core/services/alerts.service';
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-table',
@@ -43,12 +44,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
   totalCount: number;
   loading: boolean = true;
   alerts$: Observable<EntityAlertMap>;
+  expandElementId: string | null;
 
   subscription: Subscription = new Subscription();
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
+    private menuService: MenuService,
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +61,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.totalCount = this.dataTable.length;
       this.loading = false;
+      this.expandElementId = this.menuService.getExpandedRowId();
+      if (this.expandElementId) {
+        this.expandedElement = this.dataTable.find(element => element.id === this.expandElementId)
+      }
       this.alerts$ = this.alertsService.allAlerts$.pipe(
         map(alerts => {
           alerts[this.title].sort((a, b) => a.deadline - b.deadline);
@@ -98,7 +105,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.menuService.resetExpandedRowId();
   }
-
 }
 

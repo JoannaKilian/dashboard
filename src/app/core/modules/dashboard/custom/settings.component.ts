@@ -45,9 +45,7 @@ export class SettingsComponent {
       this.activeIndexColor = data
     })
     this.daysAlertService.setDaysAlert();
-    this.daysAlertService.daysAlert$.subscribe(data => {
-      this.value = data
-    })
+    this.value = this.daysAlertService.getDaysAlerts();
     this.menuService.getSections();
     this.sections$ = this.menuService.sections$;
   }

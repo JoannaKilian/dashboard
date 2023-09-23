@@ -7,6 +7,22 @@
     height: 0;
   }
 
+  // tr.element-row:not(.expanded-row) {
+  //   background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 55%, rgb(255, 112, 112));
+
+  //   &--high {
+  //     background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 55%, rgb(255, 112, 112));
+  //   }
+
+  //   &--medium {
+  //     background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 55%, rgb(250, 193, 88));
+  //   }
+
+  //   &--low {
+  //     background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 55%, rgb(88, 129, 88));
+  //   }
+  // }
+
   tr.element-row:not(.expanded-row):hover {
     background: var(--color-4);
   }
@@ -14,7 +30,7 @@
   tr.element-row.expanded-row {
     background: var(--color-2);
 
-    .mat-mdc-cell{
+    .mat-mdc-cell {
       color: var(--color-text-light);
     }
   }

@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Section } from 'src/app/core/models/sections.models';
-import { DaysAlertService } from 'src/app/core/services/days-alert.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
@@ -19,13 +18,11 @@ export class ListsComponent implements OnInit, OnDestroy {
   constructor(
     private menuService: MenuService,
     private router: Router,
-    private daysAlertService: DaysAlertService,
   ) { }
 
   ngOnInit() {
     this.menuService.setCurrentIndex(1);
     this.menuService.getSections();
-    this.daysAlertService.setDaysAlert();
     this.sections$ = this.menuService.sections$;
   }
 

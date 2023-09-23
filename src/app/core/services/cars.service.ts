@@ -23,8 +23,7 @@ export class CarService {
     private dataListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
     public data$: Observable<Car[]> = this.dataListSubject.asObservable();
     title: EntityCategory = "cars";
-    daysAlertValue: number;
-
+    daysAlertValue: number = 30;
 
     private url: string;
 
@@ -62,9 +61,8 @@ export class CarService {
         private daysAlertService: DaysAlertService,
     ) {
         this.url = `/cars/carsList.json`;
-        daysAlertService.daysAlert$.subscribe(data => {
-            this.daysAlertValue = data
-        })
+        this.daysAlertValue = this.daysAlertService.getDaysAlerts();
+        console.log('this.daysAlertValue in car', this.daysAlertValue)
     };
 
     getList() {
@@ -146,19 +144,8 @@ export class CarService {
     }
 
     checkTimeAlert(expirationDate: number, eventName: string, item: Car): void {
-        if (this.daysAlertValue !== undefined){
-            if (expirationDate <= this.daysAlertValue) {
-                this.alertsService.addAlert(this.title, item.id, item.brand, item.model, expirationDate, eventName);
-            }
-        } else {
-            this.daysAlertService.daysAlert$
-            .pipe(
-                switchMap(day => {
-                    if (expirationDate <= day) {
-                        this.alertsService.addAlert(this.title, item.id, item.brand, item.model, expirationDate, eventName);
-                    } return of(null);
-                })
-            ).subscribe()
+        if (expirationDate <= this.daysAlertValue) {
+            this.alertsService.addAlert(this.title, item.id, item.brand, item.model, expirationDate, eventName);
         }
     }
 }

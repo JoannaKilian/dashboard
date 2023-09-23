@@ -23,7 +23,7 @@ export class EventsService {
     private dataListSubject: BehaviorSubject<CalendarEvent[]> = new BehaviorSubject<CalendarEvent[]>([]);
     public data$: Observable<CalendarEvent[]> = this.dataListSubject.asObservable();
     title: EntityCategory = "events";
-    daysAlertValue: number;
+    daysAlertValue: number = 30;
 
     private formFields: FormConfig[] = [
         {
@@ -60,9 +60,7 @@ export class EventsService {
         private daysAlertService: DaysAlertService,
     ) {
         this.url = `/events/eventsList.json`;
-        daysAlertService.daysAlert$.subscribe(data => {
-            this.daysAlertValue = data
-        })
+        this.daysAlertValue = this.daysAlertService.getDaysAlerts();
     };
 
     getList() {
@@ -142,19 +140,8 @@ export class EventsService {
     }
 
     checkTimeAlert(expirationDate: number, eventName: string, item: CalendarEvent): void {
-        if (this.daysAlertValue !== undefined) {
-            if (expirationDate <= this.daysAlertValue) {
-                this.alertsService.addAlert(this.title, item.id, item.category, item.name, expirationDate, eventName);
-            }
-        } else {
-            this.daysAlertService.daysAlert$
-                .pipe(
-                    switchMap(day => {
-                        if (expirationDate <= day) {
-                            this.alertsService.addAlert(this.title, item.id, item.category, item.name, expirationDate, eventName);
-                        } return of(null);
-                    })
-                ).subscribe()
+        if (expirationDate <= this.daysAlertValue) {
+            this.alertsService.addAlert(this.title, item.id, item.category, item.name, expirationDate, eventName);
         }
     }
 }

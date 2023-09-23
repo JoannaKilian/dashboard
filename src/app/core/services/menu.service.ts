@@ -11,10 +11,11 @@ import { InfoDialogComponent } from '../shared/components/info-dialog/info-dialo
 export class MenuService {
 
   private currentIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  expandedRowId: string | null = null;
 
   private sections: Section[] = [
     { title: 'persons', value: 'persons', icon: 'person', visible: true },
-    { title: 'events', value: 'events', icon: 'cake', visible: true },
+    { title: 'events', value: 'events', icon: 'event', visible: true },
     { title: 'cars', value: 'cars', icon: 'directions_car', visible: true },
     { title: 'pets', value: 'pets', icon: 'pets', visible: true },
   ];
@@ -78,5 +79,17 @@ export class MenuService {
     })
     this.sectionsSubject.next(this.sections);
     this.http.put<Section[]>(this.url, this.sections);
+  }
+
+  setExpandedRowId(id: string) {
+    this.expandedRowId = id;
+  }
+
+  getExpandedRowId() {
+    return this.expandedRowId;
+  }
+
+  resetExpandedRowId() {
+    this.expandedRowId = null;
   }
 }

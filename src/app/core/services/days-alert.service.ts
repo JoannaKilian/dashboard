@@ -11,10 +11,7 @@ import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialo
 
 export class DaysAlertService {
 
-    private daysAlert: number;
-    private daysAlertSubject: Subject<number> = new Subject<number>();
-    public daysAlert$: Observable<number> = this.daysAlertSubject.asObservable();
-
+    private daysAlert: number = 30;
     private url: string;
 
     constructor(
@@ -30,27 +27,17 @@ export class DaysAlertService {
             .subscribe({
                 next: (response: number | null) => {
                     const data = response !== null ? response : 30;
-                    this.changeDaysAlert(data);
                     this.daysAlert = data;
-                    this.daysAlertSubject.next(data);
-                },
-                error: () => {
-                    this.dialog.open(InfoDialogComponent, {
-                        data: {
-                            title: 'Error',
-                            description: 'Error while fetching days alert',
-                            type: 'error'
-                        }
-                    });
                 }
             })
     }
 
     changeDaysAlert(i: number) {
+        this.daysAlert = i;
         this.http.put<number>(this.url, i)
-            .subscribe(() => {
-                this.daysAlert = i;
-                this.daysAlertSubject.next(i);
-            })
+    }
+    
+    getDaysAlerts(){
+        return this.daysAlert;
     }
 }

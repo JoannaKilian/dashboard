@@ -47,9 +47,10 @@ export class UpcomingDatesComponent implements OnInit {
     return combinedAlerts;
   }
 
-  goToPage(value: string,) {
+  goToPage(alert: Alert) {
     this.menuService.setCurrentIndex(1);
-    this.router.navigate([`/dashboard/lists/${value}`]);
+    this.menuService.setExpandedRowId(alert.parentId)
+    this.router.navigate([`/dashboard/lists/${alert.category}`]);
   }
 
   ngOnDestroy() {
