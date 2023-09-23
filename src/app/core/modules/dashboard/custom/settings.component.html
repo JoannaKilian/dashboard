@@ -18,7 +18,8 @@
   <div class="wrap">
     <mat-slider [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel"
       [showTickMarks]="showTicks"
-      class="wrap_slider">
+      class="wrap_slider"
+      (change)="setAlertTime()">
       <input matSliderThumb [(ngModel)]="value" #slider>
     </mat-slider>
   </div>

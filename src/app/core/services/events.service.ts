@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, of, switchMap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -10,6 +10,7 @@ import { CalendarEvent } from "../models/event.models";
 import { EntityCategory } from "../models/category-list.models";
 import { TimeAlertService } from "./time-alert.service";
 import { AlertsService } from "./alerts.service";
+import { DaysAlertService } from "./days-alert.service";
 
 
 @Injectable({
@@ -21,7 +22,8 @@ export class EventsService {
     private dataList: CalendarEvent[] = [];
     private dataListSubject: BehaviorSubject<CalendarEvent[]> = new BehaviorSubject<CalendarEvent[]>([]);
     public data$: Observable<CalendarEvent[]> = this.dataListSubject.asObservable();
-    title: EntityCategory = "events"
+    title: EntityCategory = "events";
+    daysAlertValue: number;
 
     private formFields: FormConfig[] = [
         {
@@ -54,9 +56,13 @@ export class EventsService {
         private http: HttpClient,
         public dialog: MatDialog,
         private timeAlertService: TimeAlertService,
-        private alertsService: AlertsService
+        private alertsService: AlertsService,
+        private daysAlertService: DaysAlertService,
     ) {
         this.url = `/events/eventsList.json`;
+        daysAlertService.daysAlert$.subscribe(data => {
+            this.daysAlertValue = data
+        })
     };
 
     getList() {
@@ -66,6 +72,7 @@ export class EventsService {
                     const data = response !== null ? response : [];
                     this.dataList = data;
                     this.dataListSubject.next(data);
+                    this.alertsService.deleteAllAlerts(this.title);
                     this.addAlerts(data);
                 },
                 error: () => {
@@ -129,14 +136,25 @@ export class EventsService {
 
     addAlerts(data: CalendarEvent[]) {
         data.map(item => {
-                const date = this.timeAlertService.getCountEndTime(item.date);
-                this.checkTimeAlert(date, 'Event Date', item);
+            const date = this.timeAlertService.getCountEndTime(item.date);
+            this.checkTimeAlert(date, 'Event Date', item);
         })
     }
 
     checkTimeAlert(expirationDate: number, eventName: string, item: CalendarEvent): void {
-        if (expirationDate <= 30) {
-            this.alertsService.addAlert(this.title, item.id, item.category, item.name, expirationDate, eventName);
+        if (this.daysAlertValue !== undefined) {
+            if (expirationDate <= this.daysAlertValue) {
+                this.alertsService.addAlert(this.title, item.id, item.category, item.name, expirationDate, eventName);
+            }
+        } else {
+            this.daysAlertService.daysAlert$
+                .pipe(
+                    switchMap(day => {
+                        if (expirationDate <= day) {
+                            this.alertsService.addAlert(this.title, item.id, item.category, item.name, expirationDate, eventName);
+                        } return of(null);
+                    })
+                ).subscribe()
         }
     }
 }

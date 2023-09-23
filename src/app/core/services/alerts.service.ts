@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Alert } from '../models/alert.models';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { EntityAlertMap, EntityCategory } from '../models/category-list.models';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -21,7 +20,6 @@ export class AlertsService {
   allAlerts$ = this.allAlertsSubject.asObservable();
 
   constructor(
-    private http: HttpClient,
     public dialog: MatDialog,
   ) { }
 
@@ -49,7 +47,6 @@ export class AlertsService {
     if (!alreadyExist) {
       updatedAlerts.push(alertMessage);
       this.allAlerts[categoryName] = updatedAlerts;
-      console.log('nowe alerty', this.allAlerts)
       this.allAlertsSubject.next(this.allAlerts);
     }
   }
@@ -60,8 +57,12 @@ export class AlertsService {
     const newArray = this.allAlerts[categoryName].filter(alert => alert.parentId !== parentId);
     updatedAlerts = newArray;
     this.allAlerts[categoryName] = updatedAlerts;
-    console.log('nowe alerty po delete', this.allAlerts)
+    this.allAlertsSubject.next(this.allAlerts);
+  }
 
+  deleteAllAlerts(categoryName: EntityCategory) {
+    const updatedAlerts: Alert[] = [];
+    this.allAlerts[categoryName] = updatedAlerts;
     this.allAlertsSubject.next(this.allAlerts);
   }
 

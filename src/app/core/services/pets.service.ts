@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, of, switchMap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -10,6 +10,7 @@ import { Pet } from "../models/pet.models";
 import { TimeAlertService } from "./time-alert.service";
 import { AlertsService } from "./alerts.service";
 import { EntityCategory } from "../models/category-list.models";
+import { DaysAlertService } from "./days-alert.service";
 
 
 @Injectable({
@@ -21,7 +22,8 @@ export class PetsService {
     private dataList: Pet[] = [];
     private dataListSubject: BehaviorSubject<Pet[]> = new BehaviorSubject<Pet[]>([]);
     public data$: Observable<Pet[]> = this.dataListSubject.asObservable();
-    title: EntityCategory = "pets"
+    title: EntityCategory = "pets";
+    daysAlertValue: number;
 
     private formFields: FormConfig[] = [
         { type: FieldType.Text, label: 'Name', name: 'name', validations: [Validators.required] },
@@ -58,9 +60,13 @@ export class PetsService {
         private http: HttpClient,
         public dialog: MatDialog,
         private timeAlertService: TimeAlertService,
-        private alertsService: AlertsService
+        private alertsService: AlertsService,
+        private daysAlertService: DaysAlertService,
     ) {
         this.url = `/pets/petsList.json`;
+        daysAlertService.daysAlert$.subscribe(data => {
+            this.daysAlertValue = data
+        })
     };
 
     getList() {
@@ -69,6 +75,7 @@ export class PetsService {
                 next: (response: Pet[] | null) => {
                     const data = response !== null ? response : [];
                     this.dataList = data;
+                    this.alertsService.deleteAllAlerts(this.title);
                     this.addAlerts(data);
                     this.dataListSubject.next(data);
                 },
@@ -143,8 +150,19 @@ export class PetsService {
     }
 
     checkTimeAlert(expirationDate: number, eventName: string, item: Pet): void {
-        if (expirationDate <= 30) {
-            this.alertsService.addAlert(this.title, item.id, item.species, item.name, expirationDate, eventName);
+        if (this.daysAlertValue !== undefined) {
+            if (expirationDate <= this.daysAlertValue) {
+                this.alertsService.addAlert(this.title, item.id, item.species, item.name, expirationDate, eventName);
+            } else {
+                this.daysAlertService.daysAlert$
+                    .pipe(
+                        switchMap(day => {
+                            if (expirationDate <= day) {
+                                this.alertsService.addAlert(this.title, item.id, item.species, item.name, expirationDate, eventName);
+                            } return of(null);
+                        })
+                    ).subscribe()
+            }
         }
     }
 

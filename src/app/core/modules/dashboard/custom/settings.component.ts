@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Section } from 'src/app/core/models/sections.models';
 import { ColorService } from 'src/app/core/services/color.service';
+import { DaysAlertService } from 'src/app/core/services/days-alert.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
@@ -15,12 +16,12 @@ export class SettingsComponent {
   sections$: Observable<Section[]>;
   color$: Observable<number>;
 
-  max = 60;
-  min = 10;
-  showTicks = true;
-  step = 10;
-  thumbLabel = true;
-  value = 30;
+  max: number = 60;
+  min: number = 10;
+  showTicks: boolean = true;
+  step: number = 10;
+  thumbLabel: boolean = true;
+  value: number;
 
   colors = [
     { title: 'dark', color: '#444444' },
@@ -33,6 +34,7 @@ export class SettingsComponent {
   constructor(
     private colorService: ColorService,
     private menuService: MenuService,
+    private daysAlertService: DaysAlertService,
   ) {
   }
 
@@ -41,6 +43,10 @@ export class SettingsComponent {
     this.colorService.setColor();
     this.colorService.color$.subscribe(data => {
       this.activeIndexColor = data
+    })
+    this.daysAlertService.setDaysAlert();
+    this.daysAlertService.daysAlert$.subscribe(data => {
+      this.value = data
     })
     this.menuService.getSections();
     this.sections$ = this.menuService.sections$;
@@ -52,7 +58,8 @@ export class SettingsComponent {
   }
 
   changeAlertTime(i: number){
-    
+    this.value = i;
+    this.daysAlertService.changeDaysAlert(i)
   }
 
   updateSections(index: number, isVisibly: boolean){
@@ -61,5 +68,9 @@ export class SettingsComponent {
 
   defaultSection(){
     this.menuService.defautl()
+  }
+
+  setAlertTime(){
+    this.changeAlertTime(this.value)
   }
 }

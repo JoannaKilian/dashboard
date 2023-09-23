@@ -11,6 +11,7 @@ import { CarService } from 'src/app/core/services/cars.service';
 import { EventsService } from 'src/app/core/services/events.service';
 import { PersonsService } from 'src/app/core/services/persons.service';
 import { PetsService } from 'src/app/core/services/pets.service';
+import { DaysAlertService } from 'src/app/core/services/days-alert.service';
 
 @Component({
   selector: 'app-main',
@@ -28,6 +29,7 @@ export class MainComponent implements OnInit {
     private menuService: MenuService,
     private alertsService: AlertsService,
     private colorService: ColorService,
+    private daysAlertService: DaysAlertService,
     private carService: CarService,
     private eventsService: EventsService,
     private personsService: PersonsService,
@@ -45,6 +47,7 @@ export class MainComponent implements OnInit {
     this.petsService.getList();
     this.allAlerts$ = this.alertsService.allAlerts$;
     this.colorService.setColor();
+    this.daysAlertService.setDaysAlert();
   }
 
   goToPage(value: string,) {

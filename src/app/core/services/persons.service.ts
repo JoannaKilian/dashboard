@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, of, switchMap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -10,6 +10,7 @@ import { Person } from "../models/person.models";
 import { EntityCategory } from "../models/category-list.models";
 import { TimeAlertService } from "./time-alert.service";
 import { AlertsService } from "./alerts.service";
+import { DaysAlertService } from "./days-alert.service";
 
 
 @Injectable({
@@ -22,6 +23,7 @@ export class PersonsService {
     private dataListSubject: BehaviorSubject<Person[]> = new BehaviorSubject<Person[]>([]);
     public data$: Observable<Person[]> = this.dataListSubject.asObservable();
     title: EntityCategory = "persons"
+    daysAlertValue: number;
 
     private formFields: FormConfig[] = [
         { type: FieldType.Text, label: 'Name', name: 'name', validations: [Validators.required] },
@@ -44,9 +46,13 @@ export class PersonsService {
         private http: HttpClient,
         public dialog: MatDialog,
         private timeAlertService: TimeAlertService,
-        private alertsService: AlertsService
+        private alertsService: AlertsService,
+        private daysAlertService: DaysAlertService,
     ) {
         this.url = `/persons/personsList.json`;
+        daysAlertService.daysAlert$.subscribe(data => {
+            this.daysAlertValue = data
+        })
     };
 
     getList() {
@@ -56,6 +62,7 @@ export class PersonsService {
                     const data = response !== null ? response : [];
                     this.dataList = data;
                     this.dataListSubject.next(data);
+                    this.alertsService.deleteAllAlerts(this.title);
                     this.addAlerts(data);
                 },
                 error: () => {
@@ -129,8 +136,19 @@ export class PersonsService {
     }
 
     checkTimeAlert(expirationDate: number, eventName: string, item: Person): void {
-        if (expirationDate <= 30) {
-            this.alertsService.addAlert(this.title, item.id, item.name, item.surname, expirationDate, eventName);
+        if (this.daysAlertValue !== undefined) {
+            if (expirationDate <= this.daysAlertValue) {
+                this.alertsService.addAlert(this.title, item.id, item.name, item.surname, expirationDate, eventName);
+            }
+        } else {
+            this.daysAlertService.daysAlert$
+                .pipe(
+                    switchMap(day => {
+                        if (expirationDate <= day) {
+                            this.alertsService.addAlert(this.title, item.id, item.name, item.surname, expirationDate, eventName);
+                        } return of(null);
+                    })
+                ).subscribe()
         }
     }
 }

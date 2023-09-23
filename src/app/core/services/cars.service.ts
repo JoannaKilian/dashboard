@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, exhaustMap, of, switchMap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Validators } from "@angular/forms";
 import { v4 as uuidv4 } from 'uuid';
@@ -10,6 +10,7 @@ import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialo
 import { EntityCategory } from "../models/category-list.models";
 import { AlertsService } from "./alerts.service";
 import { TimeAlertService } from "./time-alert.service";
+import { DaysAlertService } from "./days-alert.service";
 
 
 @Injectable({
@@ -22,7 +23,8 @@ export class CarService {
     private dataListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
     public data$: Observable<Car[]> = this.dataListSubject.asObservable();
     title: EntityCategory = "cars";
-    
+    daysAlertValue: number;
+
 
     private url: string;
 
@@ -57,8 +59,12 @@ export class CarService {
         public dialog: MatDialog,
         private alertsService: AlertsService,
         private timeAlertService: TimeAlertService,
+        private daysAlertService: DaysAlertService,
     ) {
         this.url = `/cars/carsList.json`;
+        daysAlertService.daysAlert$.subscribe(data => {
+            this.daysAlertValue = data
+        })
     };
 
     getList() {
@@ -67,6 +73,7 @@ export class CarService {
                 next: (response: Car[] | null) => {
                     const data = response !== null ? response : [];
                     this.dataList = data;
+                    this.alertsService.deleteAllAlerts(this.title);
                     this.addAlerts(data);
                     this.dataListSubject.next(data);
                 },
@@ -133,14 +140,25 @@ export class CarService {
         data.map(item => {
             const insuranceDate = this.timeAlertService.getCountEndTime(item.insuranceDate);
             this.checkTimeAlert(insuranceDate, 'Insurance', item);
-                const inspectionDate = this.timeAlertService.getCountEndTime(item.carInspection);
-                this.checkTimeAlert(inspectionDate, 'Inspection', item);
+            const inspectionDate = this.timeAlertService.getCountEndTime(item.carInspection);
+            this.checkTimeAlert(inspectionDate, 'Inspection', item);
         })
     }
 
     checkTimeAlert(expirationDate: number, eventName: string, item: Car): void {
-        if (expirationDate <= 30) {
-            this.alertsService.addAlert(this.title, item.id, item.brand, item.model, expirationDate, eventName);
+        if (this.daysAlertValue !== undefined){
+            if (expirationDate <= this.daysAlertValue) {
+                this.alertsService.addAlert(this.title, item.id, item.brand, item.model, expirationDate, eventName);
+            }
+        } else {
+            this.daysAlertService.daysAlert$
+            .pipe(
+                switchMap(day => {
+                    if (expirationDate <= day) {
+                        this.alertsService.addAlert(this.title, item.id, item.brand, item.model, expirationDate, eventName);
+                    } return of(null);
+                })
+            ).subscribe()
         }
     }
 }
