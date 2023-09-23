@@ -13,13 +13,27 @@
 </div>
 
 <div class="tabs">
+  <p class="title">Show alert</p>
+  <p class="title title--description">Alerts should appear <b>{{slider.value}}</b> days earlier</p>
+  <div class="wrap">
+    <mat-slider [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel"
+      [showTickMarks]="showTicks"
+      class="wrap_slider">
+      <input matSliderThumb [(ngModel)]="value" #slider>
+    </mat-slider>
+  </div>
+  <p class="default" (click)="changeAlertTime(30)">Back to default</p>
+</div>
+
+<div class="tabs">
   <p class="title">Visible sections</p>
   <div style="padding-left: 20px;">
     <ng-container *ngIf="sections$ | async as sections">
       <div *ngFor="let section of sections; let i = index">
         <div [ngClass]="section.visible ? 'section section--active' : 'section'">
           <mat-icon class="section_icon">{{section.icon}}</mat-icon>
-          <mat-slide-toggle style="margin-left: 10px;" [(ngModel)]="section.visible" (click)="updateSections(i, section.visible)"
+          <mat-slide-toggle style="margin-left: 10px;" [(ngModel)]="section.visible"
+            (click)="updateSections(i, section.visible)"
             [disabled]="section.value === 'persons' || section.value === 'events'">
             <p class="section_description">Show "{{section.title}}" section</p>
           </mat-slide-toggle>

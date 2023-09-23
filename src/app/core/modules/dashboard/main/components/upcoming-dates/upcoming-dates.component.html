@@ -6,6 +6,7 @@
   <ng-template #showAlerts>
     <ng-container *ngIf="alerts.length > 0; else noAlerts">
       <div *ngFor="let alert of alerts" class="alert"
+      (click)="goToPage(alert.category)"
         [ngClass]="alert.deadline >= 20 ? 'alert--low' : alert.deadline >= 10 ? 'alert--medium' : 'alert--high'">
         <p>{{alert.message}}</p>
       </div>

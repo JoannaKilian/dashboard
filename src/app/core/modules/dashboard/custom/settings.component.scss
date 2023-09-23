@@ -11,6 +11,12 @@
         font-size: var(--font-title);
         text-transform: uppercase;
         margin-left: 20px;
+
+        &--description {
+            font-size: var(--font-subtitle);
+            margin-top: 0;
+            margin-bottom: 0;
+        }
     }
 
     .default {
@@ -34,6 +40,12 @@
             flex-wrap: wrap;
             gap: 10px;
           }
+
+        &_slider{
+            width: 400px;
+            margin-top: 30px;
+            
+        }
 
         .choose {
             position: relative;

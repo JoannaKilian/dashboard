@@ -21,7 +21,8 @@ export class CarService {
     private dataList: Car[] = [];
     private dataListSubject: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
     public data$: Observable<Car[]> = this.dataListSubject.asObservable();
-    title: EntityCategory = "cars"
+    title: EntityCategory = "cars";
+    
 
     private url: string;
 

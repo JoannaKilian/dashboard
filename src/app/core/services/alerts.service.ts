@@ -36,20 +36,26 @@ export class AlertsService {
     const alertMessage: Alert = {
       name,
       parentId,
+      category: categoryName,
       deadline,
       message: `${title} ${subtitle} - deadline of ${name} ends in ${deadline} days`
     };
 
     const updatedAlerts = [...this.allAlerts[categoryName]];
-    updatedAlerts.push(alertMessage);
-    this.allAlerts[categoryName] = updatedAlerts;
-    console.log('nowe alerty', this.allAlerts)
+    const alreadyExist = updatedAlerts.some(item => {
+      return JSON.stringify(item.message) === JSON.stringify(alertMessage.message);
+    })
 
-    this.allAlertsSubject.next(this.allAlerts);
+    if (!alreadyExist) {
+      updatedAlerts.push(alertMessage);
+      this.allAlerts[categoryName] = updatedAlerts;
+      console.log('nowe alerty', this.allAlerts)
+      this.allAlertsSubject.next(this.allAlerts);
+    }
   }
 
   deleteAlert(categoryName: EntityCategory, parentId: string) {
-    
+
     let updatedAlerts = [...this.allAlerts[categoryName]];
     const newArray = this.allAlerts[categoryName].filter(alert => alert.parentId !== parentId);
     updatedAlerts = newArray;

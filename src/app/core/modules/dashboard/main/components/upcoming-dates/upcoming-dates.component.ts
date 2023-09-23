@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Alert } from 'src/app/core/models/alert.models';
 import { EntityAlertMap } from 'src/app/core/models/category-list.models';
 import { AlertsService } from 'src/app/core/services/alerts.service';
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-upcoming-dates',
@@ -15,7 +17,9 @@ export class UpcomingDatesComponent implements OnInit {
   loading: boolean = true;
 
   constructor(
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
+    private router: Router,
+    private menuService: MenuService,
     ) {}
 
   ngOnInit(): void {
@@ -41,6 +45,11 @@ export class UpcomingDatesComponent implements OnInit {
     }
     combinedAlerts.sort((a, b) => a.deadline - b.deadline);
     return combinedAlerts;
+  }
+
+  goToPage(value: string,) {
+    this.menuService.setCurrentIndex(1);
+    this.router.navigate([`/dashboard/lists/${value}`]);
   }
 
   ngOnDestroy() {

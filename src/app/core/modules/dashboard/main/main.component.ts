@@ -7,6 +7,10 @@ import { Alert } from 'src/app/core/models/alert.models';
 import { EntityAlertMap } from 'src/app/core/models/category-list.models';
 import { ColorService } from 'src/app/core/services/color.service';
 import { AlertsService } from 'src/app/core/services/alerts.service';
+import { CarService } from 'src/app/core/services/cars.service';
+import { EventsService } from 'src/app/core/services/events.service';
+import { PersonsService } from 'src/app/core/services/persons.service';
+import { PetsService } from 'src/app/core/services/pets.service';
 
 @Component({
   selector: 'app-main',
@@ -23,13 +27,22 @@ export class MainComponent implements OnInit {
     private router: Router,
     private menuService: MenuService,
     private alertsService: AlertsService,
-    private colorService: ColorService
+    private colorService: ColorService,
+    private carService: CarService,
+    private eventsService: EventsService,
+    private personsService: PersonsService,
+    private petsService: PetsService,
+
+
   ) { }
 
   ngOnInit(): void {
     this.menuService.getSections();
     this.sections$ = this.menuService.sections$;
-
+    this.carService.getList();
+    this.eventsService.getList();
+    this.personsService.getList();
+    this.petsService.getList();
     this.allAlerts$ = this.alertsService.allAlerts$;
     this.colorService.setColor();
   }

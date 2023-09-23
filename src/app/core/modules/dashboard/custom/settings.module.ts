@@ -6,6 +6,7 @@ import { SettingsRoutingModule } from './settings-routing';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     SharedModule,
     MatIconModule,
     FormsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSliderModule
   ],
   providers: []
 })

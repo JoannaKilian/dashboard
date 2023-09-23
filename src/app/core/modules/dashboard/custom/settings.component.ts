@@ -15,6 +15,13 @@ export class SettingsComponent {
   sections$: Observable<Section[]>;
   color$: Observable<number>;
 
+  max = 60;
+  min = 10;
+  showTicks = true;
+  step = 10;
+  thumbLabel = true;
+  value = 30;
+
   colors = [
     { title: 'dark', color: '#444444' },
     { title: 'blue', color: '#1B6B93' },
@@ -42,6 +49,10 @@ export class SettingsComponent {
   changeColor(i: number) {
     this.activeIndexColor = i;
     this.colorService.changeColor(i);
+  }
+
+  changeAlertTime(i: number){
+    
   }
 
   updateSections(index: number, isVisibly: boolean){
