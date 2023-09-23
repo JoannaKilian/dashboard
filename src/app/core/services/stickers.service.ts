@@ -86,17 +86,4 @@ export class StickersService {
         this.dataList = clonedList;
         this.http.put<Note[]>(this.url, clonedList);
     }
-
-    deleteEmptyItems(itemList: Note[]) {
-        const clonedList = [...this.dataList];
-        itemList.forEach(note => {
-            const index = clonedList.findIndex(x => x.id === note.id);
-            clonedList.splice(index, 1);
-        })
-        this.dataListSubject.next(clonedList);
-        this.http.put<Note[]>(this.url, clonedList)
-            .subscribe(() => {
-                this.dataList = clonedList;
-            })
-    }
 }

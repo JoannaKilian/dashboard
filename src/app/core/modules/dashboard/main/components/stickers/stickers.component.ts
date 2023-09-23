@@ -91,8 +91,6 @@ this.open = false;
   }
 
   ngOnDestroy(): void {
-    const emptyNotes = this.notes.filter(note => note.content === "");
-    this.dataService.deleteEmptyItems(emptyNotes);
     this.subscription.unsubscribe();
   }
 }
