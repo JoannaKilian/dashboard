@@ -48,6 +48,7 @@ export class AlertsService {
       updatedAlerts.push(alertMessage);
       this.allAlerts[categoryName] = updatedAlerts;
       this.allAlertsSubject.next(this.allAlerts);
+      console.log('this.allAlerts', this.allAlerts);
     }
   }
 

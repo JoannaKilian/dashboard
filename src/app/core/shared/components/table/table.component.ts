@@ -3,9 +3,8 @@ import { MatTableDataSource } from "@angular/material/table";
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
-import { Alert } from 'src/app/core/models/alert.models';
 import { EntityAlertMap, EntityCategory } from 'src/app/core/models/category-list.models';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 import { AlertsService } from 'src/app/core/services/alerts.service';
 
 @Component({
@@ -59,7 +58,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges, OnDestr
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.totalCount = this.dataTable.length;
       this.loading = false;
-      this.alerts$ = this.alertsService.allAlerts$
+      this.alerts$ = this.alertsService.allAlerts$.pipe(
+        map(alerts => {
+          alerts[this.title].sort((a, b) => a.deadline - b.deadline);
+          return alerts;
+        }
+        )
+      )
     }));
   }
 
