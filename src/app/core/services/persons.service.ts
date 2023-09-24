@@ -23,7 +23,6 @@ export class PersonsService {
     private dataListSubject: BehaviorSubject<Person[]> = new BehaviorSubject<Person[]>([]);
     public data$: Observable<Person[]> = this.dataListSubject.asObservable();
     title: EntityCategory = "persons"
-    daysAlertValue: number = 30;
 
     private formFields: FormConfig[] = [
         { type: FieldType.Text, label: 'Name', name: 'name', validations: [Validators.required] },
@@ -50,7 +49,6 @@ export class PersonsService {
         private daysAlertService: DaysAlertService,
     ) {
         this.url = `/persons/personsList.json`;
-        this.daysAlertValue = this.daysAlertService.getDaysAlerts();
     };
 
     getList() {
@@ -134,7 +132,8 @@ export class PersonsService {
     }
 
     checkTimeAlert(expirationDate: number, eventName: string, item: Person): void {
-        if (expirationDate <= this.daysAlertValue) {
+        const needAlert = this.daysAlertService.checkTime(expirationDate);
+        if (needAlert) {
             this.alertsService.addAlert(this.title, item.id, item.name, item.surname, expirationDate, eventName);
         }
     }

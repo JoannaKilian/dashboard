@@ -48,7 +48,7 @@
         <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
         <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="element-row"
         [class.expanded-row]="expandedElement === element"
-        [ngClass]="element.importance === 'High' ? 'high' : element.importance === 'Medium' ? 'medium' : 'low'" 
+        [ngClass]="element.importance === 'High' ? 'high' : element.importance === 'Medium' ? 'medium' : ''" 
           (click)="expandedElement = expandedElement === element ? null : element">
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>

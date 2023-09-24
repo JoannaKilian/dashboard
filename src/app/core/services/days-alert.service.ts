@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
-import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialog/info-dialog.component";
 
 
 @Injectable({
@@ -12,6 +11,8 @@ import { InfoDialogComponent } from "../shared/components/info-dialog/info-dialo
 export class DaysAlertService {
 
     private daysAlert: number = 30;
+    private daysAlertSubject: BehaviorSubject<number> = new BehaviorSubject<number>(30);
+    public daysAlert$: Observable<number> = this.daysAlertSubject.asObservable();
     private url: string;
 
     constructor(
@@ -28,16 +29,18 @@ export class DaysAlertService {
                 next: (response: number | null) => {
                     const data = response !== null ? response : 30;
                     this.daysAlert = data;
+                    this.daysAlertSubject.next(data);
                 }
             })
     }
 
     changeDaysAlert(i: number) {
         this.daysAlert = i;
-        this.http.put<number>(this.url, i)
+        this.daysAlertSubject.next(i);
+        this.http.put<number>(this.url, i).subscribe()
     }
-    
-    getDaysAlerts(){
-        return this.daysAlert;
+
+    checkTime(days: number): boolean {
+        return days <= this.daysAlert ? true : false
     }
 }

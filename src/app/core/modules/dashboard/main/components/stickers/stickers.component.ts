@@ -34,14 +34,14 @@ export class StickersComponent implements OnInit, OnDestroy {
     );
     this.subscription.add(
       this.updateNoteSubject
-        .pipe(debounceTime(3000))
+        .pipe(debounceTime(2000))
         .subscribe((note) => {
           this.dataService.update(note);
         })
     );
     this.subscription.add(
       this.deleteEmptyNoteSubject
-        .pipe(debounceTime(3000))
+        .pipe(debounceTime(2000))
         .subscribe((note) => {
           this.onDeleteNote(note);
         })
