@@ -90,7 +90,7 @@ To-Do List: Manage short tasks with sticky notes.
 - Sign in with email and password or google, forgot passwors option, only for authentication users
 - separate database for each user
 - using Firebase Realtime Database with protected rules:
-- <img src="https://github.com/JoannaKilian/dashboard/assets/86100410/208c71e2-fc10-4c23-8b22-76ff546f3d97" alt="" width="300">
+- <img src="https://github.com/JoannaKilian/dashboard/assets/86100410/b0b3b72d-df7e-4801-bae8-924f3b8440d8" alt="" width="300">
 
 
 
